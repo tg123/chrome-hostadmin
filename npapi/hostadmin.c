@@ -37,7 +37,7 @@ bool NP_Invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args, ui
 	struct stat * buf = (struct stat *)npnfuncs->memalloc(sizeof(struct stat));
 
 	stat("/etc/hosts", buf);
-	INT32_TO_NPVARIANT(s->st_mtime, *result);
+	INT32_TO_NPVARIANT(buf->st_mtime, *result);
 	return true;	
 }
 
