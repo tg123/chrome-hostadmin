@@ -1,0 +1,7 @@
+{
+  "name": "hostadmin",
+  "version": "1.3.2",
+  "description": "",
+  "background_page": "background.html",
+  "plugins": [{"path": "hostadmin.so", "public": true}]
+}
