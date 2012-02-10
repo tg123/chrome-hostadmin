@@ -1,44 +1,112 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
 
 #include "hostadmin.h"
+#include "const.h"
 
 static void logmsg(const char *msg) {
 	FILE *out = fopen("/tmp/x.log", "a");
 	if(out) {
 		fputs(msg, out);
+		fputs("\n", out);
 		fclose(out);
 	}
 }
 
 static NPNetscapeFuncs* npnfuncs;
 
-const char * HELLO = "hostadmin";
-
-bool NP_HasMethod(NPObject *obj, NPIdentifier methodName){
-	return true;
+bool NP_HasProperty(NPObject *npobj, NPIdentifier propName){
+	char * name = npnfuncs->utf8fromidentifier(propName);
+	return strcmp(name, PROP_OS) == 0;
 }
 
+bool NP_GetProperty(NPObject *npobj, NPIdentifier propName, NPVariant *result){
+	char * name = npnfuncs->utf8fromidentifier(propName);
+	if(strcmp(name, PROP_OS) == 0){
+		char * s = (char *)npnfuncs->memalloc(strlen(OSNAME));
+		strcpy(s, OSNAME);
+		STRINGN_TO_NPVARIANT(s, strlen(s) , *result);
+		return true;
+	}
+	return false;
+}
+
+bool NP_HasMethod(NPObject *obj, NPIdentifier methodName){
+	char * name = npnfuncs->utf8fromidentifier(methodName);
+	return 
+	(strcmp(name, METHOD_TIME) == 0 )
+	|| (strcmp(name, METHOD_GET) == 0) 
+	|| (strcmp(name, METHOD_SET) == 0);
+}
+
+char * ArgToStr(const NPVariant arg) {
+	char * r = (char *)malloc(arg.value.stringValue.UTF8Length + 1);
+	strcpy(r, arg.value.stringValue.UTF8Characters);
+	r[arg.value.stringValue.UTF8Length] = '\0';
+	return r;
+}
+
+
 bool NP_Invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args, uint32_t argCount, NPVariant *result){
-	logmsg("mv2\n");
-	//char *name = npnfuncs->utf8fromidentifier(methodName);
-	//logmsg(name);
+	char * name = npnfuncs->utf8fromidentifier(methodName);
 
-	//char * h = (char *)npnfuncs->memalloc(strlen(HELLO));
-	//h[0] = 'h';
-	//h[1] = 0;
-	//logmsg("mv3\n");
-	//strcpy(h, HELLO);
-	//STRINGN_TO_NPVARIANT(h, strlen(HELLO), *result);
-	//BOOLEAN_TO_NPVARIANT(true, *result);
-	struct stat * buf = (struct stat *)npnfuncs->memalloc(sizeof(struct stat));
+	if(strcmp(name, METHOD_TIME) == 0 && argCount > 0 && 
+	NPVARIANT_IS_STRING(args[0])
+	){
 
-	stat("/etc/hosts", buf);
-	INT32_TO_NPVARIANT(buf->st_mtime, *result);
-	return true;	
+		char * filename = ArgToStr(args[0]);
+		struct stat * buf = (struct stat *)npnfuncs->memalloc(sizeof(struct stat));
+
+		stat(filename, buf);
+		free(filename);
+
+		INT32_TO_NPVARIANT(buf->st_mtime, *result);
+		npnfuncs->memfree(buf);
+
+		return true;
+	}else 
+	if(strcmp(name, METHOD_GET) == 0 && argCount > 0 &&
+	NPVARIANT_IS_STRING(args[0])
+	){
+		char * filename = ArgToStr(args[0]);
+
+		FILE * f = fopen(filename, "r");
+		if(f) {
+			fseek(f, 0 , SEEK_END);
+			long int size = ftell(f);
+
+			rewind(f);
+
+			char * buf = (char *)npnfuncs->memalloc(strlen(OSNAME));
+			fread(buf, 1, size, f);
+			fgets(msg, out);
+			fputs("\n", out);
+			fclose(f);
+		}
+
+		free(filename);
+		return true;
+	}else 
+	if(strcmp(name, METHOD_SET) == 0 && argCount > 1 &&
+		NPVARIANT_IS_STRING(args[0])
+	){
+		char * filename = ArgToStr(args[0]);
+		char * content = ArgToStr(args[1]);
+
+		FILE * f = fopen(filename, "w");
+		if(f) {
+			fputs(content, f);
+			fclose(f);
+		}
+
+		free(filename);
+		return true;
+	}
+	return false;	
 }
 
 static struct NPClass hostadmin_class = {
@@ -49,6 +117,8 @@ static struct NPClass hostadmin_class = {
 	NP_HasMethod,
 	NP_Invoke,
 	NULL,
+	NP_HasProperty,
+	NP_GetProperty,
 	NULL,
 	NULL,
 	NULL,
@@ -80,7 +150,6 @@ NPError NPP_Destroy(NPP instance, NPSavedData** save) {
 NPError NPP_GetValue(NPP instance, NPPVariable variable, void *value) {
 	switch(variable) {
 		case NPPVpluginScriptableNPObject:
-			logmsg("v2\n");
 			if(!hostadmin_helper) {
 				hostadmin_helper = npnfuncs->createobject(instance, &hostadmin_class);
 				npnfuncs->retainobject(hostadmin_helper);
@@ -88,11 +157,9 @@ NPError NPP_GetValue(NPP instance, NPPVariable variable, void *value) {
 			*(NPObject **)value = hostadmin_helper;
 			break;
 		case NPPVpluginNeedsXEmbed:
-			logmsg("v6\n");
 			*((bool *)value) = true;
 			break;
 		default:
-			logmsg("v3\n");
 			return NPERR_GENERIC_ERROR;
 	}
 	return NPERR_NO_ERROR;
