@@ -1,8 +1,22 @@
-all : hostadmin.o
-	cc -shared hostadmin.o -o hostadmin.so
+FLAG = -Wall -fPIC -DXP_UNIX=1 -c -g
+CC = cc
 
-hostadmin.o: hostadmin.c hostadmin.h
-	cc -Wall -fPIC -DXP_UNIX=1 -c -g hostadmin.c
+define SO
+hostadmin.$(1).so: hostadmin.$(1).o
+	$(CC) -shared -m$(2) hostadmin.$(1).o -o hostadmin.$(1).so 
+
+hostadmin.$(1).o: hostadmin.c hostadmin.h const.h
+	$(CC) $(FLAG) -m$(2) -o hostadmin.$(1).o hostadmin.c
+endef
+
+
+all: hostadmin.x86.so hostadmin.amd64.so
+
+$(eval $(call SO,x86,32))
+$(eval $(call SO,amd64,64))
+
 
 clean :
-	rm -f hostadmin.o hostadmin.so
+	rm -f hostadmin.*.o hostadmin.*.so
+
+.PHONY: all clean

@@ -76,7 +76,7 @@ bool NP_Invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args, ui
 	){
 		char * filename = ArgToStr(args[0]);
 
-		logmsg(filename);
+		//logmsg(filename);
 		FILE * f = fopen(filename, "r");
 		if(f) {
 			fseek(f, 0 , SEEK_END);
@@ -88,7 +88,7 @@ bool NP_Invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args, ui
 			fread(buf, 1, size, f);
 			fclose(f);
 
-			logmsg(buf);
+			//logmsg(buf);
 			
 
 			STRINGN_TO_NPVARIANT(buf, size, *result);
