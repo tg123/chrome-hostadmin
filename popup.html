@@ -3,24 +3,72 @@
 <head>
 <script src="jquery-1.7.1.min.js">
 </script>
+<style>
+body {width: 200px; height: 200px;}
+li {list-style-type: none;}
+li:hover {color:red; }
+ul {padding: 1px;}
+li.enable { background:url("tick-icon.png") no-repeat  }
+li a {margin-left: 20px;}
+li.enable a{color:green}
+a:link {color:gray}
+
+</style>
+
 </head>
 <body>
 
-
-<div id="menu">
+<div id="search">
+<input disabled="disabled" type="text" value="Search coming soon" />
+</div>
+<div id="list">
+<ul>
+</ul>
 </div>
 
 <script>
 var host_admin = chrome.extension.getBackgroundPage().host_admin;
-var menu = $("#menu");
+var host_file_wrapper = chrome.extension.getBackgroundPage().host_file_wrapper;
 
-host_admin.refresh();
-var hosts = host_admin.get_hosts();
+var host_ul = $("#list  ul");
 
-for (h in hosts){
+var redraw = function(){
+	host_ul.html("");
+	host_admin.refresh();
+	var hosts = host_admin.get_hosts();
 
-menu.append($("<p/>").text(h));
-}
+	for (var h in hosts){
+		var hli = $("<li/>").text(h)
+			
+		var ul = $("<ul/>");
+
+		for(var i in hosts[h]){
+
+
+			var host = hosts[h][i];
+			var a = $('<a href="javascript:;">' + host.addr + '</a>');
+			a.click((function(host, hostname ,host_index){
+			return function(){
+				host_admin.host_toggle(hostname, host_index);
+				host_file_wrapper.set(host_admin.mk_host());
+				redraw();
+			}})(host,h,i));
+
+			var li = $("<li/>").append(a);
+
+			if(host.using){
+				li.addClass('enable')
+			}
+			ul.append(li);
+		}
+		
+		hli.append(ul);
+
+		host_ul.append(hli);
+	}
+};
+
+redraw();
 
 </script>
 

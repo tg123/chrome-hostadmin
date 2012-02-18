@@ -20,7 +20,7 @@ var host_file_wrapper = (function(){
 		}
 		,
 		set : function(data){
-			return helper.set(file_name, date);
+			return helper.set(file_name, data);
 		}
 		,
 		time : function(){
