@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+<script src="jquery-1.7.1.min.js">
+</script>
+</head>
+<body>
+
+
+<div id="menu">
+</div>
+
+<script>
+var host_admin = chrome.extension.getBackgroundPage().host_admin;
+var menu = $("#menu");
+
+host_admin.refresh();
+var hosts = host_admin.get_hosts();
+
+for (h in hosts){
+
+menu.append($("<p/>").text(h));
+}
+
+</script>
+
+</body>
+</html>

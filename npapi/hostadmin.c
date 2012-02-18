@@ -37,6 +37,7 @@ bool NP_GetProperty(NPObject *npobj, NPIdentifier propName, NPVariant *result){
 
 bool NP_HasMethod(NPObject *obj, NPIdentifier methodName){
 	char * name = npnfuncs->utf8fromidentifier(methodName);
+	//logmsg(name);
 	return 
 	(strcmp(name, METHOD_TIME) == 0 )
 	|| (strcmp(name, METHOD_GET) == 0) 
@@ -44,9 +45,10 @@ bool NP_HasMethod(NPObject *obj, NPIdentifier methodName){
 }
 
 char * ArgToStr(const NPVariant arg) {
-	char * r = (char *)malloc(arg.value.stringValue.UTF8Length + 1);
-	strcpy(r, arg.value.stringValue.UTF8Characters);
-	r[arg.value.stringValue.UTF8Length] = '\0';
+	NPString str = NPVARIANT_TO_STRING(arg);
+	char * r = (char *)malloc(str.UTF8Length + 1);
+	strcpy(r, str.UTF8Characters);
+	r[str.UTF8Length] = '\0';
 	return r;
 }
 
@@ -59,13 +61,13 @@ bool NP_Invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args, ui
 	){
 
 		char * filename = ArgToStr(args[0]);
-		struct stat * buf = (struct stat *)npnfuncs->memalloc(sizeof(struct stat));
+		struct stat * buf = (struct stat *)malloc(sizeof(struct stat));
 
 		stat(filename, buf);
 		free(filename);
 
 		INT32_TO_NPVARIANT(buf->st_mtime, *result);
-		npnfuncs->memfree(buf);
+		free(buf);
 
 		return true;
 	}else 
@@ -74,6 +76,7 @@ bool NP_Invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args, ui
 	){
 		char * filename = ArgToStr(args[0]);
 
+		logmsg(filename);
 		FILE * f = fopen(filename, "r");
 		if(f) {
 			fseek(f, 0 , SEEK_END);
@@ -81,18 +84,23 @@ bool NP_Invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args, ui
 
 			rewind(f);
 
-			char * buf = (char *)npnfuncs->memalloc(strlen(OSNAME));
+			char * buf = (char *)npnfuncs->memalloc(size);
 			fread(buf, 1, size, f);
-			fgets(msg, out);
-			fputs("\n", out);
 			fclose(f);
+
+			logmsg(buf);
+			
+
+			STRINGN_TO_NPVARIANT(buf, size, *result);
+
+			//npnfuncs->memfree(buf);
 		}
 
 		free(filename);
 		return true;
 	}else 
 	if(strcmp(name, METHOD_SET) == 0 && argCount > 1 &&
-		NPVARIANT_IS_STRING(args[0])
+	NPVARIANT_IS_STRING(args[0]) && NPVARIANT_IS_STRING(args[1])
 	){
 		char * filename = ArgToStr(args[0]);
 		char * content = ArgToStr(args[1]);

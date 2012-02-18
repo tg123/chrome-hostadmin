@@ -1,12 +1,14 @@
 <html>
-  <head>
-    <title>NPAPI File IO</title>
-  </head>
-  <body>
-    <p><embed id="ht" type="application/x-hostadmin-helper" /></p>
-    <script>
-    	var p = document.getElementById("ht");
-    	alert(p.a());
-    </script>
-  </body>
+<head>
+</head>
+<body>
+	<embed id="host_admin_helper" type="application/x-hostadmin-helper" />
+	<script src="hostadmin.js">
+	<script>
+
+
+		host_admin.refresh();
+		
+	</script>
+</body>
 </html>
