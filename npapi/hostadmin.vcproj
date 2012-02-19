@@ -112,12 +112,13 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;HOSTADMIN_EXPORTS;"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;HOSTADMIN_EXPORTS;XP_WIN"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
+				CompileAs="2"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -131,6 +132,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="2"
+				ModuleDefinitionFile="hostadmin.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
