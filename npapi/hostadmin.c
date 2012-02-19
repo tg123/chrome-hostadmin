@@ -29,9 +29,11 @@ bool NP_HasProperty(NPObject *npobj, NPIdentifier propName){
 bool NP_GetProperty(NPObject *npobj, NPIdentifier propName, NPVariant *result){
 	char * name = npnfuncs->utf8fromidentifier(propName);
 	if(strcmp(name, PROP_OS) == 0){
-		char * s = (char *)npnfuncs->memalloc(strlen(OSNAME));
-		memcpy(s, OSNAME, strlen(OSNAME));
-		STRINGN_TO_NPVARIANT(s, strlen(s) , *result);
+		size_t l = strlen(OSNAME);
+		char * s = (char *)npnfuncs->memalloc(l + 1);
+		memcpy(s, OSNAME, l);
+		s[l] = '\0';
+		STRINGN_TO_NPVARIANT(s, l, *result);
 		return true;
 #ifdef XP_WIN
 	}else if(strcmp(name, PROP_WHERE) == 0){
