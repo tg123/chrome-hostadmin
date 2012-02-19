@@ -2,6 +2,7 @@
 // ÑË¸îµÄ VC++ Express ÄãÃÃ
 
 #include "winresrc.h"
+#include "const.h"
 
 VS_VERSION_INFO VERSIONINFO
 BEGIN
@@ -9,7 +10,7 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "MIMEType", "application/x-hostadmin-helper"
+            VALUE "MIMEType", MIMETYPE
         END
     END
     BLOCK "VarFileInfo"

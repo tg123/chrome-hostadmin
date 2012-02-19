@@ -21,16 +21,25 @@ static NPNetscapeFuncs* npnfuncs;
 
 bool NP_HasProperty(NPObject *npobj, NPIdentifier propName){
 	char * name = npnfuncs->utf8fromidentifier(propName);
-	return strcmp(name, PROP_OS) == 0;
+	return 
+		strcmp(name, PROP_OS) == 0 
+		|| strcmp(name, PROP_WHERE) == 0 ;
 }
 
 bool NP_GetProperty(NPObject *npobj, NPIdentifier propName, NPVariant *result){
 	char * name = npnfuncs->utf8fromidentifier(propName);
 	if(strcmp(name, PROP_OS) == 0){
 		char * s = (char *)npnfuncs->memalloc(strlen(OSNAME));
-		strcpy(s, OSNAME);
+		memcpy(s, OSNAME, strlen(OSNAME));
 		STRINGN_TO_NPVARIANT(s, strlen(s) , *result);
 		return true;
+#ifdef XP_WIN
+	}else if(strcmp(name, PROP_WHERE) == 0){
+		char * buf = (char *)npnfuncs->memalloc(MAX_PATH);
+		GetSystemDirectory(buf, MAX_PATH + 1);
+		STRINGN_TO_NPVARIANT(buf, strlen(buf) , *result);
+		return true;
+#endif
 	}
 	return false;
 }
@@ -41,13 +50,14 @@ bool NP_HasMethod(NPObject *obj, NPIdentifier methodName){
 	return 
 	(strcmp(name, METHOD_TIME) == 0 )
 	|| (strcmp(name, METHOD_GET) == 0) 
-	|| (strcmp(name, METHOD_SET) == 0);
+	|| (strcmp(name, METHOD_SET) == 0)
+	;
 }
 
 char * ArgToStr(const NPVariant arg) {
 	NPString str = NPVARIANT_TO_STRING(arg);
 	char * r = (char *)malloc(str.UTF8Length + 1);
-	strcpy(r, str.UTF8Characters);
+	memcpy(r, str.UTF8Characters, str.UTF8Length);
 	r[str.UTF8Length] = '\0';
 	return r;
 }
@@ -136,7 +146,7 @@ static NPObject * hostadmin_helper;
 
 const char*
 NP_GetMIMEDescription(){
-	return "application/x-hostadmin-helper::HostAdmin";
+	return MIMETYPE_S;
 }
 
 NPError NPP_New(NPMIMEType pluginType, NPP instance, uint16_t mode, int16_t argc, char* argn[], char* argv[], NPSavedData* saved) {

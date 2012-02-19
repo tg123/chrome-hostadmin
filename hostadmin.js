@@ -7,7 +7,7 @@ var host_file_wrapper = (function(){
 	var file_name;
 	if (os == "WINNT"){
 		splitchar = "\r\n";
-		file_name = "C:\\windows\\system32\\drivers\\etc\\hosts";
+		file_name = helper.where + "\\drivers\\etc\\hosts";
 	}else if(os == "Linux"){
 		file_name = "/etc/hosts";
 	}else if(os == "Darwin"){
