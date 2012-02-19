@@ -3,7 +3,7 @@
   "version": "1.3.3",
   "description": "Host Admin Tools",
   "background_page": "background.html",
-  "plugins": [{"path": "hostadmin.x86.so"}, {"path": "hostadmin.amd64.so"}],
+  "plugins": [{"path": "hostadmin.x86.so"}, {"path": "hostadmin.amd64.so"}, {"path": "hostadmin.dll"}],
   "browser_action": {
 	  "popup": "popup.html"
   }

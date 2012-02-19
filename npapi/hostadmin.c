@@ -134,12 +134,7 @@ static struct NPClass hostadmin_class = {
 };
 static NPObject * hostadmin_helper;
 
-NP_EXPORT(char*)
-NP_GetPluginVersion(){
-	return "1.0.0";
-}
-
-NP_EXPORT(const char*)
+const char*
 NP_GetMIMEDescription(){
 	return "application/x-hostadmin-helper::HostAdmin";
 }
@@ -173,20 +168,50 @@ NPError NPP_GetValue(NPP instance, NPPVariable variable, void *value) {
 	return NPERR_NO_ERROR;
 }
 
-NP_EXPORT(NPError)
-NP_Initialize(NPNetscapeFuncs* bFuncs, NPPluginFuncs* pFuncs){
+
+void HookbFuncs(NPNetscapeFuncs* bFuncs){
 	npnfuncs = bFuncs;
+}
 
-
+void HookpFuncs(NPPluginFuncs* pFuncs){
 	pFuncs->version = (NP_VERSION_MAJOR << 8) | NP_VERSION_MINOR;
 	pFuncs->size = sizeof(pFuncs);
 	pFuncs->newp = NPP_New;
 	pFuncs->destroy = NPP_Destroy;
 	pFuncs->getvalue = NPP_GetValue;
+}
+
+
+
+#ifdef XP_UNIX
+NP_EXPORT(NPError)
+NP_Initialize(NPNetscapeFuncs* bFuncs, NPPluginFuncs* pFuncs){
+	HookbFuncs(bFuncs);
+	HookpFuncs(pFuncs);
 	return NPERR_NO_ERROR;
 }
 
+//#elif XP_WIN
+#else
+NPError OSCALL 
+NP_GetEntryPoints(NPPluginFuncs* pFuncs) {
+	HookpFuncs(pFuncs);
+	return NPERR_NO_ERROR;
+}
+
+NPError OSCALL 
+NP_Initialize(NPNetscapeFuncs* bFuncs) {
+	HookbFuncs(bFuncs);
+	return NPERR_NO_ERROR;
+}
+#endif
+
+#ifdef XP_UNIX
 NP_EXPORT(NPError)
+//#elif XP_WIN
+#else
+NPError OSCALL
+#endif
 NP_Shutdown(){
 	return NPERR_NO_ERROR;
 }

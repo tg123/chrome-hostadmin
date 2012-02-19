@@ -8,3 +8,5 @@
 #define METHOD_SET "set"
 #define METHOD_GET "get"
 #define METHOD_TIME "time"
+
+#define MIMETYPE "application/x-hostadmin-helper::HostAdmin"
