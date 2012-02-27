@@ -1,0 +1,259 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1430E41214FBFC6500B7D910 /* hostadmin.c in Sources */ = {isa = PBXBuildFile; fileRef = 1430E3FD14FBFACA00B7D910 /* hostadmin.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1430E3F614FBFAB700B7D910 /* npapi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = npapi.h; sourceTree = "<group>"; };
+		1430E3F714FBFAB700B7D910 /* npfunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = npfunctions.h; sourceTree = "<group>"; };
+		1430E3F814FBFAB700B7D910 /* npruntime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = npruntime.h; sourceTree = "<group>"; };
+		1430E3F914FBFAB700B7D910 /* nptypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nptypes.h; sourceTree = "<group>"; };
+		1430E3FB14FBFACA00B7D910 /* const.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = const.h; sourceTree = "<group>"; };
+		1430E3FC14FBFACA00B7D910 /* hostadmin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "hostadmin-Info.plist"; sourceTree = "<group>"; };
+		1430E3FD14FBFACA00B7D910 /* hostadmin.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = hostadmin.c; sourceTree = "<group>"; };
+		1430E3FE14FBFAD900B7D910 /* hostadmin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = hostadmin.h; sourceTree = "<group>"; };
+		1430E40314FBFAF900B7D910 /* hostadmin.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = hostadmin.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1430E40014FBFAF900B7D910 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1430E3E914FBFA8100B7D910 = {
+			isa = PBXGroup;
+			children = (
+				1430E41814FBFE5300B7D910 /* Support */,
+				1430E41714FBFE3000B7D910 /* Sources */,
+				1430E40414FBFAF900B7D910 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1430E3F514FBFAB700B7D910 /* npapi_headers */ = {
+			isa = PBXGroup;
+			children = (
+				1430E3F614FBFAB700B7D910 /* npapi.h */,
+				1430E3F714FBFAB700B7D910 /* npfunctions.h */,
+				1430E3F814FBFAB700B7D910 /* npruntime.h */,
+				1430E3F914FBFAB700B7D910 /* nptypes.h */,
+			);
+			path = npapi_headers;
+			sourceTree = "<group>";
+		};
+		1430E40414FBFAF900B7D910 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1430E40314FBFAF900B7D910 /* hostadmin.plugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1430E41714FBFE3000B7D910 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				1430E3FE14FBFAD900B7D910 /* hostadmin.h */,
+				1430E3FB14FBFACA00B7D910 /* const.h */,
+				1430E3F514FBFAB700B7D910 /* npapi_headers */,
+				1430E3FD14FBFACA00B7D910 /* hostadmin.c */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		1430E41814FBFE5300B7D910 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				1430E3FC14FBFACA00B7D910 /* hostadmin-Info.plist */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1430E40214FBFAF900B7D910 /* hostadmin */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1430E40F14FBFAF900B7D910 /* Build configuration list for PBXNativeTarget "hostadmin" */;
+			buildPhases = (
+				1430E3FF14FBFAF900B7D910 /* Sources */,
+				1430E40014FBFAF900B7D910 /* Frameworks */,
+				1430E40114FBFAF900B7D910 /* Resources */,
+				1430E41614FBFCD200B7D910 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = hostadmin;
+			productName = hostadmin;
+			productReference = 1430E40314FBFAF900B7D910 /* hostadmin.plugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1430E3EB14FBFA8100B7D910 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = 1430E3EE14FBFA8100B7D910 /* Build configuration list for PBXProject "hostadmin" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 1430E3E914FBFA8100B7D910;
+			productRefGroup = 1430E40414FBFAF900B7D910 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1430E40214FBFAF900B7D910 /* hostadmin */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1430E40114FBFAF900B7D910 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1430E41614FBFCD200B7D910 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "BUILD=\"${TARGET_BUILD_DIR}/${FULL_PRODUCT_NAME}\"\nTARGET=\"${SRCROOT}/../${FULL_PRODUCT_NAME}\"\n\n/bin/rm -rf $TARGET\n/bin/cp -r $BUILD $TARGET";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1430E3FF14FBFAF900B7D910 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1430E41214FBFC6500B7D910 /* hostadmin.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1430E3F014FBFA8100B7D910 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		1430E3F114FBFA8100B7D910 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		1430E41014FBFAF900B7D910 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "hostadmin/hostadmin-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "hostadmin-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = plugin;
+			};
+			name = Debug;
+		};
+		1430E41114FBFAF900B7D910 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "hostadmin/hostadmin-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "hostadmin-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = plugin;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1430E3EE14FBFA8100B7D910 /* Build configuration list for PBXProject "hostadmin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1430E3F014FBFA8100B7D910 /* Debug */,
+				1430E3F114FBFA8100B7D910 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1430E40F14FBFAF900B7D910 /* Build configuration list for PBXNativeTarget "hostadmin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1430E41014FBFAF900B7D910 /* Debug */,
+				1430E41114FBFAF900B7D910 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1430E3EB14FBFA8100B7D910 /* Project object */;
+}
