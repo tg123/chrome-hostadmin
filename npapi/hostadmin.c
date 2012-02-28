@@ -124,6 +124,7 @@ bool NP_Invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args, ui
 		}
 
 		free(filename);
+		free(content);
 		return true;
 	}
 	return false;	
