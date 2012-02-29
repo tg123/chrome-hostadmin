@@ -1,3 +1,9 @@
 *.so
 *.o
 .*
+npapi/hostadmin.vcproj.*
+npapi/hostadmin.ncb
+npapi/hostadmin.suo
+npapi/Release/
+npapi/Debug/
+

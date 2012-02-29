@@ -1,12 +1,12 @@
-FLAG = -Wall -fPIC -DXP_UNIX=1 -c -g
+FLAG = -Wall -fPIC -DXP_UNIX=1 -O2
 CC = cc
 
 define SO
 hostadmin.$(1).so: hostadmin.$(1).o
-	$(CC) -shared -m$(2) hostadmin.$(1).o -o hostadmin.$(1).so 
+	$(CC) $(FLAG) -shared -m$(2) hostadmin.$(1).o -o hostadmin.$(1).so 
 
 hostadmin.$(1).o: hostadmin.c hostadmin.h const.h
-	$(CC) $(FLAG) -m$(2) -o hostadmin.$(1).o hostadmin.c
+	$(CC) $(FLAG) -m$(2) -c -o hostadmin.$(1).o hostadmin.c
 endef
 
 

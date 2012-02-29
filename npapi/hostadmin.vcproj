@@ -100,6 +100,7 @@
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -159,6 +160,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="copy /y $(TargetPath) $(SolutionDir)\.."
 			/>
 		</Configuration>
 	</Configurations>
