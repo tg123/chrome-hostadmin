@@ -7,3 +7,7 @@ npapi/hostadmin.suo
 npapi/Release/
 npapi/Debug/
 
+hostadmin.amd64.so
+hostadmin.x86.so
+hostadmin.plugin
+hostadmin.dll
