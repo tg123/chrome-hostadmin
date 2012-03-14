@@ -97,6 +97,7 @@ bool NP_Invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args, ui
 			rewind(f);
 
 			char * buf = (char *)npnfuncs->memalloc(size);
+			memset(buf, 0, size);
 			fread(buf, 1, size, f);
 			fclose(f);
 
