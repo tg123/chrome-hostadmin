@@ -1,20 +1,20 @@
-*.so
-*.o
 .*
+
+hostadmin.zip
+
 npapi/hostadmin.vcproj.*
 npapi/hostadmin.ncb
 npapi/hostadmin.suo
 npapi/Release/
 npapi/Debug/
 
+
+npapi/*.so
+npapi/*.o
+
+xcuserdata
+
 .DS_Store
 *.swp
 *~.nib
 
-build/
-
-*.pbxuser
-*.perspective
-*.perspectivev3
-
-xcuserdata
