@@ -11,6 +11,7 @@ endef
 
 
 all: hostadmin.x86.so hostadmin.amd64.so
+	/bin/cp *.so ../
 
 $(eval $(call SO,x86,32))
 $(eval $(call SO,amd64,64))
