@@ -154,6 +154,20 @@ NP_GetMIMEDescription(){
 }
 
 NPError NPP_New(NPMIMEType pluginType, NPP instance, uint16_t mode, int16_t argc, char* argn[], char* argv[], NPSavedData* saved) {
+    
+    
+#ifdef __APPLE_CC__
+	NPBool supportsCoreGraphics = false;
+	if (npnfuncs->getvalue(instance, NPNVsupportsCoreGraphicsBool, &supportsCoreGraphics) == NPERR_NO_ERROR && supportsCoreGraphics) {
+		npnfuncs->setvalue(instance, NPPVpluginDrawingModel, (void*)NPDrawingModelCoreGraphics);
+	}
+
+	NPBool supportsCocoaEvents = false;
+	if (npnfuncs->getvalue(instance, NPNVsupportsCocoaBool, &supportsCocoaEvents) == NPERR_NO_ERROR && supportsCocoaEvents) {
+		npnfuncs->setvalue(instance, NPPVpluginEventModel, (void*)NPEventModelCocoa);
+	}
+#endif
+    
 	return NPERR_NO_ERROR;
 }
 NPError NPP_Destroy(NPP instance, NPSavedData** save) {

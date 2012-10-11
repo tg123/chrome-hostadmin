@@ -260,3 +260,5 @@ var host_admin = (function(){
 	};
 	
 })();
+
+host_admin.refresh();
