@@ -3,34 +3,35 @@
 <head>
 <script src="jquery-1.7.1.min.js">
 </script>
+<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
 <style>
-body {width: 200px; height: 200px;overflow-x:hidden}
-li {list-style-type: none;}
-li:hover {color:red; }
-ul {padding: 1px;}
-li.enable { background:url("tick-icon.png") no-repeat  }
-li a {margin-left: 20px;}
-li.enable a{color:green}
-a:link {color:gray}
-
-input.blur{
-color:#BABABA;
-}
+body {width: 300px; height: 100px; overflow-y:hidden}
 </style>
 
 </head>
 <body>
 
-<div id="search">
-<input type="text" value="" />
-</div>
-<div id="list">
-<ul>
-</ul>
+<div id="search" class="well well-small">
+	<div class="input-prepend">
+		<span class="add-on"><i class="icon-search"></i></span>
+		<input type="text" value="" placeholder="Search ......."/>
+	</div>
 </div>
 
-<script src="popup.js">
-</script>
+<div id="list" class="sidebar-nav">
+	<!--
+	<ul class="nav nav-list">
+	<li class="nav-header">localhost</li>
+	<li class=""><a href="#"><i class="icon-ok"></i>127.0.01<em class="pull-right">111</em></a></li>
+	<li><a  class"icon-ok" href="#"><i class="icon-"></i>192.168.1.1</a></li>
 
+	<li class="nav-header">localhost</li>
+	<li class=""><a href="#"><i class="icon-ok"></i>127.0.01<em class="pull-right">111</em></a></li>
+	<li><a  class"icon-ok" href="#"><i class="icon-"></i>192.168.1.1</a></li>
+	</ul>
+	-->
+</div>
+
+<script src="popup.js"></script>
 </body>
 </html>

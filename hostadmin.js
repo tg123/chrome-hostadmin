@@ -58,6 +58,7 @@ var host_admin = (function(){
 		var l = null;
 		var group_id = 0;
 		var group_c = 0;
+		var ingroup = false;
 
 		while(l = regx.exec(host)){
 			l = l[0];
@@ -77,6 +78,7 @@ var host_admin = (function(){
 				}
 
 				if(group_c++ % 2 == 0){
+					
 					tks.splice(0,2);
 					var group_name = "";
 					for(var i in tks){
@@ -88,10 +90,14 @@ var host_admin = (function(){
 					}
 
 					groups[group_id] = group_name;
+					ingroup = true;
 				}else{
+					ingroup = false;
 					group_id++;
 				}
 				continue;	
+			} else if (tks[0] == "#" && tks[1] && tks[1].toUpperCase() == "HIDE_ALL_OF_BELOW"){
+				break;
 			}
 						
 			var using = true;
@@ -131,7 +137,7 @@ var host_admin = (function(){
 				using : using ,
 				line : l_p - 1,
 				comment : comment,
-				group : group_id
+				group : ingroup ? group_id : 0
 			};
 
 			for (var i in names){
