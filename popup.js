@@ -1,4 +1,3 @@
-
 $(function(){
 
 var host_admin = chrome.extension.getBackgroundPage().host_admin;
@@ -17,6 +16,26 @@ chrome.windows.getCurrent(function(w){
 	});
 });
 
+// TODO editor.js
+var wrapped_set = function(data){
+	// TODO impl set result in npapi
+	var r = host_file_wrapper.set(data);
+	if(!r){
+
+		// reset time
+		$(".alert").show('slow');
+		host_admin.reset_modified();	
+
+//		// alert
+
+	}else{
+		$(".alert").hide('slow');
+	}
+
+	//host_refresh.tick();	
+	
+	return r;
+}
 
 var host_ul = $("#list");
 
@@ -94,7 +113,8 @@ var redraw = function(){
 			a.click((function(host, hostname ,host_index){
 			return function(){
 				host_admin.host_toggle(hostname, host_index);
-				host_file_wrapper.set(host_admin.mk_host());
+				//host_file_wrapper.set(host_admin.mk_host());
+				wrapped_set(host_admin.mk_host());
 				redraw();
 			}})(host,h,i));
 
@@ -137,7 +157,8 @@ var redraw = function(){
 			a.click((function(host_list, group_id){
 			return function(){
 				host_admin.group_toggle(host_list, group_id);
-				host_file_wrapper.set(host_admin.mk_host());
+				//host_file_wrapper.set(host_admin.mk_host());
+				wrapped_set(host_admin.mk_host());
 				redraw();
 			}})(host_list, group_id));
 
@@ -162,6 +183,10 @@ $(document.body).keydown(function(e){
 
 $("#openeditor").click(function(){
 	chrome.tabs.create({url: "editor.html"});
+});
+
+$(".alert a").click(function(){
+	chrome.tabs.create({url: 'http://code.google.com/p/fire-hostadmin/wiki/GAIN_HOSTS_WRITE_PERM'});
 });
 
 });

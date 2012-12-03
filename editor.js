@@ -36,6 +36,7 @@
 
 			// reset time
 			host_admin.reset_modified();	
+			alert('Save failed, Check Permission...');
 
 	//		// alert
 
