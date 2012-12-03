@@ -160,5 +160,9 @@ $(document.body).keydown(function(e){
 	searchbar.focus();
 });
 
+$("#openeditor").click(function(){
+	chrome.tabs.create({url: "editor.html"});
+});
+
 });
 

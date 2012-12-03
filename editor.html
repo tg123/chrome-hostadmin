@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+  <head>
+    <title>HostAdmin Host Editor</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="CodeMirror/lib/codemirror.css">
+    <script src="CodeMirror/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="CodeMirror/doc/docs.css">
+    <script src="CodeMirror/mode/hostadmin/hostadmin.js"></script>
+    <script src="jquery-1.7.1.min.js"></script>
+
+    <style type="text/css">
+      .CodeMirror {border: 1px solid black;}
+      button {float:right; font-size: 0.9em; }
+    </style>
+  </head>
+  <body>
+    <h1>HostAdmin Host Editor
+    <button id="btnSave">Save</button></h1>
+    <textarea id="code" name="code"></textarea>
+
+<h2><a href="http://code.google.com/p/fire-hostadmin/wiki/HOST_SYNTAX" target="_blank">Syntax Help</a></h2>
+
+<ul>
+<li>
+<pre>
+[#] IP HOSTNAME [# COMMENT] 
+
+Note: 
+When comment is 'hide' (case-insensitive), The line would not display in menu
+</pre>
+</li>
+<li>
+<pre>
+#==== GROUPNAME
+[...]
+#====
+</pre>
+</li>
+<li>
+<pre>
+# COMMENT 
+</pre>
+</li>
+</ul>
+
+
+<p style="margin-top:80px;font-size:0.8em;text-align:center">
+Editor powered by <a href="http://codemirror.net/" target="_blank">CodeMirror</a> | 
+<a href="http://code.google.com/p/fire-hostadmin/issues" target="_blank">Feedback</a>
+
+</p>
+<script src="editor.js"></script>
+</script>
+</body>
+</html>

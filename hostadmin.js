@@ -262,7 +262,10 @@ var host_admin = (function(){
 		group_toggle : group_toggle,
 		group_checked : is_group_all_using,
 		mk_host : mk_host,
-		refresh : refresh
+		refresh : refresh,
+		reset_modified: function(){
+			last_modify = 0;
+		}
 	};
 	
 })();
