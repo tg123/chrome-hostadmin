@@ -80,18 +80,14 @@
 	});
 
 	renew();
+
+
+	$(document).keydown(function(event){
+		if (event.which == 83 && (event.ctrlKey||event.metaKey)) {
+			event.preventDefault();
+			save.click();
+			return false;
+		}
+		return true;
+	});
 })();
-
-
-
-
-//document.addEventListener("keydown", function(e){
-//	if (e.ctrlKey && e.keyCode == 83){
-//		e && e.preventDefault();
-//		var e = document.createEvent('MouseEvents');
-//		e.initEvent('click', false, false);
-//		button = document.getElementById('btnSave');
-//		button.dispatchEvent(e);
-//	}
-//});
-//
