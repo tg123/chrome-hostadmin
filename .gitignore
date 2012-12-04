@@ -18,3 +18,5 @@ xcuserdata
 *.swp
 *~.nib
 
+*.zip
+*.crx
