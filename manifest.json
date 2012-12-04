@@ -3,7 +3,7 @@
 		"icons": {
 			"128": "icon.png"
 		},
-		"version": "1.3.8.2",
+		"version": "1.3.8.3",
 		"manifest_version": 2,
 		"permissions": ["tabs"],
 		"description": "Host Admin Tools",
