@@ -60,8 +60,8 @@ var redraw = function(){
 	wanted = wanted.toLowerCase();
 	for (var h in hosts){
 		var hitted = false;
-		var h = h.toLowerCase();
-		if(h.indexOf(wanted) >= 0 && h != wanted){
+		var hn = h.toLowerCase();
+		if(hn.indexOf(wanted) >= 0 && hn != wanted){
 			hitted = true;
 		}else{
 			for(var i in hosts[h]){
@@ -104,7 +104,7 @@ var redraw = function(){
 
 			var host = hosts[h][i];
 
-			if(host.comment == 'HIDE '){
+			if(host.comment.toUpperCase() == 'HIDE '){
 				continue;
 			}
 
