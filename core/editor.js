@@ -1,7 +1,4 @@
-;(function(){
-
-	var host_admin = chrome.extension.getBackgroundPage().host_admin;
-	var host_file_wrapper = chrome.extension.getBackgroundPage().host_file_wrapper;
+run_from_glue(function(host_admin, host_file_wrapper){
 
 	var changed = false;
 	var codeMirror = CodeMirror.fromTextArea(document.getElementById("code"), {
@@ -47,6 +44,7 @@
 		return r;
 	}
 
+	// TODO
 	chrome.extension.getBackgroundPage().document.addEventListener('HostAdminRefresh', function(e) {
 		if(!changed || mutex_prompt()){
 			codeMirror.setValue(host_file_wrapper.get());

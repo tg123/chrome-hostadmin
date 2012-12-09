@@ -1,4 +1,4 @@
-var host_file_wrapper = (function(){	
+;(function(HostAdmin){	
 	
 	var helper = document.getElementById("host_admin_helper");
 	var splitchar = "\n";
@@ -14,7 +14,7 @@ var host_file_wrapper = (function(){
 		file_name = "/etc/hosts";
 	}
 
-	return {
+	HostAdmin.host_file_wrapper = {
 		get : function(){
 			return helper.get(file_name);
 		}
@@ -31,4 +31,4 @@ var host_file_wrapper = (function(){
 		,
 		splitchar : splitchar
 	};
-})();
+})(window.HostAdmin);

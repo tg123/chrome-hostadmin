@@ -1,21 +1,21 @@
 {
 	"name": "HostAdmin",
 		"icons": {
-			"128": "icon.png"
+			"128": "icons/icon128.png"
 		},
-		"version": "1.3.8.3",
+		"version": "1.4.0",
 		"manifest_version": 2,
 		"permissions": ["tabs"],
 		"description": "Host Admin Tools",
 		"background": {
 			"persistent": true, 
-			"page": "background.html"
+			"page": "container/chrome/background.html"
 		},
 		
-		"plugins": [{"path": "hostadmin.x86.so"}, {"path": "hostadmin.amd64.so"}, {"path": "hostadmin.dll"},{"path": "hostadmin.plugin"}],
+		"plugins": [{"path": "npapi/hostadmin.x86.so"}, {"path": "npapi/hostadmin.amd64.so"}, {"path": "npapi/hostadmin.dll"},{"path": "npapi/hostadmin.plugin"}],
 		"browser_action": {
-			"default_icon": "icon.png",	
-			"default_popup": "popup.html"
+			"default_icon": "icons/icon128.png",	
+			"default_popup": "core/popup.html"
 		}
 
 }
