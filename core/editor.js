@@ -1,4 +1,4 @@
-run_from_glue(function(host_admin, host_file_wrapper){
+run_from_glue(function(host_admin, host_file_wrapper, event_host){
 
 	var changed = false;
 	var codeMirror = CodeMirror.fromTextArea(document.getElementById("code"), {
@@ -45,7 +45,7 @@ run_from_glue(function(host_admin, host_file_wrapper){
 	}
 
 	// TODO
-	chrome.extension.getBackgroundPage().document.addEventListener('HostAdminRefresh', function(e) {
+	event_host.addEventListener('HostAdminRefresh', function(e) {
 		if(!changed || mutex_prompt()){
 			codeMirror.setValue(host_file_wrapper.get());
 			renew();

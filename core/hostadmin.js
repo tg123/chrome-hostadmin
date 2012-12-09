@@ -8,6 +8,7 @@
 (function(HostAdmin){
 	
 	var host_file_wrapper = HostAdmin.host_file_wrapper;
+	var event_host = document;
 
 	var host_admin = (function(){
 		const ip_regx = /^((1?\d?\d|(2([0-4]\d|5[0-5])))\.){3}(1?\d?\d|(2([0-4]\d|5[0-5])))$/;
@@ -207,9 +208,9 @@
 				loadhost();
 				
 				if(last_modify != 0){
-					var e = document.createEvent('Events');
+					var e = event_host.createEvent('Events');
 					e.initEvent('HostAdminRefresh', false, false);
-					document.dispatchEvent(e);
+					event_host.dispatchEvent(e);
 				}
 
 				last_modify = t;
@@ -231,6 +232,20 @@
 			group_toggle : group_toggle,
 			group_checked : is_group_all_using,
 			mk_host : mk_host,
+
+			// new 1.4
+			host_toggle_and_save : function(host_name, ip_p){ 
+				host_toggle(host_name, ip_p);
+				return this.save();
+			} ,
+			group_toggle_and_save : function(host_list, gp_p){
+				group_toggle(host_list, gp_p);
+				return this.save();
+			},
+			save : function(){
+				return host_file_wrapper.set(mk_host());
+			}
+
 			refresh : refresh,
 			reset_modified: function(){
 				last_modify = 0;
@@ -240,5 +255,6 @@
 	})();
 
 	HostAdmin.core = host_admin;
+	HostAdmin.event_host = event_host;
 })(window.HostAdmin);
 

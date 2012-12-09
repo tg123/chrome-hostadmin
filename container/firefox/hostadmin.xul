@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/css" href="chrome://hostadmin-container/content/hostadmin.css"?>
+
+<!DOCTYPE overlay >
+<overlay id="hostadmin-overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+	<script src="chrome://hostadmin/content/init.js"/>
+	<script src="chrome://hostadmin-container/content/host_file_wrapper.js"/>
+	<script src="chrome://hostadmin/content/hostadmin.js"/>
+
+	<script src="chrome://hostadmin-container/content/firstrun.js"/>
+	<script src="chrome://hostadmin-container/content/hostadmin.js"/>
+	<script src="chrome://hostadmin-container/content/refresh_dns.js"/>
+
+	<statusbar id="status-bar">
+		<menupopup id="hostadmin-popup">
+		</menupopup>
+		<statusbarpanel id="hostadmin-panel">
+		    <label value="Not in Hosts" id="hostadmin-label"/>
+		</statusbarpanel>
+	</statusbar>
+
+	<toolbarpalette id="BrowserToolbarPalette" >
+		<toolbarbutton id="hostadmin-toolbar-button" />
+	</toolbarpalette>
+
+	<popupset>
+		<panel id="hostadmin-menu-panel" type="arrow">
+			<iframe id="hostadmin-menu-content" type="content" src="chrome://hostadmin/content/popup.html" flex="1"/>
+		</panel>
+	</popupset>
+	
+	<toolbarbutton id="hostadmin-toolbar-button" label="HostAdmin" tooltiptext="HostAdmin Menu" type="button" class='toolbarbutton-1 chromeclass-toolbar-additional'  popup="hostadmin-menu-panel">
+
+	</toolbarbutton>
+</overlay>
