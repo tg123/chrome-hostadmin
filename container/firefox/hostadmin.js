@@ -1,7 +1,7 @@
 (function(HostAdmin){
 	
 	const EDITOR_URL = 'chrome://hostadmin/content/editor.html';
-	const PERM_HELP_URL = 'http://code.google.com/p/fire-hostadmin/wiki/GAIN_HOSTS_WRITE_PERM';
+	const PERM_HELP_URL = HostAdmin.PERM_HELP_URL;
 
 	var host_file_wrapper = HostAdmin.host_file_wrapper;
 	var host_admin = HostAdmin.core;
@@ -36,21 +36,21 @@
 
 			// alert
 
-		//	try{
-		//		var alertsService = Components.classes["@mozilla.org/alerts-service;1"]
-		//			    .getService(Components.interfaces.nsIAlertsService);
-		//	
+			try{
+				var alertsService = Components.classes["@mozilla.org/alerts-service;1"]
+					    .getService(Components.interfaces.nsIAlertsService);
+			
 
-		//		alertsService.showAlertNotification('chrome://hostadmin/skin/icon32.png', 'HostAdmin'
-		//		, 'Write hosts file failed check permissions, Click to Learn more',
-		//		true, null,{  
-		//			observe: function(subject, topic, data) {  
-		//				if(topic == 'alertclickcallback'){
-		//					opentab('PERMHELP');
-		//				}
-		//			}  
-		//		});
-		//	}catch(e){} // mac without growl
+				alertsService.showAlertNotification('chrome://hostadmin/skin/icon32.png', 'HostAdmin'
+				, 'Write hosts file failed check permissions, Click to Learn more',
+				true, null,{  
+					observe: function(subject, topic, data) {  
+						if(topic == 'alertclickcallback'){
+							opentab('PERMHELP');
+						}
+					}  
+				});
+			}catch(e){} // mac without growl
 		}
 
 		host_refresh.tick();	
@@ -257,14 +257,16 @@
 		curhost : function(){ return curHost; }
 	}
 	
-	window.addEventListener('DOMContentLoaded', function(e){
-		var menuiframe = document.getElementById('hostadmin-menu-content').contentWindow;	
+	window.addEventListener('DOMWindowCreated', function(e){
 
-		if(typeof(menuiframe.window.firefox) != popuphelper){
-			menuiframe.window.firefox = popuphelper;
+		if(
+		e.target.documentURI == document.getElementById('hostadmin-menu-content').getAttribute('src')
+		||
+		e.target.documentURI == EDITOR_URL
+		){
+			e.target.defaultView.window.firefox = popuphelper;
 		}
-
-	}, false);
+	}, true);
 
 	var onload = function(event){
 		host_refresh.tick();	
@@ -307,74 +309,6 @@
 				},
 			});
 
-		window.getBrowser().addEventListener('pageshow', function(e){
-			if(e.target && e.target.documentURI == EDITOR_URL){
-
-				var promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-				                              .getService(Components.interfaces.nsIPromptService);
-
-				//var doc = e.originalTarget;
-				var doc = e.target;
-
-				var codeMirror = e.target.defaultView.wrappedJSObject['editor'];
-				var changed = function(){
-					return e.target.defaultView.wrappedJSObject['changed'];
-				}
-				
-				codeMirror.setValue(host_file_wrapper.get());
-
-				// limit alert only once per editor
-				doc.alert_mutex = false;
-
-				var mutex_prompt = function(){
-					if(!doc.alert_mutex){
-						doc.alert_mutex = true;
-
-						try{
-							return promptService.confirm(null, 'HostAdmin', 'Hosts file changed, Reload ?');
-						}finally{
-							doc.alert_mutex = false;
-						}
-					}
-					return false;
-				}
-
-				document.addEventListener('HostAdminRefresh', function(e) {
-					if(!changed() || mutex_prompt()){
-						codeMirror.setValue(host_file_wrapper.get());
-						renew();
-					}
-				}, false);
-				
-
-				var save = doc.getElementById("btnSave");
-
-				var falseChanged = function(){
-					e.target.defaultView.wrappedJSObject['changed'] = false;
-				}
-
-				var disableButton = function(){
-					save.setAttribute("disabled", "disabled")
-				}
-
-				var renew = function(){
-					falseChanged();
-					disableButton();
-				}
-
-				save.addEventListener('click', function(e) {
-					if(changed()){
-						falseChanged();
-						if(wrapped_set(codeMirror.getValue())){
-							renew();
-						}
-					}
-				}, false);
-
-				renew();
-			}
-			
-		}, false);
 	}
 	
 	

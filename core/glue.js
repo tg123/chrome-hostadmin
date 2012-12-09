@@ -7,24 +7,24 @@
 
 	if(typeof(chrome) == 'object'){
 
+		var HostAdmin = chrome.extension.getBackgroundPage().HostAdmin;
+		var host_admin = HostAdmin.core;
+		var host_file_wrapper = HostAdmin.host_file_wrapper;
+		var event_host = HostAdmin.event_host;
+		
 		var opentab = function(t){
 			var url = null;
 			if(t == 'EDITOR'){
 				url = 'core/editor.html';
 			}else if (t == 'PERMHELP'){
-				url = 'http://code.google.com/p/fire-hostadmin/wiki/GAIN_HOSTS_WRITE_PERM';
-			}   
+				url = HostAdmin.PERM_HELP_URL;
+			} 
 
 			if(url){
 				chrome.tabs.create({url: url});
 			}   
 		}   
 
-		var HostAdmin = chrome.extension.getBackgroundPage().HostAdmin;
-		var host_admin = HostAdmin.core;
-		var host_file_wrapper = HostAdmin.host_file_wrapper;
-		var event_host = HostAdmin.event_host;
-		
 		_inner = function(callback){
 			chrome.windows.getCurrent(function(w){
 				chrome.tabs.query({ active: true , windowType: "normal", windowId:w.id }, function(t){

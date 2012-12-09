@@ -27,26 +27,16 @@ run_from_glue(function(host_admin, host_file_wrapper, event_host){
 	//	return false;
 	//}
 	var wrapped_set = function(data){
-		// TODO impl set result in npapi
-		var r = host_file_wrapper.set(data);
+		var r = host_admin.save(data);
 		if(!r){
-
-			// reset time
 			host_admin.reset_modified();	
 			alert('Save failed, Check Permission...');
-
-	//		// alert
-
 		}
-
-		//host_refresh.tick();	
-		
 		return r;
 	}
 
-	// TODO
 	event_host.addEventListener('HostAdminRefresh', function(e) {
-		if(!changed || mutex_prompt()){
+		if(!changed){
 			codeMirror.setValue(host_file_wrapper.get());
 			renew();
 		}

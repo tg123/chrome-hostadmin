@@ -2,25 +2,13 @@ run_from_glue(function(host_admin, host_file_wrapper, event_host, searchval ,ope
 	
 	var searchbar = $("#search input");
 
-	// TODO editor.js
-	var wrapped_set = function(data){
-		// TODO impl set result in npapi
-		var r = host_file_wrapper.set(data);
-		if(!r){
-
-			// reset time
-			$(".alert").show('slow');
-			host_admin.reset_modified();	
-
-	//		// alert
-
-		}else{
+	var save_alert = function(r){
+		if(r){
 			$(".alert").hide('slow');
+		}else{
+			//oldcontainer.attr('disabled', null);
+			$(".alert").show('slow');
 		}
-
-		//host_refresh.tick();	
-		
-		return r;
 	}
 
 	var host_ul = $("#list");
@@ -29,10 +17,6 @@ run_from_glue(function(host_admin, host_file_wrapper, event_host, searchval ,ope
 		var wanted = searchbar.val();
 		wanted = $.trim(wanted);
 
-		if(host_admin.refresh()){
-			
-			//TODO build index
-		}
 		var oldcontainer = host_ul.find("div");
 		var newcontainer = $("<div></div>");
 		var hosts = host_admin.get_hosts();
@@ -100,10 +84,8 @@ run_from_glue(function(host_admin, host_file_wrapper, event_host, searchval ,ope
 				// var a = $('<a href="javascript:;"><i class="icon-"></i>' + host.addr + '<em class="pull-right">' + host.group +'</em></a>');
 				a.click((function(host, hostname ,host_index){
 				return function(){
-					host_admin.host_toggle(hostname, host_index);
-					//host_file_wrapper.set(host_admin.mk_host());
-					wrapped_set(host_admin.mk_host());
-					redraw();
+					newcontainer.attr('disabled', 'disabled');
+					save_alert(host_admin.host_toggle_and_save(hostname, host_index));
 				}})(host,h,i));
 
 				var li = $("<li/>").append(a);
@@ -144,10 +126,8 @@ run_from_glue(function(host_admin, host_file_wrapper, event_host, searchval ,ope
 				var a = $('<a href="javascript:;"><i class="icon-"></i>' + group_name + '<em class="pull-right">' + '' +'</em></a>');
 				a.click((function(host_list, group_id){
 				return function(){
-					host_admin.group_toggle(host_list, group_id);
-					//host_file_wrapper.set(host_admin.mk_host());
-					wrapped_set(host_admin.mk_host());
-					redraw();
+					newcontainer.attr('disabled', 'disabled');
+					save_alert(host_admin.group_toggle_and_save(host_list, group_id));
 				}})(host_list, group_id));
 
 				var li = $("<li/>").append(a);
@@ -182,17 +162,16 @@ run_from_glue(function(host_admin, host_file_wrapper, event_host, searchval ,ope
 	});
 
 	event_host.addEventListener('HostAdminRefresh', function(e) {
-		dump(1);
-		//redraw();
+		redraw();
 	}, false);
 
 
 	// -- init 
+	host_admin.refresh();
 	var hosts = host_admin.get_hosts();
 	if(hosts[searchval]){
 		searchbar.val(searchval).select();
 	}
 	redraw();
-
 }
 )

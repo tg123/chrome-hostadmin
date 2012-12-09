@@ -201,6 +201,13 @@
 		var last_modify = 0;
 		
 		// {{{		
+
+		var disp_refresh_event = function(){
+			var e = event_host.createEvent('Events');
+			e.initEvent('HostAdminRefresh', false, false);
+			event_host.dispatchEvent(e);
+		}
+
 		var refresh = function(){
 			var t = host_file_wrapper.time();
 			
@@ -208,9 +215,7 @@
 				loadhost();
 				
 				if(last_modify != 0){
-					var e = event_host.createEvent('Events');
-					e.initEvent('HostAdminRefresh', false, false);
-					event_host.dispatchEvent(e);
+					disp_refresh_event();
 				}
 
 				last_modify = t;
@@ -233,7 +238,6 @@
 			group_checked : is_group_all_using,
 			mk_host : mk_host,
 
-			// new 1.4
 			host_toggle_and_save : function(host_name, ip_p){ 
 				host_toggle(host_name, ip_p);
 				return this.save();
@@ -242,19 +246,29 @@
 				group_toggle(host_list, gp_p);
 				return this.save();
 			},
-			save : function(){
-				return host_file_wrapper.set(mk_host());
-			}
+			save : function(hoststr){
+				if(!hoststr){ hoststr = mk_host();}
+
+				var succ = host_file_wrapper.set(hoststr);
+				
+				if(!succ){
+					last_modify = 0;
+				}
+				this.refresh();
+				return succ;
+			},
 
 			refresh : refresh,
 			reset_modified: function(){
 				last_modify = 0;
-			}
+			},
+			
 		};
 		
 	})();
 
 	HostAdmin.core = host_admin;
 	HostAdmin.event_host = event_host;
+	HostAdmin.PERM_HELP_URL = 'http://code.google.com/p/fire-hostadmin/wiki/GAIN_HOSTS_WRITE_PERM'
 })(window.HostAdmin);
 
