@@ -3,12 +3,15 @@
 VER=`grep '"version".*:.*".*"' manifest.json -P -o | sed -e 's/["| ]//g' | cut -d : -f 2`
 TARGET=chrome-hostadmin-$VER
 
+CHROME_PROVIDERS="container/chrome/ core/ icons/ npapi/"
+
 # clean
 rm -f $TARGET.zip
 rm -f $TARGET.crx
 
+
 # build for store
-zip $TARGET.zip hostadmin.plugin/ CodeMirror/ bootstrap/ *.js *.html *.so *.dll *.json *.png -r
+zip -r $TARGET.zip $CHROME_PROVIDERS manifest.json -x 'npapi/src/*'
 
 echo $TARGET.zip "DONE"
 

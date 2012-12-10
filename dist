@@ -1,0 +1,24 @@
+#!/bin/bash
+
+function dist-clean(){
+	rm -f *.xpi
+	rm -f *.zip
+	rm -f *.crx
+	echo "Cleaned"
+}
+
+if [ -e "dist-$1.sh" ]; then
+	"./dist-$1.sh"
+elif [ "$1" == "clean" ]; then
+	dist-clean
+else
+	for i in `ls dist-*.sh` ;do
+		"./$i" ;
+	done
+
+	echo "All Done"
+fi
+
+for i in `ls *.zip *.xpi *.crx 2>/dev/null `;do
+	md5sum $i
+done
