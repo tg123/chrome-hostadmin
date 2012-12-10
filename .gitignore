@@ -1,16 +1,13 @@
 .*
 
-hostadmin.zip
+npapi/src/hostadmin.vcproj.*
+npapi/src/hostadmin.ncb
+npapi/src/hostadmin.suo
+npapi/src/Release/
+npapi/src/Debug/
 
-npapi/hostadmin.vcproj.*
-npapi/hostadmin.ncb
-npapi/hostadmin.suo
-npapi/Release/
-npapi/Debug/
-
-
-npapi/*.so
-npapi/*.o
+npapi/src/*.so
+npapi/src/*.o
 
 xcuserdata
 
