@@ -235,10 +235,13 @@
 		}
 	}
 
-	var popuphelper = {
-		HostAdmin : HostAdmin,
+	HostAdmin.container = {
 		opentab : opentab,
 		curhost : function(){ return curHost; }
+	};
+
+	var popuphelper = {
+		HostAdmin : HostAdmin,
 	}
 	
 	window.addEventListener('DOMWindowCreated', function(e){
