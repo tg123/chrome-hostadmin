@@ -20,10 +20,17 @@
 		}   
 	}   
 
+	var extracthost = function(url){
+		if(url) cur_host = url.match(/:\/\/(.[^/^:]+)/)[1];
+	}
+
+	chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
+		extracthost(changeInfo.url);
+	});
 	chrome.tabs.onActivated.addListener(function(activeInfo){
 		chrome.tabs.query({ active: true , windowType: "normal", windowId: chrome.windows.WINDOW_ID_CURRENT }, function(t){
 			if (t.length > 0){
-				cur_host = t[0].url.match(/:\/\/(.[^/^:]+)/)[1];
+				extracthost(t[0].url);
 			}
 		});
 	});
