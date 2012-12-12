@@ -1,5 +1,11 @@
-run_from_glue(function(host_admin, host_file_wrapper, event_host, searchval ,opentab){
-	
+run_from_glue(function(HostAdmin){
+	var host_admin = HostAdmin.core;
+	var event_host = HostAdmin.event_host;
+
+	var container = HostAdmin.container;
+	var searchval = container.curhost();
+	var opentab = container.opentab;
+
 	var searchbar = $("#search input");
 
 	var save_alert = function(r){

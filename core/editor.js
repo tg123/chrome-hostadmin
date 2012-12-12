@@ -1,4 +1,6 @@
-run_from_glue(function(host_admin, host_file_wrapper, event_host){
+run_from_glue(function(HostAdmin){
+	var host_admin = HostAdmin.core;
+	var event_host = HostAdmin.event_host;
 
 	var changed = false;
 	var codeMirror = CodeMirror.fromTextArea(document.getElementById("code"), {
@@ -15,7 +17,6 @@ run_from_glue(function(host_admin, host_file_wrapper, event_host){
 
 	var renew = function(){
 		changed = false;
-		disableButton();
 		save.attr("disabled", "disabled")
 	}
 
