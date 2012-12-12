@@ -2,21 +2,24 @@
 
 	var cur_host;
 
-	var cur_t = null;
 	var opentab = function(t){
 		var url = null;
 		if(t == 'EDITOR'){
-			url = 'core/editor.html';
+			url = chrome.runtime.getURL('core/editor.html');
 		}else if (t == 'PERMHELP'){
 			url = HostAdmin.PERM_HELP_URL;
-		} 
+		}else{
+			url = t;
+		}
 
 		if(url){
-			if(cur_t){
-				chrome.tabs.update(cur_t.id, {active : true});
-			}else{
-				chrome.tabs.create({url: url}, function(t){ cur_t = t });
-			}
+			chrome.tabs.query({ url : url ,windowId: chrome.windows.WINDOW_ID_CURRENT }, function(t){
+				if (t.length > 0){
+					chrome.tabs.update(t[0].id, {active : true});
+				}else{
+					chrome.tabs.create({url: url});
+				}
+			});
 		}   
 	}   
 

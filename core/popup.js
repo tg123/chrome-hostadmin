@@ -70,7 +70,15 @@ run_from_glue(function(HostAdmin){
 
 				return function(){
 					if(!added){
-						ul.append($('<li class="nav-header">' + h + '</li>'));
+						var em = $('<i class="icon-globe pull-right"></i>');
+						em.click(function(){
+							opentab('http://' + h);
+						});
+						var li = $('<li class="nav-header"></li>');
+						li.text(h);
+						li.prepend(em);
+
+						ul.append(li);
 						added = true;
 					}
 				};
