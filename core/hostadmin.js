@@ -8,7 +8,7 @@
 (function(HostAdmin){
 	
 	var host_file_wrapper = HostAdmin.host_file_wrapper;
-	var event_host = document;
+	var event_host = HostAdmin.event_host;
 
 	var host_admin = (function(){
 		const ip_regx = /^((1?\d?\d|(2([0-4]\d|5[0-5])))\.){3}(1?\d?\d|(2([0-4]\d|5[0-5])))$/;
@@ -19,6 +19,8 @@
 		var lines = [];
 		var hosts = {};
 		var groups = {};
+
+		var cur_host_content = "";
 		
 		var loadhost = function() {
 		
@@ -27,6 +29,7 @@
 			groups = {};
 			//read
 			var host = host_file_wrapper.get();
+			cur_host_content = host;
 			
 			if (host && host.charAt(host.length - 1) != "\n"){ //fix no lf
 				host += host_file_wrapper.splitchar;
@@ -207,14 +210,15 @@
 			e.initEvent('HostAdminRefresh', false, false);
 			event_host.dispatchEvent(e);
 		}
-
+		
+		var last_host_content;
 		var refresh = function(){
 			var t = host_file_wrapper.time();
 			
 			if( t != last_modify){
 				loadhost();
-				
-				if(last_modify != 0){
+
+				if(last_host_content != cur_host_content){
 					disp_refresh_event();
 				}
 
@@ -236,7 +240,7 @@
 			host_toggle : host_toggle,
 			group_toggle : group_toggle,
 			group_checked : is_group_all_using,
-			mk_host : mk_host,
+			// mk_host : mk_host,
 
 			host_toggle_and_save : function(host_name, ip_p){ 
 				host_toggle(host_name, ip_p);
@@ -251,24 +255,25 @@
 
 				var succ = host_file_wrapper.set(hoststr);
 				
-				if(!succ){
-					last_modify = 0;
-				}
+				last_modify = 0;
 				this.refresh();
 				return succ;
 			},
 
-			refresh : refresh,
-			reset_modified: function(){
-				last_modify = 0;
+			load : function(){
+				return cur_host_content;
 			},
+
+			refresh : refresh,
+			//reset_modified: function(){
+			//	last_modify = 0;
+			//},
 			
 		};
 		
 	})();
 
 	HostAdmin.core = host_admin;
-	HostAdmin.event_host = event_host;
 	HostAdmin.PERM_HELP_URL = 'http://code.google.com/p/fire-hostadmin/wiki/GAIN_HOSTS_WRITE_PERM'
 })(window.HostAdmin);
 

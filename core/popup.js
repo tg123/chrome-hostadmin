@@ -84,7 +84,6 @@ run_from_glue(function(host_admin, host_file_wrapper, event_host, searchval ,ope
 				// var a = $('<a href="javascript:;"><i class="icon-"></i>' + host.addr + '<em class="pull-right">' + host.group +'</em></a>');
 				a.click((function(host, hostname ,host_index){
 				return function(){
-					newcontainer.attr('disabled', 'disabled');
 					save_alert(host_admin.host_toggle_and_save(hostname, host_index));
 				}})(host,h,i));
 
@@ -126,7 +125,6 @@ run_from_glue(function(host_admin, host_file_wrapper, event_host, searchval ,ope
 				var a = $('<a href="javascript:;"><i class="icon-"></i>' + group_name + '<em class="pull-right">' + '' +'</em></a>');
 				a.click((function(host_list, group_id){
 				return function(){
-					newcontainer.attr('disabled', 'disabled');
 					save_alert(host_admin.group_toggle_and_save(host_list, group_id));
 				}})(host_list, group_id));
 
