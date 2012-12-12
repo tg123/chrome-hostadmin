@@ -9,7 +9,9 @@
 	<script src="chrome://hostadmin/content/hostadmin.js"/>
 
 	<script src="chrome://hostadmin-container/content/firstrun.js"/>
-	<script src="chrome://hostadmin-container/content/hostadmin.js"/>
+	<script src="chrome://hostadmin-container/content/container.js"/>
+	<script src="chrome://hostadmin-container/content/timer.js"/>
+	<script src="chrome://hostadmin-container/content/statusbar.js"/>
 	<script src="chrome://hostadmin-container/content/refresh_dns.js"/>
 
 	<statusbar id="status-bar">

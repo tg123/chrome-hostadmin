@@ -1,17 +1,13 @@
-(function(HostAdmin){
+;(function(HostAdmin){
 	
-	const EDITOR_URL = 'chrome://hostadmin/content/editor.html';
-	const PERM_HELP_URL = HostAdmin.PERM_HELP_URL;
-
 	var host_admin = HostAdmin.core;
 	var event_host = HostAdmin.event_host;
+	var container = HostAdmin.container;
 	
-	var curHost = "";
-
 	var updatelb = function(){
-		
+		var curHost = container.curhost();
+
 		var str = "Not in Hosts";
-		
 		var hosts = host_admin.get_hosts();
 		if (typeof hosts[curHost] != "undefined") {
 			hosts = hosts[curHost];
@@ -90,6 +86,7 @@
 
 	// {{{ refresh menu
 	var refresh_menu = function(asc){
+		var curHost = container.curhost();
 		var menu = document.getElementById("hostadmin-popup");
 		
 		while (menu.lastChild) menu.removeChild(menu.lastChild);
@@ -196,7 +193,7 @@
 	var onclick = function(target, event){
 		if(event.button && event.button != 0) return false;
 
-		host_refresh.tick();	
+		host_admin.refresh();
 		refresh_menu(target == document.getElementById('hostadmin-toolbar-button'));
 
 		var menu = document.getElementById("hostadmin-popup");
@@ -204,60 +201,8 @@
 		menu.openPopup(target, "before_end", 0 ,0, true);
 		return false;
 	}
-	
-
-	var host_refresh = { 
-		
-		observe: function(subject, topic, data){
-			this.tick();
-		},
-
-		tick: function(){
-			host_admin.refresh();
-		}
-		
-	}	
-
-	var timer = Components.classes["@mozilla.org/timer;1"].createInstance(Components.interfaces.nsITimer);
-	timer.init(host_refresh, 1000,	Components.interfaces.nsITimer.TYPE_REPEATING_SLACK);
-	
-	var opentab = function(t){
-		var url = null;
-		if(t == 'EDITOR'){
-			url = EDITOR_URL;
-		}else if (t == 'PERMHELP'){
-			url = PERM_HELP_URL;
-		}
-
-		if(url){
-			var t = window.getBrowser().addTab(url);
-			window.getBrowser().selectedTab = t;
-			document.getElementById("hostadmin-menu-panel").hidePopup();
-		}
-	}
-
-	HostAdmin.container = {
-		opentab : opentab,
-		curhost : function(){ return curHost; }
-	};
-
-	var popuphelper = {
-		HostAdmin : HostAdmin,
-	}
-	
-	window.addEventListener('DOMWindowCreated', function(e){
-
-		if(
-		e.target.documentURI == document.getElementById('hostadmin-menu-content').getAttribute('src')
-		||
-		e.target.documentURI == EDITOR_URL
-		){
-			e.target.defaultView.window.firefox = popuphelper;
-		}
-	}, true);
 
 	var onload = function(event){
-		host_refresh.tick();	
 		
 		var panel_label = document.getElementById("hostadmin-label");
 		panel_label.addEventListener('mousedown', function(e) {
@@ -266,30 +211,14 @@
 		
 		
 		window.getBrowser().addProgressListener({
-				onLocationChange: function(aWebProgress, aRequest, aLocation){
-					curHost = "";
-					try{
-						if (aLocation && aLocation.host){
-							
-							if(aLocation.scheme != 'chrome'){
-								curHost = aLocation.host;
-							}
-						}
-					}
-					catch(e){					
-					}
-					finally{	
-						updatelb();
-					}
-
-				},
-			});
+			onLocationChange: function(aWebProgress, aRequest, aLocation){
+				updatelb();
+			}
+		});
 
 	}
 	
 	
-	HostAdmin.dontgc = timer; //prevent form being gc
-
 	window.addEventListener("load", onload, false);
 
 	event_host.addEventListener('HostAdminRefresh', function(e) {
