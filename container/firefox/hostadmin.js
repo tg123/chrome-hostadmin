@@ -4,6 +4,7 @@
 	const PERM_HELP_URL = HostAdmin.PERM_HELP_URL;
 
 	var host_admin = HostAdmin.core;
+	var event_host = HostAdmin.event_host;
 	
 	var curHost = "";
 
