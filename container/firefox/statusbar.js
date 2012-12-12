@@ -3,6 +3,7 @@
 	var host_admin = HostAdmin.core;
 	var event_host = HostAdmin.event_host;
 	var container = HostAdmin.container;
+	var opentab = container.opentab;
 	
 	var updatelb = function(){
 		var curHost = container.curhost();
@@ -104,8 +105,7 @@
 
 			sub.addEventListener("dblclick", (function(h){ 
 				return function(e){
-						var t = window.getBrowser().addTab(h);
-						window.getBrowser().selectedTab = t;
+						opentab("http://" + h);
 					}
 				})(h), false);
 
