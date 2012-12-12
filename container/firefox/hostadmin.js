@@ -3,7 +3,6 @@
 	const EDITOR_URL = 'chrome://hostadmin/content/editor.html';
 	const PERM_HELP_URL = HostAdmin.PERM_HELP_URL;
 
-	var host_file_wrapper = HostAdmin.host_file_wrapper;
 	var host_admin = HostAdmin.core;
 	
 	var curHost = "";
@@ -27,21 +26,15 @@
 		document.getElementById("hostadmin-label").value = str;
 	}
 
-	var wrapped_set = function(data){
-		var r = host_file_wrapper.set(data);
-		if(!r){
-
-			// reset time
-			host_admin.reset_modified();	
-
-			// alert
-
+	var save_alert = function(r){
+		if(r){
+		}else{
 			try{
 				var alertsService = Components.classes["@mozilla.org/alerts-service;1"]
 					    .getService(Components.interfaces.nsIAlertsService);
 			
 
-				alertsService.showAlertNotification('chrome://hostadmin/skin/icon32.png', 'HostAdmin'
+				alertsService.showAlertNotification('chrome://hostadmin-icons/content/icon32.png', 'HostAdmin'
 				, 'Write hosts file failed check permissions, Click to Learn more',
 				true, null,{  
 					observe: function(subject, topic, data) {  
@@ -52,10 +45,6 @@
 				});
 			}catch(e){} // mac without growl
 		}
-
-		host_refresh.tick();	
-		
-		return r;
 	}
 	
 	var mk_menu_item = function(hostname, host , host_index){
@@ -65,8 +54,7 @@
 		mi.setAttribute("description", "Double Click to Visit");
 		mi.setAttribute("type","checkbox");
 		mi.addEventListener("command", function(e){
-			host_admin.host_toggle(hostname, host_index);
-			wrapped_set(host_admin.mk_host());
+			save_alert(host_admin.host_toggle_and_save(hostname, host_index));
 		}, false);
 		
 		if(host.using){
@@ -81,8 +69,7 @@
 		mi.setAttribute("acceltext", "Group");
 		mi.setAttribute("type","checkbox");
 		mi.addEventListener("command", function(e){
-			host_admin.group_toggle(host_list, group_id);
-			wrapped_set(host_admin.mk_host());
+			save_alert(host_admin.group_toggle_and_save(host_list, group_id));
 		}, false);
 		if(host_admin.group_checked(host_list, group_id)){
 			mi.setAttribute("checked",true);
@@ -213,7 +200,7 @@
 
 		var menu = document.getElementById("hostadmin-popup");
 
-		menu.openPopup(target, "end_before", 0 ,0, true);
+		menu.openPopup(target, "before_end", 0 ,0, true);
 		return false;
 	}
 	
@@ -225,10 +212,7 @@
 		},
 
 		tick: function(){
-			if(host_admin.refresh()){
-				// refresh_menu();
-				updatelb();
-			};
+			host_admin.refresh();
 		}
 		
 	}	
@@ -276,19 +260,7 @@
 			onclick(panel_label, e);
 		}, false);
 		
-		document.getElementById("hostadmin-menu-panel").addEventListener('popupshown', function(e){
-			
-		}, false);
 		
-		var toolbar_button = document.getElementById("hostadmin-toolbar-button");
-		if(toolbar_button){
-
-			toolbar_button.addEventListener('command', function(e) {
-				
-				//document.getElementById('hostadmin-menu-content').contentWindow.window.init_hostadmin_menu(hostAdmin.core,hostAdmin.host_file_wrapper,curHost, opentab);
-			}, false);
-		}
-
 		window.getBrowser().addProgressListener({
 				onLocationChange: function(aWebProgress, aRequest, aLocation){
 					curHost = "";
@@ -315,6 +287,10 @@
 	HostAdmin.dontgc = timer; //prevent form being gc
 
 	window.addEventListener("load", onload, false);
+
+	event_host.addEventListener('HostAdminRefresh', function(e) {
+		updatelb();
+	}, false);
 
 })(window.HostAdmin);
 
