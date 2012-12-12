@@ -66,6 +66,8 @@
 			url = EDITOR_URL;
 		}else if (t == 'PERMHELP'){
 			url = PERM_HELP_URL;
+		}else{
+			url = t;
 		}
 
 		if(url){
