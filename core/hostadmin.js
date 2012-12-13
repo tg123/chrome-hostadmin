@@ -219,6 +219,8 @@
 				loadhost();
 
 				if(last_host_content != cur_host_content){
+					// prevent from saving failed cause editor refresh
+					last_host_content = cur_host_content;
 					disp_refresh_event();
 				}
 
@@ -265,9 +267,6 @@
 			},
 
 			refresh : refresh,
-			//reset_modified: function(){
-			//	last_modify = 0;
-			//},
 			
 		};
 		
