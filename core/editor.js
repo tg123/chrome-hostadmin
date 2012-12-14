@@ -2,30 +2,45 @@ run_from_glue(function(HostAdmin){
 	var host_admin = HostAdmin.core;
 	var event_host = HostAdmin.event_host;
 
+	var container = HostAdmin.container;
+	var opentab = container.opentab;
+
 	var changed = false;
 	var codeMirror = CodeMirror.fromTextArea(document.getElementById("code"), {
 		lineNumbers: true,
-		onChange: function(){
-			changed = true;
-			$("#btnSave").attr("disabled", null);
-		}
+	});
+
+	var save = $("#btnSave");
+
+	codeMirror.on("change",  function(){
+		changed = true;
+		save.attr("disabled", null);
 	});
 
 	codeMirror.setValue(host_admin.load());
 
-	var save = $("#btnSave");
-
 	var renew = function(){
 		changed = false;
 		save.attr("disabled", "disabled")
+		$(".alert").hide('slow');
 	}
+
+	var reload = function(){
+		codeMirror.setValue(host_admin.load());
+		renew();
+	}
+
+	$("#mreload").click(function(){
+		$("#contentchanged").modal('hide');
+
+		reload();
+	});
 
 	event_host.addEventListener('HostAdminRefresh', function(e) {
 		if(!changed){
-			codeMirror.setValue(host_admin.load());
-			renew();
+			reload();
 		}else{
-			//TODO add propmt
+			$("#contentchanged").modal('show');
 		}
 	}, false);
 
@@ -36,7 +51,7 @@ run_from_glue(function(HostAdmin){
 			if(host_admin.save(codeMirror.getValue())){
 				renew();
 			}else{
-				alert('Save failed, Check Permission...');
+				$(".alert").show('slow');
 			}
 		}
 	});
@@ -50,5 +65,10 @@ run_from_glue(function(HostAdmin){
 		return true;
 	});
 
+	$(".alert a").click(function(){
+		opentab('PERMHELP');
+	});
+
 	renew();
+
 })

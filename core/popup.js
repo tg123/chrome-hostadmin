@@ -10,9 +10,8 @@ run_from_glue(function(HostAdmin){
 
 	var save_alert = function(r){
 		if(r){
-			$(".alert").hide('slow');
+		$(".alert").hide('slow');
 		}else{
-			//oldcontainer.attr('disabled', null);
 			$(".alert").show('slow');
 		}
 	}
@@ -94,7 +93,7 @@ run_from_glue(function(HostAdmin){
 					continue;
 				}
 
-				var a = $('<a href="javascript:;"><i class="icon-"></i>' + host.addr + '<em class="pull-right">' + host.comment+'</em></a>');
+				var a = $('<a href="#"><i class="icon-"></i>' + host.addr + '<em class="pull-right">' + host.comment+'</em></a>');
 				// var a = $('<a href="javascript:;"><i class="icon-"></i>' + host.addr + '<em class="pull-right">' + host.group +'</em></a>');
 				a.click((function(host, hostname ,host_index){
 				return function(){
@@ -136,7 +135,7 @@ run_from_glue(function(HostAdmin){
 				var group_id = g;
 				var host_list = groups[g];
 
-				var a = $('<a href="javascript:;"><i class="icon-"></i>' + group_name + '<em class="pull-right">' + '' +'</em></a>');
+				var a = $('<a href="#"><i class="icon-"></i>' + group_name + '<em class="pull-right">' + '' +'</em></a>');
 				a.click((function(host_list, group_id){
 				return function(){
 					save_alert(host_admin.group_toggle_and_save(host_list, group_id));

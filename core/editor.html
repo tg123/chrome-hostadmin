@@ -2,55 +2,104 @@
 <html>
   <head>
     <title>HostAdmin Host Editor</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+
     <link rel="stylesheet" href="lib/CodeMirror/lib/codemirror.css">
     <script src="lib/CodeMirror/lib/codemirror.js"></script>
-    <link rel="stylesheet" href="lib/CodeMirror/doc/docs.css">
     <script src="lib/CodeMirror/mode/hostadmin/hostadmin.js"></script>
-    <script src="lib/jquery-1.7.1.min.js"></script>
+
+    <script src="lib/jquery-1.8.3.min.js"></script>
+    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
 
     <style type="text/css">
-      .CodeMirror {border: 1px solid black;}
-      button {float:right; font-size: 0.9em; }
+      .CodeMirror {
+      border: 1px solid #CCC;
+      border-radius:4px;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      }
+      .container-narrow {
+	margin: 0 auto;
+	max-width: 940px;
+      }
     </style>
   </head>
   <body>
-    <h1>HostAdmin Host Editor
-    <button id="btnSave">Save</button></h1>
+   <div class="container-narrow">
+
+    <button id="btnSave" class="btn btn-large btn-primary pull-right">Save</button>
+    <h1>HostAdmin Host Editor</h1>
+
+<div class="alert hide" id="savefailed">
+Write hosts file failed check permissions, <a href="#">Learn more</a>
+</div>
+	<hr />
     <textarea id="code" name="code"></textarea>
 
-<h2><a href="http://code.google.com/p/fire-hostadmin/wiki/HOST_SYNTAX" target="_blank">Syntax Help</a></h2>
+<hr />
 
-<ul>
-<li>
-<pre>
+
+<div id="syntaxhelp" style="height: 200px;overflow: auto;">
+
+<pre id="syntax-common">
+<span class="label label-success">Common Hosts File Syntax</span>
 [#] IP HOSTNAME [# COMMENT] 
 
-Note: 
-When comment is 'hide' (case-insensitive), The line would not display in menu
+<span class="label label-info">Note</span>
+Setting 'hide' as comment could prevent this line from showing
 </pre>
-</li>
-<li>
-<pre>
+
+<pre id="syntax-grouping">
+<span class="label label-success">Grouping</span>
+[#] IP HOSTNAME [# COMMENT] 
 #==== GROUPNAME
 [...]
 #====
-</pre>
-</li>
-<li>
-<pre>
-# COMMENT 
-</pre>
-</li>
-</ul>
 
+<span class="label label-info">Example</span>
 
-<p style="margin-top:80px;font-size:0.8em;text-align:center">
+#==== Project 1
+#127.0.0.1       localhost1
+127.0.0.1       localhost2
+127.0.0.1       localhost3
+#====
+
+#==== Project 2
+#127.0.0.1       localhost1
+#127.0.0.1       localhost2
+#127.0.0.1       localhost3
+#====
+
+</pre>
+
+</div>
+
+<hr />
+<div id="footer" class="row" style="text-align:center">
+<p>
 Editor powered by <a href="http://codemirror.net/" target="_blank">CodeMirror</a> | 
 <a href="http://code.google.com/p/fire-hostadmin/issues" target="_blank">Feedback</a>
 
 </p>
+</div>
+
+</div>
+
+
+<div id="contentchanged" class="modal hide fade">
+<div class="modal-body">
+<p>Host file has changed outside! Reload ?  </p>
+</div>
+<div class="modal-footer">
+<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Don't Reload</a>
+<a id="mreload" href="#" class="btn btn-warning">Reload, Changes will lose</a>
+</div>
+</div>
+
+
 <script src="glue.js"></script>
 <script src="editor.js"></script>
+<a href="https://github.com/tg123/chrome-hostadmin" target="_blank"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
 </body>
 </html>
