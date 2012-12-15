@@ -18,7 +18,8 @@
 			var numTabs = tabbrowser.browsers.length;
 			for (var index = 0; index < numTabs; index++) {
 				var currentBrowser = tabbrowser.getBrowserAtIndex(index);
-				if (url == currentBrowser.currentURI.spec) {
+				//if (url == currentBrowser.currentURI.spec) {
+				if (currentBrowser.currentURI.spec.indexOf(url) == 0) {
 
 					// The URL is already opened. Select this tab.
 					tabbrowser.selectedTab = tabbrowser.tabContainer.childNodes[index];
@@ -87,9 +88,9 @@
 
 	window.addEventListener('DOMWindowCreated', function(e){
 		if(
-		e.target.documentURI == document.getElementById('hostadmin-menu-content').getAttribute('src')
+		e.target.documentURI.indexOf(document.getElementById('hostadmin-menu-content').getAttribute('src')) === 0
 		||
-		e.target.documentURI == EDITOR_URL
+		e.target.documentURI.indexOf(EDITOR_URL) === 0
 		){
 			e.target.defaultView.window.firefox = popuphelper;
 		}
