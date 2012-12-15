@@ -11,10 +11,10 @@
 	var event_host = HostAdmin.event_host;
 
 	var host_admin = (function(){
-		const ip_regx = /^((1?\d?\d|(2([0-4]\d|5[0-5])))\.){3}(1?\d?\d|(2([0-4]\d|5[0-5])))$/;
+		var ip_regx = /^((1?\d?\d|(2([0-4]\d|5[0-5])))\.){3}(1?\d?\d|(2([0-4]\d|5[0-5])))$/;
 
 		// copy from http://forums.intermapper.com/viewtopic.php?t=452
-		const ip6_regx = /^((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?$/ ;
+		var ip6_regx = /^((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?$/ ;
 
 		var lines = [];
 		var hosts = {};
@@ -36,13 +36,18 @@
 			}
 
 			var l_p = 0; //pointer to line
-			const regx = /(.*?)\r?\n/mg
-			var l = null;
+			var regx = /(.*?)\r?\n/mg;
 			var group_id = 0;
 			var group_c = 0;
 			var ingroup = false;
 
-			while(l = regx.exec(host)){
+			while(true){
+				var l = regx.exec(host);
+				if(!l){
+					break;
+				}
+
+				var i;
 				l = l[0];
 				
 				lines[l_p++] = l;
@@ -55,18 +60,18 @@
 				var tks = l.split(" ");
 
 				if (tks[0] == "#" && tks[1] == "===="){
-					if(group_c == 0){
+					if(group_c === 0){
 						group_id++;
 					}
 
-					if(group_c++ % 2 == 0){
+					if(group_c++ % 2 === 0){
 						tks.splice(0,2);
 						var group_name = "";
-						for(var i in tks){
+						for(i in tks){
 							group_name += tks[i] + " ";
 						}
 
-						if(group_name == ""){
+						if(group_name === ""){
 							group_name = "Group " + group_id;
 						}
 
@@ -100,7 +105,7 @@
 
 				var names = [];
 				var findc = false;
-				for (var i in tks){
+				for (i in tks){
 					if(tks[i] == "#"){
 						findc = true;
 						continue;
@@ -122,7 +127,7 @@
 					group : ingroup ? group_id : 0
 				};
 	
-				for (var i in names){
+				for (i in names){
 					var name = names[i];
 					if(typeof hosts[name] == "undefined"){
 						hosts[name] = [];
@@ -138,14 +143,14 @@
 				lines[ip.line] = lines[ip.line].replace(/^(\s*#)+/,"");
 			}
 			ip.using = true;
-		}
+		};
 
 		var line_disable = function(ip){
 			if(ip.using){
 				lines[ip.line] = "#" + lines[ip.line];
 			}
 			ip.using = false;
-		}
+		};
 
 		var host_toggle = function(host_name, ip_p){
 			if(hosts[host_name]){			
@@ -159,7 +164,7 @@
 					}
 				}
 			}
-		}
+		};
 
 		var is_group_all_using = function(host_list, gp_p){
 			for(var h in host_list){
@@ -171,7 +176,7 @@
 				}
 			}
 			return true;
-		}
+		};
 
 		var group_toggle = function(host_list, gp_p){
 			var using = is_group_all_using(host_list, gp_p);
@@ -191,7 +196,7 @@
 					}
 				}
 			}
-		}
+		};
 
 		var mk_host = function(){
 			var str = "";
@@ -199,7 +204,7 @@
 				str += lines[i];
 			}
 			return str;
-		}
+		};
 		
 		var last_modify = 0;
 		
@@ -209,7 +214,7 @@
 			var e = event_host.createEvent('Events');
 			e.initEvent('HostAdminRefresh', false, false);
 			event_host.dispatchEvent(e);
-		}
+		};
 		
 		var last_host_content;
 		var refresh = function(){
@@ -229,7 +234,7 @@
 				return true;
 			}
 			return false;
-		}
+		};
 		// }}}
 		
 		return {
@@ -266,13 +271,13 @@
 				return cur_host_content;
 			},
 
-			refresh : refresh,
+			refresh : refresh
 			
 		};
 		
 	})();
 
 	HostAdmin.core = host_admin;
-	HostAdmin.PERM_HELP_URL = 'http://code.google.com/p/fire-hostadmin/wiki/GAIN_HOSTS_WRITE_PERM'
+	HostAdmin.PERM_HELP_URL = 'http://code.google.com/p/fire-hostadmin/wiki/GAIN_HOSTS_WRITE_PERM';
 })(window.HostAdmin);
 

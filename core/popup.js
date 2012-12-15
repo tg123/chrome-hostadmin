@@ -10,25 +10,18 @@ run_from_glue(function(HostAdmin){
 
 	var save_alert = function(r){
 		if(r){
-		$(".alert").hide('slow');
+			$(".alert").hide('slow');
 		}else{
 			$(".alert").show('slow');
 		}
-	}
+	};
 
 	var host_ul = $("#list");
 
-	var redraw = function(){
-		var wanted = searchbar.val();
-		wanted = $.trim(wanted);
 
-		var oldcontainer = host_ul.find("div");
-		var newcontainer = $("<div></div>");
-		var hosts = host_admin.get_hosts();
-		var group_names = host_admin.get_groups();
-		var groups = [];
 
-		var found = [];
+	var findhost = function(wanted, hosts, group_names){
+		var found = {};
 
 		if(hosts[wanted]){
 			found[wanted] = hosts[wanted];
@@ -36,6 +29,7 @@ run_from_glue(function(HostAdmin){
 
 		wanted = wanted.toLowerCase();
 		for (var h in hosts){
+			console.log(h);
 			var hitted = false;
 			var hn = h.toLowerCase();
 			if(hn.indexOf(wanted) >= 0 && hn != wanted){
@@ -60,30 +54,77 @@ run_from_glue(function(HostAdmin){
 			}
 		}
 
-		for (var h in found){
-			var ul = $("<ul/>");
-			ul.addClass('nav nav-list');
+		return found;
+	};
 
-			var addheader = (function(){
-				var added = false;
+	var make_host_item = function(host,h,i){
 
-				return function(){
-					if(!added){
-						var em = $('<i class="icon-globe pull-right"></i>');
-						em.click(function(){
-							opentab('http://' + h);
-						});
-						var li = $('<li class="nav-header"></li>');
-						li.text(h);
-						li.prepend(em);
+		var a = $('<a href="#"><i class="icon-"></i>' + host.addr + '<em class="pull-right">' + host.comment+'</em></a>');
+		//a.click((function(host, hostname ,host_index){
+		//return function(){
+		//	save_alert(host_admin.host_toggle_and_save(hostname, host_index));
+		//}})(host,h,i));
 
-						ul.append(li);
-						added = true;
-					}
-				};
-					
-			})();
+		a.click(function(){
+			save_alert(host_admin.host_toggle_and_save(h, i));
+		});
 
+		var li = $("<li/>").append(a);
+
+		if(host.using){
+			li.find('i').addClass('icon-ok');
+		}
+
+		return li;
+	};
+
+	var make_host_header = function(h){
+		var em = $('<i class="icon-globe pull-right"></i>');
+		em.click(function(){
+			opentab('http://' + h);
+		});
+		var li = $('<li class="nav-header"></li>');
+		li.text(h);
+		li.prepend(em);
+
+		return li;
+	};
+
+	var make_group_item= function(group_name, group_id, host_list){
+		var a = $('<a href="#"><i class="icon-"></i>' + group_name + '<em class="pull-right">' + '' +'</em></a>');
+		//a.click((function(host_list, group_id){
+		//return function(){
+		//	save_alert(host_admin.group_toggle_and_save(host_list, group_id));
+		//}})(host_list, group_id));
+
+		a.click(function(){
+			save_alert(host_admin.group_toggle_and_save(host_list, group_id));
+		});
+
+		var li = $("<li/>").append(a);
+
+		if(host_admin.group_checked(host_list, group_id)){
+			li.find('i').addClass('icon-ok');
+		}
+
+		return li;
+	};
+
+	var redraw = function(){
+		var wanted = searchbar.val();
+		wanted = $.trim(wanted);
+
+		var oldcontainer = host_ul.find("div");
+		var newcontainer = $("<div></div>");
+		var hosts = host_admin.get_hosts();
+		var group_names = host_admin.get_groups();
+		var groups = [];
+
+		for (var h in findhost(wanted, hosts, group_names)){
+			var hul = $("<ul/>");
+			hul.addClass('nav nav-list');
+
+			var added = false;
 
 			for(var i in hosts[h]){
 
@@ -93,22 +134,12 @@ run_from_glue(function(HostAdmin){
 					continue;
 				}
 
-				var a = $('<a href="#"><i class="icon-"></i>' + host.addr + '<em class="pull-right">' + host.comment+'</em></a>');
-				// var a = $('<a href="javascript:;"><i class="icon-"></i>' + host.addr + '<em class="pull-right">' + host.group +'</em></a>');
-				a.click((function(host, hostname ,host_index){
-				return function(){
-					save_alert(host_admin.host_toggle_and_save(hostname, host_index));
-				}})(host,h,i));
-
-				var li = $("<li/>").append(a);
-
-				if(host.using){
-					li.find('i').addClass('icon-ok')
+				if(!added){
+					hul.append(make_host_header(h));
+					added = true;
 				}
 
-
-				addheader();
-				ul.append(li);
+				hul.append(make_host_item(host, h, i));
 				
 				var g = host.group;
 				var gn = group_names[g];
@@ -121,37 +152,22 @@ run_from_glue(function(HostAdmin){
 				}
 			}
 			
-			newcontainer.append(ul);
+			newcontainer.append(hul);
 		}
 
 		if ( groups.length > 0){
 			
-			var ul = $("<ul/>");
-			ul.addClass('nav nav-list');
-			ul.append($('<li class="nav-header">' + '<i class="icon-folder-open"></i>GROUPS' + '</li>'));
+			var gul = $("<ul/>");
+			gul.addClass('nav nav-list');
+			gul.append($('<li class="nav-header">' + '<i class="icon-folder-open"></i>GROUPS' + '</li>'));
 
-			for(var g in groups){
-				var group_name = group_names[g];
-				var group_id = g;
-				var host_list = groups[g];
+			for(var group_id in groups){
+				var group_name = group_names[group_id];
+				var host_list = groups[group_id];
 
-				var a = $('<a href="#"><i class="icon-"></i>' + group_name + '<em class="pull-right">' + '' +'</em></a>');
-				a.click((function(host_list, group_id){
-				return function(){
-					save_alert(host_admin.group_toggle_and_save(host_list, group_id));
-				}})(host_list, group_id));
-
-				var li = $("<li/>").append(a);
-
-				if(host_admin.group_checked(host_list, group_id)){
-					li.find('i').addClass('icon-ok')
-				}
-
-				ul.append(li);
+				gul.append(make_group_item(group_name, group_id, host_list));
 			}
-			newcontainer.append(ul);
-
-			$("#gotogroup").show();
+			newcontainer.append(gul);
 		}
 
 		oldcontainer.replaceWith(newcontainer);
@@ -185,4 +201,4 @@ run_from_glue(function(HostAdmin){
 	}
 	redraw();
 }
-)
+);

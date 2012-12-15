@@ -1,7 +1,7 @@
 // 
 // finding a method to be injected from container ...
 //
-;window.run_from_glue = (function(){
+window.run_from_glue = (function(){
 
 	var HostAdmin = null;
 
@@ -13,9 +13,9 @@
 
 	var _inner = function(callback){
 		callback(HostAdmin);
-	}
+	};
 
 	return function(_callback){
 		_inner( _callback );
-	}
+	};
 })();

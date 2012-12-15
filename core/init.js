@@ -8,5 +8,5 @@ window.HostAdmin = {};
 // event
 (function(){
 	HostAdmin.event_host = document;
-})(window.HostAdmin)
+})(window.HostAdmin);
 

@@ -7,7 +7,7 @@ run_from_glue(function(HostAdmin){
 
 	var changed = false;
 	var codeMirror = CodeMirror.fromTextArea(document.getElementById("code"), {
-		lineNumbers: true,
+		lineNumbers: true
 	});
 
 	var save = $("#btnSave");
@@ -21,14 +21,14 @@ run_from_glue(function(HostAdmin){
 
 	var renew = function(){
 		changed = false;
-		save.attr("disabled", "disabled")
+		save.attr("disabled", "disabled");
 		$(".alert").hide('slow');
-	}
+	};
 
 	var reload = function(){
 		codeMirror.setValue(host_admin.load());
 		renew();
-	}
+	};
 
 	$("#mreload").click(function(){
 		$("#contentchanged").modal('hide');
@@ -71,4 +71,4 @@ run_from_glue(function(HostAdmin){
 
 	renew();
 
-})
+});
