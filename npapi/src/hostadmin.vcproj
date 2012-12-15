@@ -87,6 +87,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="copy /y $(TargetPath) $(SolutionDir)\.."
 			/>
 		</Configuration>
 		<Configuration

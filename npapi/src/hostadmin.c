@@ -119,13 +119,17 @@ bool NP_Invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args, ui
 		char * content = ArgToStr(args[1]);
 
 		FILE * f = fopen(filename, "w");
+		bool succ = false;
 		if(f) {
 			fputs(content, f);
+			succ = ferror(f);
 			fclose(f);
 		}
 
 		free(filename);
 		free(content);
+
+		BOOLEAN_TO_NPVARIANT(succ, *result);
 		return true;
 	}
 	return false;	

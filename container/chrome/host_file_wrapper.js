@@ -20,9 +20,7 @@
 		}
 		,
 		set : function(data){
-			//return helper.set(file_name, data);
-			helper.set(file_name, data);
-			return helper.get(file_name) == data; // fake 
+			return helper.set(file_name, data);
 		}
 		,
 		time : function(){
