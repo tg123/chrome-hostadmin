@@ -2,7 +2,7 @@
 	
 	var helper = document.getElementById("host_admin_helper");
 	var splitchar = "\n";
-	const os = helper.os;
+	var os = helper.os;
 
 	var file_name;
 	if (os == "WINNT"){
@@ -17,16 +17,13 @@
 	HostAdmin.host_file_wrapper = {
 		get : function(){
 			return helper.get(file_name);
-		}
-		,
+		},
 		set : function(data){
 			return helper.set(file_name, data);
-		}
-		,
+		},
 		time : function(){
 			return helper.time(file_name);
-		}
-		,
+		},
 		splitchar : splitchar
 	};
 })(window.HostAdmin);

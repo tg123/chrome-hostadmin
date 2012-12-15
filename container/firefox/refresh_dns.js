@@ -18,7 +18,7 @@
 		finally{
 			ioService.offline = false;
 		}
-	}
+	};
 
 	event_host.addEventListener('HostAdminRefresh', function(e) {
 		refresh_dns();

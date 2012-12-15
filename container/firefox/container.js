@@ -1,6 +1,6 @@
 ;(function(HostAdmin){
-	const EDITOR_URL = 'chrome://hostadmin/content/editor.html';
-	const PERM_HELP_URL = HostAdmin.PERM_HELP_URL;
+	var EDITOR_URL = 'chrome://hostadmin/content/editor.html';
+	var PERM_HELP_URL = HostAdmin.PERM_HELP_URL;
 
 	// {{{ copy from https://developer.mozilla.org/en-US/docs/Code_snippets/Tabbed_browser
 	function openAndReuseOneTabPerURL(url) {
@@ -74,15 +74,16 @@
 			openAndReuseOneTabPerURL(url);
 			document.getElementById("hostadmin-menu-panel").hidePopup();
 		}
-	}
+	};
+
 	HostAdmin.container = {
 		opentab : opentab,
 		curhost : function(){ return cur_host; }
 	};
 
 	var popuphelper = {
-		HostAdmin : HostAdmin,
-	}
+		HostAdmin : HostAdmin
+	};
 
 	window.addEventListener('DOMWindowCreated', function(e){
 		if(

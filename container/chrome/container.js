@@ -21,11 +21,12 @@
 				}
 			});
 		}   
-	}   
-
+	};
+	
+	var hostreg = /:\/\/([\w\.]+)/;
 	var extracthost = function(url){
-		if(url) cur_host = url.match(/:\/\/(.[^/^:]+)/)[1];
-	}
+		if(url) cur_host = url.match(hostreg)[1];
+	};
 
 	chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
 		extracthost(changeInfo.url);
