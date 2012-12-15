@@ -122,7 +122,7 @@ bool NP_Invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args, ui
 		bool succ = false;
 		if(f) {
 			fputs(content, f);
-			succ = ferror(f);
+			succ = ferror(f) == 0;
 			fclose(f);
 		}
 
