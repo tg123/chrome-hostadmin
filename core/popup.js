@@ -29,7 +29,6 @@ run_from_glue(function(HostAdmin){
 
 		wanted = wanted.toLowerCase();
 		for (var h in hosts){
-			console.log(h);
 			var hitted = false;
 			var hn = h.toLowerCase();
 			if(hn.indexOf(wanted) >= 0 && hn != wanted){
