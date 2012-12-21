@@ -62,11 +62,7 @@ run_from_glue(function(HostAdmin){
 
 	var make_host_item = function(host,h,i){
 
-		var a = $('<a href="#"><i class="icon-"></i>' + host.addr + '<em class="pull-right">' + host.comment+'</em></a>');
-		//a.click((function(host, hostname ,host_index){
-		//return function(){
-		//	save_alert(host_admin.host_toggle_and_save(hostname, host_index));
-		//}})(host,h,i));
+		var a = $('<a href="#"><i class="icon-"></i>' + host.addr + '<em class="pull-right">' + host.comment + '</em></a>');
 
 		a.click(function(){
 			save_alert(host_admin.host_toggle_and_save(h, i));
@@ -95,10 +91,6 @@ run_from_glue(function(HostAdmin){
 
 	var make_group_item = function(group_name, group_id, host_list){
 		var a = $('<a href="#"><i class="icon-"></i>' + group_name + '<em class="pull-right">' + '' +'</em></a>');
-		//a.click((function(host_list, group_id){
-		//return function(){
-		//	save_alert(host_admin.group_toggle_and_save(host_list, group_id));
-		//}})(host_list, group_id));
 
 		a.click(function(){
 			save_alert(host_admin.group_toggle_and_save(host_list, group_id));
@@ -143,8 +135,6 @@ run_from_glue(function(HostAdmin){
 					added = true;
 				}
 
-				hul.append(make_host_item(host, h, i));
-				
 				var g = host.group;
 				var gn = group_names[g];
 				if(gn){
@@ -153,7 +143,12 @@ run_from_glue(function(HostAdmin){
 					}
 					
 					groups[g].push(h);
+
+					if(!host.comment){
+						host.comment = gn;
+					}
 				}
+				hul.append(make_host_item(host, h, i));
 			}
 			
 			newcontainer.append(hul);
