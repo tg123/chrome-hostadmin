@@ -62,7 +62,9 @@ run_from_glue(function(HostAdmin){
 
 	var make_host_item = function(host,h,i){
 
-		var a = $('<a href="#"><i class="icon-"></i>' + host.addr + '<em class="pull-right">' + host.comment + '</em></a>');
+		var a = $('<a href="#"><i class="icon-"></i>' + 
+		host.addr + (host.comment ? '<em class="badge pull-right hostcomment" title="' + host.comment + '">' + host.comment + '</em>' : '' ) + 
+		'<i class="hostgroup pull-right hide"></i></a>');
 
 		a.click(function(){
 			save_alert(host_admin.host_toggle_and_save(h, i));
@@ -71,14 +73,22 @@ run_from_glue(function(HostAdmin){
 		var li = $("<li/>").append(a);
 
 		if(host.using){
-			li.find('i').addClass('icon-ok');
+			li.find('i.icon-').addClass('icon-ok');
+		}
+
+		if(host.group > 0){
+			a.hover(function(){
+				var group = li.find('i.hostgroup'); 
+				group.addClass('icon-folder-open');
+			});
 		}
 
 		return li;
 	};
 
 	var make_host_header = function(h){
-		var em = $('<i class="icon-globe pull-right"></i>');
+		var em = $('<i class="icon-globe pull-right hide"></i>');
+		em.attr('title', 'Open http://' + h);
 		em.click(function(){
 			opentab('http://' + h);
 		});
