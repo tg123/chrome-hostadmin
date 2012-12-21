@@ -41,7 +41,7 @@
 APP_NAME=firefox-hostadmin-`grep '<em:version>\(.*\)<\/em:version>' install.rdf  |grep '(\d+\.?)+' -Po`
 CHROME_PROVIDERS="container/firefox/ core/ icons/"
 CLEAN_UP=1
-ROOT_DIRS=""
+ROOT_DIRS="defaults/"
 BEFORE_BUILD=
 AFTER_BUILD=
 

@@ -99,8 +99,10 @@
 	window.addEventListener("load", function(){
 		document.getElementById('hostadmin-toolbar-button').addEventListener('command', function(e){
 			var menucontent = document.getElementById('hostadmin-menu-content').contentWindow;
-			menucontent.window.run_from_glue_again();
 			menucontent.focus();
+			var $ = menucontent.window.$;
+
+			$("#search input").val(cur_host).keyup();
 		}, false);
 	}, false);
 
