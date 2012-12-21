@@ -11,7 +11,7 @@ rm -f $TARGET.crx
 
 
 # build for store
-zip -r $TARGET.zip $CHROME_PROVIDERS manifest.json -x 'npapi/src/*'
+zip -r $TARGET.zip $CHROME_PROVIDERS manifest.json -x 'npapi/src/*' '**/.*'
 
 echo $TARGET.zip "DONE"
 
