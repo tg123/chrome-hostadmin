@@ -4,7 +4,7 @@
     <em:id>{bd54afa8-b14a-4d7a-aecf-37e34e882796}</em:id>
     <em:type>2</em:type>
     <em:name>HostAdmin</em:name>
-    <em:version>1.4.2</em:version>
+    <em:version>1.4.3</em:version>
     <em:creator>T.G.</em:creator>
     <em:contributor></em:contributor>
     <em:description>Manage Hosts file while browsing</em:description>
