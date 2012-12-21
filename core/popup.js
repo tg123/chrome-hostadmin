@@ -222,9 +222,10 @@ run_from_glue(function(HostAdmin){
 	// -- init 
 	host_admin.refresh();
 	var hosts = host_admin.get_hosts();
-	if(hosts[searchval]){
-		searchbar.val(searchval).select();
+	if(!hosts[searchval]){
+		searchval = "";
 	}
+	searchbar.val(searchval).select();
 	redraw();
 }
 );

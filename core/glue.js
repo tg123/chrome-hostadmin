@@ -17,5 +17,9 @@ window.run_from_glue = (function(){
 
 	return function(_callback){
 		_inner( _callback );
+
+		window.run_from_glue_again = function(){
+			_inner( _callback );
+		}
 	};
 })();
