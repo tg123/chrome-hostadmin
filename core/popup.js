@@ -199,7 +199,8 @@ run_from_glue(function(HostAdmin){
 
 	searchbar.keyup(function(){
 		redraw();
-		host_ul.animate({scrollTop:0}, 'slow');
+		//host_ul.animate({scrollTop:0}, 'fast');
+		host_ul.scrollTop(0);
 	});
 
 	$(document.body).keydown(function(){
@@ -226,6 +227,8 @@ run_from_glue(function(HostAdmin){
 		searchval = "";
 	}
 	searchbar.val(searchval).select();
+
 	redraw();
+	host_ul.scrollTop(0);
 }
 );
