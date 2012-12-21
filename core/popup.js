@@ -18,42 +18,46 @@ run_from_glue(function(HostAdmin){
 
 	var host_ul = $("#list");
 
+	var weight = function(stra, strb){
+		var l = new Levenshtein(stra, strb);
+		l = l.distance / l.longestDistance();
 
+		// Rule
+		var p = strb.indexOf(stra);
+		if(p == 0) l -= 0.15;
+		if(p > 0) l -= 0.1;
+
+		if(stra[0] == strb[0]) l -= 0.1;
+
+		return l;
+	};
 
 	var findhost = function(wanted, hosts, group_names){
-		var found = {};
+		var found = [];
 
-		if(hosts[wanted]){
-			found[wanted] = hosts[wanted];
-		}
-
-		wanted = wanted.toLowerCase();
 		for (var h in hosts){
-			var hitted = false;
-			var hn = h.toLowerCase();
-			if(hn.indexOf(wanted) >= 0 && hn != wanted){
-				hitted = true;
-			}else{
-				for(var i in hosts[h]){
-					var host = hosts[h][i];
-					var g = host.group;
-					var gn = group_names[g];
-					if(gn && gn.toLowerCase().indexOf(wanted) >= 0){
-						hitted = true;
-						break;
-					}else if(host.comment && host.comment.indexOf(wanted)){
-						hitted = true;
-						break;
-					}
+			var minl = weight(wanted, h);
+
+			for(var i in hosts[h]){
+				var host = hosts[h][i];
+				var gn = group_names[host.group];
+
+				if (gn) {
+					minl = Math.min(minl, weight(wanted, gn));
 				}
+
+				var comment = host.comment;
+				if (comment) {
+					minl = Math.min(minl, weight(wanted, comment));
+				}
+
 			}
 
-			if(hitted){
-				found[h] = hosts[h];
-			}
+			found.push({'host': h , 'ld': minl});
 		}
-
-		return found;
+		
+		// TODO insert might be better
+		return found.sort(function(a,b) { return a.ld > b.ld });
 	};
 
 	var make_host_item = function(host,h,i){
@@ -89,7 +93,7 @@ run_from_glue(function(HostAdmin){
 		return li;
 	};
 
-	var make_group_item= function(group_name, group_id, host_list){
+	var make_group_item = function(group_name, group_id, host_list){
 		var a = $('<a href="#"><i class="icon-"></i>' + group_name + '<em class="pull-right">' + '' +'</em></a>');
 		//a.click((function(host_list, group_id){
 		//return function(){
@@ -119,7 +123,8 @@ run_from_glue(function(HostAdmin){
 		var group_names = host_admin.get_groups();
 		var groups = [];
 
-		for (var h in findhost(wanted, hosts, group_names)){
+		findhost(wanted, hosts, group_names).forEach(function(h){
+			h = h.host
 			var hul = $("<ul/>");
 			hul.addClass('nav nav-list');
 
@@ -152,7 +157,7 @@ run_from_glue(function(HostAdmin){
 			}
 			
 			newcontainer.append(hul);
-		}
+		});
 
 		if ( groups.length > 0){
 			

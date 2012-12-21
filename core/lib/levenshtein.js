@@ -23,6 +23,11 @@ function Levenshtein( str_m, str_n ) { var previous, current, matrix
     return this.distance
   }
 
+  // add by tgic
+  this.longestDistance = function(){
+    return Math.max(str_m.length, str_n.length)
+  }
+
   this.toString = this.inspect = function inspect ( no_print ) { var max, buff, sep, rows
     max = matrix.reduce( function( m, o ) {
       return Math.max( m, o.reduce( Math.max, 0 ) )
