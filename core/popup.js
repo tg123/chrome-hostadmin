@@ -24,7 +24,7 @@ run_from_glue(function(HostAdmin){
 
 		// Rule
 		var p = strb.indexOf(stra);
-		if(p == 0) l -= 0.15;
+		if(p === 0) l -= 0.15;
 		if(p > 0) l -= 0.1;
 
 		if(stra[0] == strb[0]) l -= 0.1;
@@ -32,8 +32,10 @@ run_from_glue(function(HostAdmin){
 		return l;
 	};
 
+	var GROUP_PLACE_HOLDER_KEY = '@GROUP';
 	var findhost = function(wanted, hosts, group_names){
 		var found = [];
+		var min_groupl = 1;
 
 		for (var h in hosts){
 			var minl = weight(wanted, h);
@@ -43,7 +45,9 @@ run_from_glue(function(HostAdmin){
 				var gn = group_names[host.group];
 
 				if (gn) {
-					minl = Math.min(minl, weight(wanted, gn));
+					var gl = weight(wanted, gn);
+					minl = Math.min(minl, gl);
+					min_groupl = Math.min(min_groupl, gl);
 				}
 
 				var comment = host.comment;
@@ -55,16 +59,20 @@ run_from_glue(function(HostAdmin){
 
 			found.push({'host': h , 'ld': minl});
 		}
+		found.push({'host': GROUP_PLACE_HOLDER_KEY , 'ld': min_groupl});
+
 		
 		// TODO insert might be better
-		return found.sort(function(a,b) { return a.ld > b.ld });
+		found.sort(function(a,b) { return a.ld - b.ld; });
+		return found;
 	};
 
 	var make_host_item = function(host,h,i){
 
 		var a = $('<a href="#"><i class="icon-"></i>' + 
 		host.addr + (host.comment ? '<em class="badge pull-right hostcomment" title="' + host.comment + '">' + host.comment + '</em>' : '' ) + 
-		'<i class="hostgroup pull-right hide"></i></a>');
+		// '<i class="hostgroup pull-right hide"></i></a>');
+		'</a>');
 
 		a.click(function(){
 			save_alert(host_admin.host_toggle_and_save(h, i));
@@ -125,40 +133,45 @@ run_from_glue(function(HostAdmin){
 		var group_names = host_admin.get_groups();
 		var groups = [];
 
+		var group_place_holder = null;
+
 		findhost(wanted, hosts, group_names).forEach(function(h){
-			h = h.host
+			h = h.host;
 			var hul = $("<ul/>");
 			hul.addClass('nav nav-list');
 
-			var added = false;
+			if(h === GROUP_PLACE_HOLDER_KEY){
+				group_place_holder = hul;
+			}else{
+				var added = false;
+				for(var i in hosts[h]){
 
-			for(var i in hosts[h]){
+					var host = hosts[h][i];
 
-				var host = hosts[h][i];
-
-				if(host.comment.toUpperCase() == 'HIDE '){
-					continue;
-				}
-
-				if(!added){
-					hul.append(make_host_header(h));
-					added = true;
-				}
-
-				var g = host.group;
-				var gn = group_names[g];
-				if(gn){
-					if(typeof groups[g] == "undefined"){
-						groups[g] = [];
+					if(host.comment.toUpperCase() == 'HIDE '){
+						continue;
 					}
-					
-					groups[g].push(h);
 
-					if(!host.comment){
-						host.comment = gn;
+					if(!added){
+						hul.append(make_host_header(h));
+						added = true;
 					}
+
+					var g = host.group;
+					var gn = group_names[g];
+					if(gn){
+						if(typeof groups[g] == "undefined"){
+							groups[g] = [];
+						}
+						
+						groups[g].push(h);
+
+						if(!host.comment){
+							host.comment = gn;
+						}
+					}
+					hul.append(make_host_item(host, h, i));
 				}
-				hul.append(make_host_item(host, h, i));
 			}
 			
 			newcontainer.append(hul);
@@ -166,8 +179,7 @@ run_from_glue(function(HostAdmin){
 
 		if ( groups.length > 0){
 			
-			var gul = $("<ul/>");
-			gul.addClass('nav nav-list');
+			var gul = group_place_holder;
 			gul.append($('<li class="nav-header">' + '<i class="icon-folder-open"></i>GROUPS' + '</li>'));
 
 			for(var group_id in groups){
@@ -176,16 +188,21 @@ run_from_glue(function(HostAdmin){
 
 				gul.append(make_group_item(group_name, group_id, host_list));
 			}
-			newcontainer.append(gul);
+		}else{
+			// because of #hide
+			group_place_holder.remove();
 		}
 
 		oldcontainer.replaceWith(newcontainer);
 	};
 
 
-	searchbar.keyup(redraw);
+	searchbar.keyup(function(){
+		redraw();
+		host_ul.animate({scrollTop:0}, 'slow');
+	});
 
-	$(document.body).keydown(function(e){
+	$(document.body).keydown(function(){
 		searchbar.focus();
 	});
 
