@@ -7,11 +7,23 @@ function dist-clean(){
 	echo "Cleaned"
 }
 
+function dist-check(){
+	ALLJS=`find . -name '*.js'`
+
+	CHECKCONSOLE=`grep console -n $ALLJS`
+	if [ "x$CHECKCONSOLE" != "x" ];then
+		echo "Console decteted"
+		echo $CHECKCONSOLE
+		exit;
+	fi
+}
+
 if [ -e "dist-$1.sh" ]; then
 	"./dist-$1.sh"
 elif [ "$1" == "clean" ]; then
 	dist-clean
 else
+	dist-check
 	for i in `ls dist-*.sh` ;do
 		"./$i" ;
 	done
