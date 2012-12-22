@@ -23,7 +23,7 @@
 		}   
 	};
 	
-	var hostreg = /:\/\/([\w\.]+)/;
+	var hostreg = /:\/\/([\w\.\-]+)/;
 	var extracthost = function(url){
 		if(url) cur_host = url.match(hostreg)[1];
 	};

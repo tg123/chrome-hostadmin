@@ -148,6 +148,7 @@ run_from_glue(function(HostAdmin){
 
 					var host = hosts[h][i];
 
+					//TODO move to core
 					if(host.comment.toUpperCase() == 'HIDE '){
 						continue;
 					}
@@ -222,10 +223,8 @@ run_from_glue(function(HostAdmin){
 
 	// -- init 
 	host_admin.refresh();
-	var hosts = host_admin.get_hosts();
-	if(!hosts[searchval]){
-		searchval = "";
-	}
+
+	searchval = host_admin.real_hostname(searchval);
 	searchbar.val(searchval).select();
 
 	redraw();

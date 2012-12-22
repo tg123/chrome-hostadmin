@@ -19,6 +19,7 @@
 		var lines = [];
 		var hosts = {};
 		var groups = {};
+		var hostname_withoutcase = {};
 
 		var cur_host_content = "";
 		
@@ -27,6 +28,7 @@
 			lines = [];
 			hosts = {};
 			groups = {};
+			hostname_withoutcase = {};
 			//read
 			var host = host_file_wrapper.get();
 			cur_host_content = host;
@@ -134,6 +136,7 @@
 					}
 				
 					hosts[name].push(ip);
+					hostname_withoutcase[name.toUpperCase()] = name;
 				}
 			}
 		};
@@ -271,7 +274,11 @@
 				return cur_host_content;
 			},
 
-			refresh : refresh
+			refresh : refresh,
+
+			real_hostname: function(hostname){
+				if(hostname) return hostname_withoutcase[hostname.toUpperCase()];
+			}
 			
 		};
 		
