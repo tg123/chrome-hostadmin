@@ -14,6 +14,11 @@ CodeMirror.defineMode("hostadmin", function(config, parserConfig) {
 				state.hasIP = false;
 				state.groupline = false;
 			}
+			
+			if(state.hide_all_of_below){
+				stream.skipToEnd();
+				return "comment";
+			}
 
 			//stream.eatSpace();
 			var ch = stream.peek();
@@ -31,6 +36,11 @@ CodeMirror.defineMode("hostadmin", function(config, parserConfig) {
 					return "keyword";
 				}
 				
+				if(stream.match(/^\s*hide_all_of_below/gi)){
+					state.hide_all_of_below = true;
+					return "keyword"
+				}
+
 				if(stream.match(/^\s*hide/i) && !stream.match(/[^\s]/, false)){
 					return "keyword";
 				}
