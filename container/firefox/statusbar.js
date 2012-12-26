@@ -210,11 +210,9 @@
 		}, false);
 		
 		
-		window.getBrowser().addProgressListener({
-			onLocationChange: function(aWebProgress, aRequest, aLocation){
-				updatelb();
-			}
-		});
+		gBrowser.tabContainer.addEventListener("TabOpen", updatelb, false);
+		gBrowser.tabContainer.addEventListener("TabSelect", updatelb, false);
+		gBrowser.tabContainer.addEventListener("TabAttrModified", updatelb, false);
 
 	}
 	

@@ -49,17 +49,15 @@
 	// }}}
 
 	var cur_host = "";
-	window.getBrowser().addProgressListener({
-		onLocationChange: function(aWebProgress, aRequest, aLocation){
-			try{
-				if (aLocation && aLocation.host){
-					if(aLocation.scheme != 'chrome'){
-						cur_host = aLocation.host;
-					}
-				}
-			}catch(e){}
-		}
-	});
+
+	var tabchange = function(e){
+		var browser = gBrowser.selectedBrowser;
+		cur_host = browser.contentWindow.window.location.host
+	};
+
+	gBrowser.tabContainer.addEventListener("TabOpen", tabchange, false);
+	gBrowser.tabContainer.addEventListener("TabSelect", tabchange, false);
+	gBrowser.tabContainer.addEventListener("TabAttrModified", tabchange, false);
 
 	var opentab = function(t){
 		var url = null;
@@ -85,6 +83,7 @@
 	var popuphelper = {
 		HostAdmin : HostAdmin
 	};
+	var host_admin = HostAdmin.core;
 
 	window.addEventListener('DOMWindowCreated', function(e){
 		if(
@@ -100,9 +99,11 @@
 		document.getElementById('hostadmin-toolbar-button').addEventListener('command', function(e){
 			var menucontent = document.getElementById('hostadmin-menu-content').contentWindow;
 			menucontent.focus();
+			// TODO dup code from popup.js
+			host_admin.refresh();
 			var $ = menucontent.window.$;
-
-			$("#search input").val(cur_host).keyup();
+			var searchval = host_admin.real_hostname(cur_host);
+			$("#search input").val(searchval).select().keyup();
 		}, false);
 	}, false);
 
