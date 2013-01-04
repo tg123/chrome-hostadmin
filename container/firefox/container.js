@@ -52,7 +52,7 @@
 
 	var tabchange = function(e){
 		var browser = gBrowser.selectedBrowser;
-		cur_host = browser.contentWindow.window.location.host
+		cur_host = browser.contentWindow.window.location.hostname;
 	};
 
 	gBrowser.tabContainer.addEventListener("TabOpen", tabchange, false);
