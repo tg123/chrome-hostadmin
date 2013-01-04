@@ -144,6 +144,7 @@ run_from_glue(function(HostAdmin){
 				group_place_holder = hul;
 			}else{
 				var added = false;
+				var addblock = {};
 				for(var i in hosts[h]){
 
 					var host = hosts[h][i];
@@ -170,7 +171,14 @@ run_from_glue(function(HostAdmin){
 							host.comment = gn;
 						}
 					}
-					hul.append(make_host_item(host, h, i));
+
+					// auto merge blocker 
+					// do not block if has comment
+					if(host.comment || !addblock[host.addr]){
+						addblock[host.addr] = true;
+						hul.append(make_host_item(host, h, i));
+					}
+
 				}
 			}
 			

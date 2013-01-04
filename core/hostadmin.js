@@ -124,6 +124,13 @@
 					}
 				}
 
+				// trim to null
+				if(typeof(comment) == "string"){
+					comment = comment.replace(/^\s+|\s+$/g, '');
+					if(comment == ""){
+						comment = null;
+					}
+				}
 
 				ip = {
 					addr : ip, 
@@ -161,11 +168,13 @@
 		};
 
 		var host_toggle = function(host_name, ip_p){
-			if(hosts[host_name]){			
+			if(hosts[host_name]){
+				var addr = hosts[host_name][ip_p].addr;
+				var using = hosts[host_name][ip_p].using;
 				for (var i in hosts[host_name]){
 					var ip = hosts[host_name][i];
 					
-					if(i == ip_p && !ip.using){
+					if(ip.addr == addr && !using){
 						line_enable(ip);
 					}else{
 						line_disable(ip);
