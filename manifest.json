@@ -6,7 +6,7 @@
 			"32" : "icons/icon32.png",
 			"128": "icons/icon128.png"
 		},
-		"version": "1.4.3.2",
+		"version": "1.4.4",
 		"manifest_version": 2,
 		"permissions": ["tabs"],
 		"description": "Host Admin Tools",
