@@ -114,7 +114,7 @@
 			sub.appendChild(popup);
 			var hide = true;
 			for (var i in hosts[h]){
-				if(hosts[h][i].comment.toUpperCase() != 'HIDE '){
+				if(!hosts[h][i].hide){
 					popup.appendChild(mk_menu_item(h, hosts[h][i], i));
 					hasOther = true;
 					hide = false;

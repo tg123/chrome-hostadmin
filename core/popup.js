@@ -148,8 +148,7 @@ run_from_glue(function(HostAdmin){
 
 					var host = hosts[h][i];
 
-					//TODO move to core
-					if(host.comment.toUpperCase() == 'HIDE '){
+					if(host.hide){
 						continue;
 					}
 

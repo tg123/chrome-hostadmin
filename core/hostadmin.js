@@ -42,6 +42,7 @@
 			var group_id = 0;
 			var group_c = 0;
 			var ingroup = false;
+			var bulk_hide = false;
 
 			while(true){
 				var l = regx.exec(host);
@@ -86,7 +87,7 @@
 					continue;	
 
 				} else if (tks[0] == "#" && tks[1] && tks[1].toUpperCase() == "HIDE_ALL_OF_BELOW"){
-					break;
+					bulk_hide = true;
 				}
 							
 				var using = true;
@@ -107,11 +108,14 @@
 
 				var names = [];
 				var findc = false;
+				var findhide = false;
 				for (i in tks){
 					if(tks[i] == "#"){
 						findc = true;
 						continue;
 					}
+
+					findhide = tks[i].toUpperCase() == 'HIDE'
 					
 					if(findc){
 						comment += tks[i] + " ";
@@ -126,7 +130,8 @@
 					using : using ,
 					line : l_p - 1,
 					comment : comment,
-					group : ingroup ? group_id : 0
+					group : ingroup ? group_id : 0,
+					hide : bulk_hide || findhide
 				};
 	
 				for (i in names){
