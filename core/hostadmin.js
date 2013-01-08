@@ -124,12 +124,8 @@
 					}
 				}
 
-				// trim to null
 				if(typeof(comment) == "string"){
 					comment = comment.replace(/^\s+|\s+$/g, '');
-					if(comment == ""){
-						comment = null;
-					}
 				}
 
 				ip = {

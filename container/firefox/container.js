@@ -55,9 +55,6 @@
 		cur_host = browser.contentWindow.window.location.hostname;
 	};
 
-	gBrowser.tabContainer.addEventListener("TabOpen", tabchange, false);
-	gBrowser.tabContainer.addEventListener("TabSelect", tabchange, false);
-	gBrowser.tabContainer.addEventListener("TabAttrModified", tabchange, false);
 
 	var opentab = function(t){
 		var url = null;
@@ -96,6 +93,10 @@
 	}, true);
 
 	window.addEventListener("load", function(){
+		gBrowser.tabContainer.addEventListener("TabOpen", tabchange, false);
+		gBrowser.tabContainer.addEventListener("TabSelect", tabchange, false);
+		gBrowser.tabContainer.addEventListener("TabAttrModified", tabchange, false);
+
 		document.getElementById('hostadmin-toolbar-button').addEventListener('command', function(e){
 			var menucontent = document.getElementById('hostadmin-menu-content').contentWindow;
 			menucontent.focus();
