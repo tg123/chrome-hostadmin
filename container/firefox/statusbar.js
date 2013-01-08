@@ -1,3 +1,5 @@
+// TODO this file has too many duplicate code
+// clean up needed
 ;(function(HostAdmin){
 	
 	var host_admin = HostAdmin.core;
@@ -50,7 +52,7 @@
 		mi.setAttribute("acceltext", host.comment.substr(0,20));
 		mi.setAttribute("description", "Double Click to Visit");
 		mi.setAttribute("type","checkbox");
-		mi.addEventListener("command", function(e){
+		mi.addEventListener("command", function(){
 			save_alert(host_admin.host_toggle_and_save(hostname, host_index));
 		}, false);
 		
@@ -65,7 +67,7 @@
 		mi.setAttribute("label", group_name.substr(0,35));
 		mi.setAttribute("acceltext", "Group");
 		mi.setAttribute("type","checkbox");
-		mi.addEventListener("command", function(e){
+		mi.addEventListener("command", function(){
 			save_alert(host_admin.group_toggle_and_save(host_list, group_id));
 		}, false);
 		if(host_admin.group_checked(host_list, group_id)){
@@ -78,7 +80,7 @@
 			var mi = document.createElement("menuitem");
 			mi.setAttribute("label", "Host Editor");
 
-			mi.addEventListener("command", function(e){
+			mi.addEventListener("command", function(){
 				opentab('EDITOR');
 			}, false);
 			return mi;
@@ -103,7 +105,7 @@
 			sub.setAttribute("label", h);
 
 			sub.addEventListener("dblclick", (function(h){ 
-				return function(e){
+				return function(){
 						opentab("http://" + h);
 					};
 				})(h), false);
@@ -111,9 +113,19 @@
 			sub.setAttribute("acceltext", h.charAt(0).toUpperCase());
 			var popup = document.createElement("menupopup");
 			sub.appendChild(popup);
+
 			var hide = true;
+			var addblock = {};
+			// TODO clean up
 			for (var i in hosts[h]){
-				if(!hosts[h][i].hide){
+				var host = hosts[h][i];
+
+				if(host.hide){
+					continue;
+				}
+				
+				if(host.comment || !addblock[host.addr]){
+					addblock[host.addr] = true;
 					popup.appendChild(mk_menu_item(h, hosts[h][i], i));
 					hasOther = true;
 					hide = false;
@@ -156,10 +168,14 @@
 				menu.appendChild(document.createElement("menuseparator"));
 			}
 			hosts = hosts[curHost];
+			var addblock = {};
 			for (var i in hosts){
 				if(!hosts[i].hide){
-					menu.appendChild(mk_menu_item(curHost, hosts[i], i));
-					hasCur = true;
+					if(hosts[i].comment || !addblock[hosts[i].addr]){
+						addblock[hosts[i].addr] = true;
+						menu.appendChild(mk_menu_item(curHost, hosts[i], i));
+						hasCur = true;
+					}
 				}
 			}
 			if(!hasCur && hasOther){
@@ -205,7 +221,7 @@
 	
 	window.addEventListener("load", onload, false);
 
-	event_host.addEventListener('HostAdminRefresh', function(e) {
+	event_host.addEventListener('HostAdminRefresh', function() {
 		updatelb();
 	}, false);
 
