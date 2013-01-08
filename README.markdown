@@ -13,7 +13,7 @@ How HostAdmin analyze the Hosts file
 ------------------------------------
  [Syntax detail](http://code.google.com/p/fire-hostadmin/wiki/HOST_SYNTAX)
  
- * Common 
+ * ``Common`` 
 
   IP DOMAIN [#COMMENT]
   
@@ -23,7 +23,7 @@ How HostAdmin analyze the Hosts file
 
   NOTE: A line with a comment, 'hide' (case-insensitive), would be hiden from HostAdmin.
  
- * Grouping
+ * ``Grouping``
 
         #==== Groupname 
         
@@ -44,6 +44,19 @@ How HostAdmin analyze the Hosts file
         #127.0.0.1       localhost2
         #127.0.0.1       localhost3
         #====
+        
+     
+ * ``Bulk Hide``
+
+
+        #hide_all_of_below 
+        ...
+        
+        #All text here will be parsed as comment
+        
+        ...
+   
+  
 
 WRITE Permission to Hosts File
 ------------------------------
@@ -56,12 +69,12 @@ http://code.google.com/p/fire-hostadmin/wiki/GAIN_HOSTS_WRITE_PERM
 DNS Auto refreshing
 -------------------
 
- * Firefox
+ * ``Firefox``
 
    HostAdmin borrowed code from [DNS flusher](https://addons.mozilla.org/en-US/firefox/addon/dns-flusher/) 
    to refresh dns when hosts file is modified.
    
- * Chrome
+ * ``Chrome``
    
    Since Chrome 21, Chrome will auto refresh dns by itself.
    More info at this [ticket](http://code.google.com/p/chromium/issues/detail?id=125599)
