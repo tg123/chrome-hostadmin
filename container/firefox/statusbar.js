@@ -23,18 +23,16 @@
 		}		
 		
 		document.getElementById("hostadmin-label").value = str;
-	}
+	};
 
 	var save_alert = function(r){
-		if(r){
-		}else{
+		if(!r){
 			try{
 				var alertsService = Components.classes["@mozilla.org/alerts-service;1"]
-					    .getService(Components.interfaces.nsIAlertsService);
-			
+				.getService(Components.interfaces.nsIAlertsService);
 
-				alertsService.showAlertNotification('chrome://hostadmin-icons/content/icon32.png', 'HostAdmin'
-				, 'Write hosts file failed check permissions, Click to Learn more',
+				alertsService.showAlertNotification('chrome://hostadmin-icons/content/icon32.png', 'HostAdmin',
+				'Write hosts file failed check permissions, Click to Learn more',
 				true, null,{  
 					observe: function(subject, topic, data) {  
 						if(topic == 'alertclickcallback'){
@@ -44,7 +42,7 @@
 				});
 			}catch(e){} // mac without growl
 		}
-	}
+	};
 	
 	var mk_menu_item = function(hostname, host , host_index){
 		var mi = document.createElement("menuitem");
@@ -60,7 +58,7 @@
 			mi.setAttribute("checked",true);
 		}
 		return mi;
-	}
+	};
 
 	var mk_menu_gp_item = function(group_name, group_id, host_list){
 		var mi = document.createElement("menuitem");
@@ -74,20 +72,20 @@
 			mi.setAttribute("checked",true);
 		}
 		return mi;
-	}
+	};
 
-	const editor_item = (function(){
+	var editor_item = (function(){
 			var mi = document.createElement("menuitem");
 			mi.setAttribute("label", "Host Editor");
 
 			mi.addEventListener("command", function(e){
-				opentab('EDITOR')
+				opentab('EDITOR');
 			}, false);
 			return mi;
 		})();
 
 	// {{{ refresh menu
-	var refresh_menu = function(asc){
+	var refresh_menu = function(){
 		var curHost = container.curhost();
 		var menu = document.getElementById("hostadmin-popup");
 		
@@ -107,7 +105,7 @@
 			sub.addEventListener("dblclick", (function(h){ 
 				return function(e){
 						opentab("http://" + h);
-					}
+					};
 				})(h), false);
 
 			sub.setAttribute("acceltext", h.charAt(0).toUpperCase());
@@ -137,7 +135,7 @@
 				tosortM[h] = sub;
 			}
 		}
-		tosortKey = tosortKey.sort()
+		tosortKey = tosortKey.sort();
 		for (var k in tosortKey){
 			menu.appendChild(tosortM[tosortKey[k]]);
 		}
@@ -155,30 +153,17 @@
 		var hasCur = false;
 		if (typeof hosts[curHost] != "undefined") {
 			if(hasOther){
-				if(asc){
-					menu.insertBefore(document.createElement("menuseparator"), menu.firstChild);
-				}else{
-					menu.appendChild(document.createElement("menuseparator"));
-				}
-
+				menu.appendChild(document.createElement("menuseparator"));
 			}
 			hosts = hosts[curHost];
 			for (var i in hosts){
-				if(hosts[i].comment.toUpperCase() != 'HIDE '){
-					if(asc){
-						menu.insertBefore(mk_menu_item(curHost, hosts[i], i), menu.firstChild);
-					}else{
-						menu.appendChild(mk_menu_item(curHost, hosts[i], i));
-					}
+				if(!hosts[i].hide){
+					menu.appendChild(mk_menu_item(curHost, hosts[i], i));
 					hasCur = true;
 				}
 			}
 			if(!hasCur && hasOther){
-				if(asc){
-					menu.removeChild(menu.firstChild);
-				}else{
-					menu.removeChild(menu.lastChild);
-				}
+				menu.removeChild(menu.lastChild);
 			}
 		}
 
@@ -187,21 +172,21 @@
 			menu.insertBefore(document.createElement("menuseparator"), menu.firstChild);
 		}
 		menu.insertBefore(editor_item, menu.firstChild);
-	}
+	};
 	// }}} refresh menu
 	
 
 	var onclick = function(target, event){
-		if(event.button && event.button != 0) return false;
+		if(event.button && event.button !== 0) return false;
 
 		host_admin.refresh();
-		refresh_menu(target == document.getElementById('hostadmin-toolbar-button'));
+		refresh_menu();
 
 		var menu = document.getElementById("hostadmin-popup");
 
 		menu.openPopup(target, "before_end", 0 ,0, true);
 		return false;
-	}
+	};
 
 	var onload = function(event){
 		
@@ -215,7 +200,7 @@
 		gBrowser.tabContainer.addEventListener("TabSelect", updatelb, false);
 		gBrowser.tabContainer.addEventListener("TabAttrModified", updatelb, false);
 
-	}
+	};
 	
 	
 	window.addEventListener("load", onload, false);

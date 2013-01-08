@@ -50,15 +50,15 @@
 			}
 		}		
 
-		chrome.browserAction.setBadgeBackgroundColor({color:'#0A0'})
+		chrome.browserAction.setBadgeBackgroundColor({color:'#0A0'});
 		chrome.browserAction.setBadgeText({text:str});
 
 		if(str == '*') { str = 'In Hosts';}
-		else if( str == "" ) { str = 'Not In Hosts';}
+		else if( str === "" ) { str = 'Not In Hosts';}
 
 		chrome.browserAction.setTitle({title: str});
 		
-	}
+	};
 
 	chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
 		extracthost(changeInfo.url);
