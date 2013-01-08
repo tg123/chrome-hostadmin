@@ -7,6 +7,7 @@
 	
 	var updatelb = function(){
 		var curHost = container.curhost();
+		curHost = host_admin.real_hostname(curHost);
 
 		var str = "Not in Hosts";
 		var hosts = host_admin.get_hosts();
