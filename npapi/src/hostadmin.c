@@ -101,6 +101,29 @@ bool NP_Invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args, ui
 			fread(buf, 1, size, f);
 			fclose(f);
 
+#if XP_WIN
+			// make sure text are utf8
+
+			if(!IsTextUnicode(buf, size, NULL)){
+
+				int usize = MultiByteToWideChar(CP_ACP, 0, buf, size, NULL, 0);
+
+				wchar_t * ubuf = (wchar_t *)malloc((usize + 1) * sizeof(wchar_t));
+				memset(ubuf, 0, (usize + 1) * sizeof(wchar_t));
+
+				MultiByteToWideChar(CP_ACP, 0, buf, size, ubuf, usize);
+
+				size = WideCharToMultiByte(CP_UTF8, 0, ubuf, usize, NULL, 0, NULL, NULL);
+
+				npnfuncs->memfree(buf);
+				buf = (char *)npnfuncs->memalloc(size + 1);
+				memset(buf, 0, size + 1);
+
+				WideCharToMultiByte (CP_UTF8, 0, ubuf, usize, buf, size, NULL,NULL);
+				
+				free(ubuf);
+			}
+#endif
 			//logmsg(buf);
 			
 

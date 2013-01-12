@@ -1,5 +1,5 @@
 #ifdef XP_WIN
-#include "windows.h"
+#include <windows.h>
 #endif
 
 #include "npapi_headers/npapi.h"
