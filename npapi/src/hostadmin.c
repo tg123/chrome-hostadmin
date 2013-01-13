@@ -56,7 +56,7 @@ bool NP_HasMethod(NPObject *obj, NPIdentifier methodName){
 	;
 }
 
-char * ArgToStr(const NPVariant arg) {
+static char * ArgToStr(const NPVariant arg) {
 	NPString str = NPVARIANT_TO_STRING(arg);
 	char * r = (char *)malloc(str.UTF8Length + 1);
 	memcpy(r, str.UTF8Characters, str.UTF8Length);
@@ -89,7 +89,7 @@ bool NP_Invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args, ui
 		char * filename = ArgToStr(args[0]);
 
 		//logmsg(filename);
-		FILE * f = fopen(filename, "r");
+		FILE * f = fopen(filename, "rb");
 		if(f) {
 			fseek(f, 0 , SEEK_END);
 			long int size = ftell(f);
@@ -102,9 +102,9 @@ bool NP_Invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args, ui
 			fclose(f);
 
 #if XP_WIN
-			// make sure text are utf8
+			/* make sure text are utf8*/
 
-			if(!IsTextUnicode(buf, size, NULL)){
+			if(strncmp(buf, UTF8BOM, strlen(UTF8BOM)) != 0){
 
 				int usize = MultiByteToWideChar(CP_ACP, 0, buf, size, NULL, 0);
 
@@ -119,16 +119,22 @@ bool NP_Invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args, ui
 				buf = (char *)npnfuncs->memalloc(size + 1);
 				memset(buf, 0, size + 1);
 
-				WideCharToMultiByte (CP_UTF8, 0, ubuf, usize, buf, size, NULL,NULL);
+				WideCharToMultiByte(CP_UTF8, 0, ubuf, usize, buf, size, NULL,NULL);
 				
 				free(ubuf);
+			} else{
+
+				char * oldbuf = buf;
+				size -= strlen(UTF8BOM);
+				buf = (char *)npnfuncs->memalloc(size);
+				
+				memcpy(buf, oldbuf + strlen(UTF8BOM), size);
+				npnfuncs->memfree(oldbuf);
+				
 			}
 #endif
-			//logmsg(buf);
-			
 
 			STRINGN_TO_NPVARIANT(buf, size, *result);
-
 			//npnfuncs->memfree(buf);
 		}
 
@@ -141,9 +147,13 @@ bool NP_Invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args, ui
 		char * filename = ArgToStr(args[0]);
 		char * content = ArgToStr(args[1]);
 
-		FILE * f = fopen(filename, "w");
+		FILE * f = fopen(filename, "wb");
 		bool succ = false;
 		if(f) {
+
+#if XP_WIN
+			fputs(UTF8BOM, f);
+#endif
 			fputs(content, f);
 			succ = ferror(f) == 0;
 			fclose(f);

@@ -15,3 +15,5 @@
 #define MIMETYPE "application/x-hostadmin-helper"
 
 #define MIMETYPE_S "application/x-hostadmin-helper::HostAdmin"
+
+#define UTF8BOM "\xEF\xBB\xBF"
