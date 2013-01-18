@@ -64,6 +64,15 @@ static char * ArgToStr(const NPVariant arg) {
 	return r;
 }
 
+#if XP_WIN
+static bool HasNonAscii(const char * str ,size_t len){
+	for(size_t i=0; i< len; i++)
+		if(str[i] > 127)
+			return true;
+	return false;
+}
+#endif
+
 
 bool NP_Invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args, uint32_t argCount, NPVariant *result){
 	char * name = npnfuncs->utf8fromidentifier(methodName);
@@ -105,33 +114,35 @@ bool NP_Invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args, ui
 			/* make sure text are utf8*/
 
 			if(strncmp(buf, UTF8BOM, strlen(UTF8BOM)) != 0){
+				if(HasNonAscii(buf, size)){
+					int usize = MultiByteToWideChar(CP_ACP, 0, buf, size, NULL, 0);
 
-				int usize = MultiByteToWideChar(CP_ACP, 0, buf, size, NULL, 0);
+					wchar_t * ubuf = (wchar_t *)malloc((usize + 1) * sizeof(wchar_t));
+					memset(ubuf, 0, (usize + 1) * sizeof(wchar_t));
 
-				wchar_t * ubuf = (wchar_t *)malloc((usize + 1) * sizeof(wchar_t));
-				memset(ubuf, 0, (usize + 1) * sizeof(wchar_t));
+					MultiByteToWideChar(CP_ACP, 0, buf, size, ubuf, usize);
 
-				MultiByteToWideChar(CP_ACP, 0, buf, size, ubuf, usize);
+					size = WideCharToMultiByte(CP_UTF8, 0, ubuf, usize, NULL, 0, NULL, NULL);
 
-				size = WideCharToMultiByte(CP_UTF8, 0, ubuf, usize, NULL, 0, NULL, NULL);
+					npnfuncs->memfree(buf);
+					buf = (char *)npnfuncs->memalloc(size + 1);
+					memset(buf, 0, size + 1);
 
-				npnfuncs->memfree(buf);
-				buf = (char *)npnfuncs->memalloc(size + 1);
-				memset(buf, 0, size + 1);
+					WideCharToMultiByte(CP_UTF8, 0, ubuf, usize, buf, size, NULL,NULL);
 
-				WideCharToMultiByte(CP_UTF8, 0, ubuf, usize, buf, size, NULL,NULL);
-				
-				free(ubuf);
+					free(ubuf);
+				}
 			} else{
 
 				char * oldbuf = buf;
 				size -= strlen(UTF8BOM);
 				buf = (char *)npnfuncs->memalloc(size);
-				
+
 				memcpy(buf, oldbuf + strlen(UTF8BOM), size);
 				npnfuncs->memfree(oldbuf);
-				
+
 			}
+			
 #endif
 
 			STRINGN_TO_NPVARIANT(buf, size, *result);
@@ -152,7 +163,8 @@ bool NP_Invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args, ui
 		if(f) {
 
 #if XP_WIN
-			fputs(UTF8BOM, f);
+			if(HasNonAscii(content, strlen(content)))
+				fputs(UTF8BOM, f);
 #endif
 			fputs(content, f);
 			succ = ferror(f) == 0;
