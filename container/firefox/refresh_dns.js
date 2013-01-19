@@ -2,10 +2,17 @@
 
 	var event_host = HostAdmin.event_host;
 
-	var ioService = Components.classes["@mozilla.org/network/io-service;1"].getService(Components.interfaces.nsIIOService);
-	var cacheService = Components.classes["@mozilla.org/network/cache-service;1"].getService(Components.interfaces.nsICacheService);
-
 	var refresh_dns = function(){
+		var ioService = Components.classes["@mozilla.org/network/io-service;1"].getService(Components.interfaces.nsIIOService);
+		var cacheService = Components.classes["@mozilla.org/network/cache-service;1"].getService(Components.interfaces.nsICacheService);
+
+		var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
+		// Add Since Firefox 18
+		// Firefox ioService.offline cant clear dns
+		// actions below would led nsDNSService::Init @see firefox source netwerk/dns/nsDNSService2.cpp
+		prefs.setIntPref("network.dnsCacheExpiration", "0");
+		prefs.setIntPref("network.dnsCacheEntries", "0");
+
 		// this funtion learn from addon dnsFlush 
 		// https://addons.mozilla.org/firefox/addon/dns-flusher/
 		// thanks to Marco Tulio
