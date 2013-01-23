@@ -56,13 +56,22 @@ bool NP_HasMethod(NPObject *obj, NPIdentifier methodName){
 	;
 }
 
-char * ArgToStr(const NPVariant arg) {
+static char * ArgToStr(const NPVariant arg) {
 	NPString str = NPVARIANT_TO_STRING(arg);
 	char * r = (char *)malloc(str.UTF8Length + 1);
 	memcpy(r, str.UTF8Characters, str.UTF8Length);
 	r[str.UTF8Length] = '\0';
 	return r;
 }
+
+#if XP_WIN
+static bool HasNonAscii(const char * str ,size_t len){
+	for(size_t i=0; i< len; i++)
+		if(str[i] > 127)
+			return true;
+	return false;
+}
+#endif
 
 
 bool NP_Invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args, uint32_t argCount, NPVariant *result){
@@ -89,7 +98,7 @@ bool NP_Invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args, ui
 		char * filename = ArgToStr(args[0]);
 
 		//logmsg(filename);
-		FILE * f = fopen(filename, "r");
+		FILE * f = fopen(filename, "rb");
 		if(f) {
 			fseek(f, 0 , SEEK_END);
 			long int size = ftell(f);
@@ -101,11 +110,42 @@ bool NP_Invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args, ui
 			fread(buf, 1, size, f);
 			fclose(f);
 
-			//logmsg(buf);
+#if XP_WIN
+			/* make sure text are utf8*/
+
+			if(strncmp(buf, UTF8BOM, strlen(UTF8BOM)) != 0){
+				if(HasNonAscii(buf, size)){
+					int usize = MultiByteToWideChar(CP_ACP, 0, buf, size, NULL, 0);
+
+					wchar_t * ubuf = (wchar_t *)malloc((usize + 1) * sizeof(wchar_t));
+					memset(ubuf, 0, (usize + 1) * sizeof(wchar_t));
+
+					MultiByteToWideChar(CP_ACP, 0, buf, size, ubuf, usize);
+
+					size = WideCharToMultiByte(CP_UTF8, 0, ubuf, usize, NULL, 0, NULL, NULL);
+
+					npnfuncs->memfree(buf);
+					buf = (char *)npnfuncs->memalloc(size + 1);
+					memset(buf, 0, size + 1);
+
+					WideCharToMultiByte(CP_UTF8, 0, ubuf, usize, buf, size, NULL,NULL);
+
+					free(ubuf);
+				}
+			} else{
+
+				char * oldbuf = buf;
+				size -= strlen(UTF8BOM);
+				buf = (char *)npnfuncs->memalloc(size);
+
+				memcpy(buf, oldbuf + strlen(UTF8BOM), size);
+				npnfuncs->memfree(oldbuf);
+
+			}
 			
+#endif
 
 			STRINGN_TO_NPVARIANT(buf, size, *result);
-
 			//npnfuncs->memfree(buf);
 		}
 
@@ -118,9 +158,14 @@ bool NP_Invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args, ui
 		char * filename = ArgToStr(args[0]);
 		char * content = ArgToStr(args[1]);
 
-		FILE * f = fopen(filename, "w");
+		FILE * f = fopen(filename, "wb");
 		bool succ = false;
 		if(f) {
+
+#if XP_WIN
+			if(HasNonAscii(content, strlen(content)))
+				fputs(UTF8BOM, f);
+#endif
 			fputs(content, f);
 			succ = ferror(f) == 0;
 			fclose(f);

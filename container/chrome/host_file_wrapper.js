@@ -19,6 +19,9 @@
 			return helper.get(file_name);
 		},
 		set : function(data){
+			if (os == "WINNT"){
+				data = data.replace(/([^\r])\n/g, "$1\r\n");
+			}
 			return helper.set(file_name, data);
 		},
 		time : function(){
