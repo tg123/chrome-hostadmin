@@ -7,7 +7,7 @@
     <em:version>1.4.5.2</em:version>
     <em:creator>T.G.</em:creator>
     <em:contributor></em:contributor>
-    <em:description>Manage Hosts file while browsing</em:description>
+    <em:description>Saving your time when you switch domain-ip mapping (Hosts file) between different environment. Awesome host file editor !</em:description>
     <em:homepageURL>http://code.google.com/p/fire-hostadmin</em:homepageURL>
     <em:unpack>true</em:unpack>
     <em:iconURL>chrome://hostadmin-icons/content/icon32.png</em:iconURL>

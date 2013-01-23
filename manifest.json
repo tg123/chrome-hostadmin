@@ -6,10 +6,10 @@
 			"32" : "icons/icon32.png",
 			"128": "icons/icon128.png"
 		},
-		"version": "1.4.5",
+		"version": "1.4.6",
 		"manifest_version": 2,
 		"permissions": ["tabs"],
-		"description": "Host Admin Tools",
+		"description": "Saving your time when you switch domain-ip mapping (Hosts file) between different environment. Awesome host file editor !",
 		"background": {
 			"persistent": true, 
 			"page": "container/chrome/background.html"
