@@ -19,13 +19,13 @@ Envirment
  1. Link HostAdmin to Firefox dev profile (Linux)
 
 		
-	ln -s /path/to/chrome-hostadmin/ ~/.mozilla/firefox/YOURDEVPROFILENAME/extensions/\{bd54afa8-b14a-4d7a-aecf-37e34e882796\}
+		ln -s /path/to/chrome-hostadmin/ ~/.mozilla/firefox/YOURDEVPROFILENAME/extensions/\{bd54afa8-b14a-4d7a-aecf-37e34e882796\}
 
 
  1. Start dev firefox with dev profile
 
 
-	firefox -P dev
+		firefox -P dev
 
 
 
