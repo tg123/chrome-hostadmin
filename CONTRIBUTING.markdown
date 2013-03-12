@@ -8,7 +8,7 @@ Envirment
 ### Getting sources
 
 		
-		git clone https://github.com/tg123/chrome-hostadmin.git
+	git clone https://github.com/tg123/chrome-hostadmin.git
 		
 
 
@@ -19,13 +19,13 @@ Envirment
  1. Link HostAdmin to Firefox dev profile (Linux)
 
 		
-		ln -s /path/to/chrome-hostadmin/ ~/.mozilla/firefox/YOURDEVPROFILENAME/extensions/\{bd54afa8-b14a-4d7a-aecf-37e34e882796\}
+	ln -s /path/to/chrome-hostadmin/ ~/.mozilla/firefox/YOURDEVPROFILENAME/extensions/\{bd54afa8-b14a-4d7a-aecf-37e34e882796\}
 
 
  1. Start dev firefox with dev profile
 
 
-		firefox -P dev
+	firefox -P dev
 
 
 
@@ -37,11 +37,10 @@ Envirment
  1. NPAPI (Optional)
 
 
-   You may want edit NPAPI, you can find source at `npapi/src`
-	
-   * Build on Linux (gcc, Just make to build hostadmin.so)
-   * Mac (open hostadmin.xcodeproj with XCode, Command + B to build hostadmin.plugin)
-   * Windows (open hostadmin.sln with Visual Studio Express 2008, build .dll)
+    You may want edit NPAPI, you can find source at `npapi/src`
+    * Build on Linux (gcc, Just make to build hostadmin.so)
+    * Mac (open hostadmin.xcodeproj with XCode, Command + B to build hostadmin.plugin)
+    * Windows (open hostadmin.sln with Visual Studio Express 2008, build .dll)
 
 
 
@@ -53,14 +52,14 @@ You can build .xpi(Firefox) and .zip(Chrome) using dist script. *Notice:* If you
 
 Build all 
 
-		./dist 
+	./dist 
 
 
 Clean up
 		
-		./dist clean
+	./dist clean
 
 
 Sometimes, you may want .crx version.
 
-		./dist-chrome.sh crx
+	./dist-chrome.sh crx
