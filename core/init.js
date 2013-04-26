@@ -11,9 +11,8 @@ window.HostAdmin = {};
 
 	HostAdmin.requestCursorLine = function(line){
 		if(line){
-			var e = HostAdmin.event_host.createEvent('Events');
-			e.initEvent('HostAdminReqCursorLine', false, false);
-			e.cursorline = line;
+			var e = HostAdmin.event_host.createEvent('CustomEvent');
+			e.initCustomEvent('HostAdminReqCursorLine', false, false, { cursorline : line });
 			HostAdmin.event_host.dispatchEvent(e);
 		}
 	}

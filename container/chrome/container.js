@@ -16,12 +16,12 @@
 
 		if(url){
 			chrome.tabs.query({ url : url ,windowId: chrome.windows.WINDOW_ID_CURRENT }, function(t){
+				HostAdmin.cursorline = line;
 
 				if (t.length > 0){
 					chrome.tabs.update(t[0].id, {active : true});
 					HostAdmin.requestCursorLine(line);
 				}else{
-					HostAdmin.cursorline = line;
 					chrome.tabs.create({url: url});
 				}
 

@@ -28,7 +28,7 @@ run_from_glue(function(HostAdmin){
 		}
 	}
 
-	move_cursor(HostAdmin.cursorline)
+	move_cursor(HostAdmin.cursorline);
 
 	var renew = function(){
 		changed = false;
@@ -57,7 +57,7 @@ run_from_glue(function(HostAdmin){
 
 
 	event_host.addEventListener('HostAdminReqCursorLine', function(e) {
-		move_cursor(e.cursorline);
+		move_cursor(e.detail.cursorline);
 	}, false);
 
 	save.click(function(e) {

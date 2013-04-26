@@ -56,7 +56,7 @@
 	};
 
 
-	var opentab = function(t){
+	var opentab = function(t, line){
 		var url = null;
 		if(t == 'EDITOR'){
 			url = EDITOR_URL;
@@ -67,8 +67,13 @@
 		}
 
 		if(url){
+			
+			HostAdmin.cursorline = line;
+
 			openAndReuseOneTabPerURL(url);
 			document.getElementById("hostadmin-menu-panel").hidePopup();
+
+			HostAdmin.requestCursorLine(line)
 		}
 	};
 
