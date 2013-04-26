@@ -5,8 +5,17 @@
 // http://code.google.com/p/fire-hostadmin/
 window.HostAdmin = {};
 
-// event
-(function(){
+// event and cursor
+(function(HostAdmin){
 	HostAdmin.event_host = document;
+
+	HostAdmin.requestCursorLine = function(line){
+		if(line){
+			var e = HostAdmin.event_host.createEvent('Events');
+			e.initEvent('HostAdminReqCursorLine', false, false);
+			e.cursorline = line;
+			HostAdmin.event_host.dispatchEvent(e);
+		}
+	}
 })(window.HostAdmin);
 

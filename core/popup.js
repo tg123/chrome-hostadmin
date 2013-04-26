@@ -78,7 +78,13 @@ run_from_glue(function(HostAdmin){
 			save_alert(host_admin.host_toggle_and_save(h, i));
 		});
 
+		var em = $('<i class="icon-edit pull-right hide"></i>');
+		em.click(function(){
+			opentab('EDITOR', host.line);
+		});
+
 		var li = $("<li/>").append(a);
+		li.prepend(em);
 
 		if(host.using){
 			li.find('i.icon-').addClass('icon-ok');

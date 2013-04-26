@@ -4,7 +4,7 @@
 	var event_host = HostAdmin.event_host;
 	var cur_host;
 
-	var opentab = function(t){
+	var opentab = function(t, line){
 		var url = null;
 		if(t == 'EDITOR'){
 			url = chrome.runtime.getURL('core/editor.html');
@@ -16,11 +16,15 @@
 
 		if(url){
 			chrome.tabs.query({ url : url ,windowId: chrome.windows.WINDOW_ID_CURRENT }, function(t){
+
 				if (t.length > 0){
 					chrome.tabs.update(t[0].id, {active : true});
+					HostAdmin.requestCursorLine(line);
 				}else{
+					HostAdmin.cursorline = line;
 					chrome.tabs.create({url: url});
 				}
+
 			});
 		}   
 	};

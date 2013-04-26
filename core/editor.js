@@ -7,7 +7,8 @@ run_from_glue(function(HostAdmin){
 
 	var changed = false;
 	var codeMirror = CodeMirror.fromTextArea(document.getElementById("code"), {
-		lineNumbers: true
+		lineNumbers: true,
+		styleActiveLine: true
 	});
 
 	var save = $("#btnSave");
@@ -18,6 +19,16 @@ run_from_glue(function(HostAdmin){
 	});
 
 	codeMirror.setValue(host_admin.load());
+
+	var move_cursor = function(cursorline){
+		if(cursorline){
+			codeMirror.setCursor(cursorline);
+			codeMirror.scrollIntoView({line: cursorline}, 150);
+			codeMirror.focus();
+		}
+	}
+
+	move_cursor(HostAdmin.cursorline)
 
 	var renew = function(){
 		changed = false;
@@ -42,6 +53,11 @@ run_from_glue(function(HostAdmin){
 		}else{
 			$("#contentchanged").modal('show');
 		}
+	}, false);
+
+
+	event_host.addEventListener('HostAdminReqCursorLine', function(e) {
+		move_cursor(e.cursorline);
 	}, false);
 
 	save.click(function(e) {
