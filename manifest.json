@@ -6,7 +6,7 @@
 			"32" : "icons/icon32.png",
 			"128": "icons/icon128.png"
 		},
-		"version": "1.4.6",
+		"version": "1.4.7",
 		"manifest_version": 2,
 		"permissions": ["tabs"],
 		"description": "Saving your time when you switch domain-ip mapping (Hosts file) between different environment. Awesome host file editor !",
