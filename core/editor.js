@@ -37,8 +37,10 @@ run_from_glue(function(HostAdmin){
 	};
 
 	var reload = function(){
+		var pos = codeMirror.getScrollInfo()
 		codeMirror.setValue(host_admin.load());
 		renew();
+		codeMirror.scrollTo(pos.left, pos.top);
 	};
 
 	$("#mreload").click(function(){
@@ -63,9 +65,12 @@ run_from_glue(function(HostAdmin){
 	save.click(function(e) {
 		if(changed){
 			changed = false;
+			
+			var pos = codeMirror.getScrollInfo()
 
 			if(host_admin.save(codeMirror.getValue())){
 				renew();
+				codeMirror.scrollTo(pos.left, pos.top);
 			}else{
 				$(".alert").show('slow');
 			}
