@@ -222,6 +222,10 @@
 			}
 			,
 			set : function(data){
+				if (os == "WINNT"){
+					data = data.replace(/([^\r])\n/g, "$1\r\n");
+				}
+
 				var file = FileIO.open(file_name);
 				return FileIO.write(file, data, '', charset);
 			}
