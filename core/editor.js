@@ -21,7 +21,7 @@ run_from_glue(function(HostAdmin){
 	codeMirror.setValue(host_admin.load());
 
 	var move_cursor = function(cursorline){
-		if(cursorline){
+		if(cursorline || cursorline === 0){
 			codeMirror.setCursor(cursorline);
 			codeMirror.scrollIntoView({line: cursorline}, 150);
 			codeMirror.focus();

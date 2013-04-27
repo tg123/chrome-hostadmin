@@ -10,7 +10,7 @@ window.HostAdmin = {};
 	HostAdmin.event_host = document;
 
 	HostAdmin.requestCursorLine = function(line){
-		if(line){
+		if(line || line === 0){
 			var e = HostAdmin.event_host.createEvent('CustomEvent');
 			e.initCustomEvent('HostAdminReqCursorLine', false, false, { cursorline : line });
 			HostAdmin.event_host.dispatchEvent(e);
