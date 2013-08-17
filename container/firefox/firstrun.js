@@ -30,10 +30,9 @@
 	// }}}
 
 
-	var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
-	prefs = prefs.getBranch("extensions.hostadmin.");
+	var fire_config = HostAdmin.config;
 
-	var firstrun = prefs.getBoolPref("firstrun");
+	var firstrun = fire_config.get("firstrun");
 
 	if (firstrun) {
 		prefs.setBoolPref("firstrun", false);

@@ -5,6 +5,7 @@
 <overlay id="hostadmin-overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
 	<script src="chrome://hostadmin/content/init.js"/>
+	<script src="chrome://hostadmin-container/content/config.js"/>
 	<script src="chrome://hostadmin-container/content/host_file_wrapper.js"/>
 	<script src="chrome://hostadmin/content/hostadmin.js"/>
 

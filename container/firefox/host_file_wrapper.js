@@ -139,26 +139,8 @@
 		}
 
 	};
-	var fire_config = (function(){
-		var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
-		prefs = prefs.getBranch("extensions.hostadmin.");
 
-		return {
-			get: function(key){
-				if (prefs.prefHasUserValue(key)) {
-					return prefs.getComplexValue(key, Components.interfaces.nsISupportsString).data;
-				}else{
-					return null;
-				}
-			},
-			run_when_not_equal: function(key, value, f){
-				var v = this.get(key);
-				if(v && v != value){
-					f(v);
-				}
-			}
-		};
-	})();
+	var fire_config = HostAdmin.config;
 
 	var host_file_wrapper = (function(){	
 		const os = Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULRuntime).OS;
