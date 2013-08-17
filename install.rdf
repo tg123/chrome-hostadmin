@@ -4,7 +4,7 @@
     <em:id>{bd54afa8-b14a-4d7a-aecf-37e34e882796}</em:id>
     <em:type>2</em:type>
     <em:name>HostAdmin</em:name>
-    <em:version>1.4.7</em:version>
+    <em:version>1.4.8</em:version>
     <em:creator>T.G.</em:creator>
     <em:contributor></em:contributor>
     <em:description>Saving your time when you switch domain-ip mapping (Hosts file) between different environment. Awesome host file editor !</em:description>
@@ -15,7 +15,7 @@
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id> <!-- Firefox -->
         <em:minVersion>14.0</em:minVersion>
-        <em:maxVersion>22.*</em:maxVersion>
+        <em:maxVersion>26.0</em:maxVersion>
       </Description>
     </em:targetApplication>
   </Description>
