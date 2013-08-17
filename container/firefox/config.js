@@ -33,5 +33,5 @@
 		};
 	})();
 
-	HostAdmin.conf = fire_config;
+	HostAdmin.config = fire_config;
 })(window.HostAdmin);

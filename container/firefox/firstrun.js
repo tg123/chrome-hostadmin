@@ -35,7 +35,7 @@
 	var firstrun = fire_config.get("firstrun");
 
 	if (firstrun) {
-		prefs.setBoolPref("firstrun", false);
+		fire_config.set("firstrun", false);
 		window.addEventListener("load", function(){
 			installButton("nav-bar", "hostadmin-toolbar-button");  
 		}, false);

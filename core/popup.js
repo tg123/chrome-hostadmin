@@ -1,6 +1,7 @@
 run_from_glue(function(HostAdmin){
 	var host_admin = HostAdmin.core;
 	var event_host = HostAdmin.event_host;
+	var configure = HostAdmin.config;
 
 	var container = HostAdmin.container;
 	var searchval = container.curhost();
@@ -59,7 +60,7 @@ run_from_glue(function(HostAdmin){
 
 			found.push({'host': h , 'ld': minl});
 		}
-		found.push({'host': GROUP_PLACE_HOLDER_KEY , 'ld': JSON.parse(localStorage['groupup']) ? 0 : min_groupl});
+		found.push({'host': GROUP_PLACE_HOLDER_KEY , 'ld': configure.get('groupup') ? 0 : min_groupl});
 
 		
 		// TODO insert might be better
@@ -194,13 +195,13 @@ run_from_glue(function(HostAdmin){
 		if ( groups.length > 0){
 			
 			var em = $('<i class="pull-right hide"></i>');
-			if(JSON.parse(localStorage['groupup'])){
+			if(configure.get('groupup')){
 				em.addClass('icon-arrow-down');
 			}else{
 				em.addClass('icon-arrow-up');
 			}
 			em.click(function(){
-				localStorage['groupup'] = !JSON.parse(localStorage['groupup']);
+				configure.set('groupup', !configure.get('groupup'));
 				redraw();
 			});
 			var gul = group_place_holder;
