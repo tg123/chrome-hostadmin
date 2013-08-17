@@ -81,5 +81,6 @@
 
 	event_host.addEventListener('HostAdminRefresh', function(e) {
 		updatelb();
+		chrome.browsingData.removeCache({});
 	}, false);
 })(window.HostAdmin);

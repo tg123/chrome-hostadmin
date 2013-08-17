@@ -8,7 +8,7 @@
 		},
 		"version": "1.4.7",
 		"manifest_version": 2,
-		"permissions": ["tabs"],
+		"permissions": ["tabs", "browsingData"],
 		"description": "Saving your time when you switch domain-ip mapping (Hosts file) between different environment. Awesome host file editor !",
 		"background": {
 			"persistent": true, 
