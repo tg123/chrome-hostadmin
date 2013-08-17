@@ -102,7 +102,9 @@
 		gBrowser.tabContainer.addEventListener("TabSelect", tabchange, false);
 		gBrowser.tabContainer.addEventListener("TabAttrModified", tabchange, false);
 
-		document.getElementById('hostadmin-toolbar-button').addEventListener('command', function(e){
+		var button = document.getElementById('hostadmin-toolbar-button');
+		if(button)
+		button.addEventListener('command', function(e){
 			var menucontent = document.getElementById('hostadmin-menu-content').contentWindow;
 			menucontent.focus();
 			// TODO dup code from popup.js

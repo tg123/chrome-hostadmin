@@ -13,14 +13,12 @@
 				}
 			},
 			get: function(key){
-				if (prefs.prefHasUserValue(key)){
-					
-					if (prefs.getPrefType(key) == prefs.PREF_BOOL){
-						return prefs.getBoolPref(key);
-					}else { // not others here
-						return prefs.getComplexValue(key, Components.interfaces.nsISupportsString).data;
-					}
-
+				var type = prefs.getPrefType(key);
+				if (type == prefs.PREF_BOOL){
+					return prefs.getBoolPref(key);
+				//}else if(type == prefs.PREF_INT) { // no such now
+				}else if(type == prefs.PREF_STRING) { 
+					return prefs.getComplexValue(key, Components.interfaces.nsISupportsString).data;
 				}
 				return undefined;
 			},

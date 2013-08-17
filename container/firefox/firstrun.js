@@ -4,7 +4,7 @@
 // MPL v2
 // http://code.google.com/p/fire-hostadmin/
 
-(function(){
+(function(HostAdmin){
 	// {{{		
 	// copy from https://developer.mozilla.org/en/Code_snippets/Toolbar
 	function installButton(toolbarId, id, afterId) {  
@@ -31,7 +31,6 @@
 
 
 	var fire_config = HostAdmin.config;
-
 	var firstrun = fire_config.get("firstrun");
 
 	if (firstrun) {
@@ -41,5 +40,4 @@
 		}, false);
 	}
 
-})();
-
+})(window.HostAdmin);
