@@ -78,6 +78,15 @@ DNS Auto refreshing
    
    Since Chrome 21, Chrome will auto refresh dns by itself.
    More info at this [ticket](http://code.google.com/p/chromium/issues/detail?id=125599)
+   
+   > _KNOWN ISSUE_
+   >  
+   > DNS may not refresh as soon as hosts file changes due to a Chrome bug 
+   > reused socket pools by domain even if hosts changes
+   >
+   > To avoid this, open chrome://net-internals/#sockets and flush your host
+   >
+   > More info at this [ticket](https://code.google.com/p/chromium/issues/detail?id=152906) 
  
  
 
