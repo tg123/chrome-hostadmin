@@ -59,7 +59,7 @@ run_from_glue(function(HostAdmin){
 
 			found.push({'host': h , 'ld': minl});
 		}
-		found.push({'host': GROUP_PLACE_HOLDER_KEY , 'ld': min_groupl});
+		found.push({'host': GROUP_PLACE_HOLDER_KEY , 'ld': JSON.parse(localStorage['groupup']) ? 0 : min_groupl});
 
 		
 		// TODO insert might be better
@@ -193,8 +193,20 @@ run_from_glue(function(HostAdmin){
 
 		if ( groups.length > 0){
 			
+			var em = $('<i class="pull-right hide"></i>');
+			if(JSON.parse(localStorage['groupup'])){
+				em.addClass('icon-arrow-down');
+			}else{
+				em.addClass('icon-arrow-up');
+			}
+			em.click(function(){
+				localStorage['groupup'] = !JSON.parse(localStorage['groupup']);
+				redraw();
+			});
 			var gul = group_place_holder;
-			gul.append($('<li class="nav-header">' + '<i class="icon-folder-open"></i>GROUPS' + '</li>'));
+			var gli = $('<li class="nav-header">' + '<i class="icon-folder-open"></i>GROUPS' + '</li>')
+			gli.append(em);
+			gul.append(gli);
 
 			for(var group_id in groups){
 				var group_name = group_names[group_id];
