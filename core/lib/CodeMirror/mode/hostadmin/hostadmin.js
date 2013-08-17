@@ -55,10 +55,19 @@ CodeMirror.defineMode("hostadmin", function(config, parserConfig) {
 				return "number";
 			}
 
-			if(state.groupline && state.groupid % 2 == 1){
-				stream.skipToEnd(); 
-				state.groupline = false;
-				return "comment";
+			if(state.groupline){
+				if(state.groupid % 2 == 1){
+					state.groupline = false;
+					stream.eatWhile(/[#\s]/);
+					if(stream.match(/^\s*hide/i) && !stream.match(/[^\s]/, false)){
+						return "keyword";
+					}
+
+					return "comment";
+				}else{
+					stream.skipToEnd(); 
+					return "comment";
+				}
 			}
 
 			stream.next();
