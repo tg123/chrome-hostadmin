@@ -101,14 +101,14 @@ run_from_glue(function(HostAdmin){
 		return li;
 	};
 
-	var make_host_header = function(h){
+	var make_host_header = function(h, wanted){
 		var em = $('<i class="icon-globe pull-right hide"></i>');
 		em.attr('title', 'Open http://' + h);
 		em.click(function(){
 			opentab('http://' + h);
 		});
 		var li = $('<li class="nav-header"></li>');
-		li.text(h);
+		li.html(h.replace(wanted, '<em>' + wanted + '</em>'));
 		li.prepend(em);
 
 		return li;
@@ -161,7 +161,7 @@ run_from_glue(function(HostAdmin){
 					}
 
 					if(!added){
-						hul.append(make_host_header(h));
+						hul.append(make_host_header(h, wanted));
 						added = true;
 					}
 
