@@ -86,7 +86,7 @@ DNS Auto refreshing
    >
    > To avoid this, open chrome://net-internals/#sockets and flush your host
    >
-   > More info at this [ticket](https://code.google.com/p/chromium/issues/detail?id=152906) 
+   > More info at Chrome Bug [152906](https://code.google.com/p/chromium/issues/detail?id=152906) [268059](https://code.google.com/p/chromium/issues/detail?id=268059) [288061](https://code.google.com/p/chromium/issues/detail?id=288061)
  
  
 
