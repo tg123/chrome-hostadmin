@@ -7,24 +7,41 @@
 	var container = HostAdmin.container;
 	var opentab = container.opentab;
 	
-	var updatelb = function(){
-		var curHost = container.curhost();
-		curHost = host_admin.real_hostname(curHost);
+    var nslookup = function(hostname){
+        var ip = "";
+        var dnsService = Components.classes["@mozilla.org/network/dns-service;1"].getService(Components.interfaces.nsIDNSService);
 
-		var str = "Not in Hosts";
+        try{
+            var records = dnsService.resolve(hostname, 0);
+            ip = records.getNextAddrAsString();
+        }catch(e){
+        } 
+
+        return ip;
+    };
+
+	var updatelb = function(){
+		var _curHost = container.curhost();
+        var ip = "";
+		curHost = host_admin.real_hostname(_curHost);
+
+		var comment = "Not in Hosts";
 		var hosts = host_admin.get_hosts();
 		if (typeof hosts[curHost] != "undefined") {
 			hosts = hosts[curHost];
 			for (var i in hosts){
-				str = "In Hosts";
+				comment = "In Hosts";
 				if(hosts[i].using){
-					str = hosts[i].addr + " " + hosts[i].comment;
+                    ip = hosts[i].addr;
+                    comment = hosts[i].comment;
 					break;
 				}
 			}
-		}		
+		}
+
+        if (!ip) ip = nslookup(_curHost);
 		
-		document.getElementById("hostadmin-label").value = str;
+		document.getElementById("hostadmin-label").value = ip + " " + comment;
 	};
 
 	var save_alert = function(r){
