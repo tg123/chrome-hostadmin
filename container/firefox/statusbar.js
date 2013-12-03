@@ -7,41 +7,42 @@
 	var container = HostAdmin.container;
 	var opentab = container.opentab;
 	
-    var nslookup = function(hostname){
-        var ip = "";
+    var nslookup = function(cb, hostname){
         var dnsService = Components.classes["@mozilla.org/network/dns-service;1"].getService(Components.interfaces.nsIDNSService);
 
         try{
-            var records = dnsService.resolve(hostname, 0);
-            ip = records.getNextAddrAsString();
+            var records = dnsService.asyncResolve(hostname, 0, {
+                onLookupComplete: function(aRequest, aRecord, aStatus){
+                    var ip = aRecord.getNextAddrAsString();
+                    cb(ip);
+                }
+            }, null);
         }catch(e){
         } 
-
-        return ip;
     };
 
 	var updatelb = function(){
 		var _curHost = container.curhost();
-        var ip = "";
-		curHost = host_admin.real_hostname(_curHost);
 
-		var comment = "Not in Hosts";
-		var hosts = host_admin.get_hosts();
-		if (typeof hosts[curHost] != "undefined") {
-			hosts = hosts[curHost];
-			for (var i in hosts){
-				comment = "In Hosts";
-				if(hosts[i].using){
-                    ip = hosts[i].addr;
-                    comment = hosts[i].comment;
-					break;
-				}
-			}
-		}
+        nslookup(function(ip){
+            var curHost = host_admin.real_hostname(_curHost);
+            var comment = "Not in Hosts";
+            var hosts = host_admin.get_hosts();
+            if (typeof hosts[curHost] != "undefined") {
+                hosts = hosts[curHost];
+                for (var i in hosts){
+                    comment = "In Hosts";
+                    if(hosts[i].using){
+                        ip = hosts[i].addr;
+                        comment = hosts[i].comment;
+                        break;
+                    }
+                }
+            }
 
-        if (!ip) ip = nslookup(_curHost);
-		
-		document.getElementById("hostadmin-label").value = ip + " " + comment;
+            document.getElementById("hostadmin-label").value = ip + " " + comment;
+
+        }, _curHost);
 	};
 
 	var save_alert = function(r){
