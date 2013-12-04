@@ -15,10 +15,13 @@
                 onLookupComplete: function(aRequest, aRecord, aStatus){
                     var ip = aRecord.getNextAddrAsString();
                     cb(ip);
+                    return;
                 }
             }, null);
         }catch(e){
         } 
+
+        cb("");
     };
 
 	var updatelb = function(){
@@ -40,7 +43,8 @@
                 }
             }
 
-            document.getElementById("hostadmin-label").value = ip + " " + comment;
+            if (_curHost == container.curhost())
+                document.getElementById("hostadmin-label").value = ip + " " + comment;
 
         }, _curHost);
 	};
