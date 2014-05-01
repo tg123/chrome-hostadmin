@@ -14,6 +14,8 @@
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
 
     <style type="text/css">
+      html { overflow : auto !important;}
+
       .CodeMirror {
       border: 1px solid #CCC;
       border-radius:4px;
@@ -21,16 +23,19 @@
       -moz-border-radius: 4px;
       }
       .container-narrow {
-	margin: 0 auto;
-	max-width: 940px;
+        margin: 0 auto;
+        max-width: 940px;
+        padding: 20px;
       }
 
       .CodeMirror-activeline-background {background: #e8f2ff !important;}
+
     </style>
   </head>
   <body>
    <div class="container-narrow">
 
+    <button id="btnChoose" class="btn btn-large btn-primary pull-right">Choose Hosts</button>
     <button id="btnSave" class="btn btn-large btn-primary pull-right">Save</button>
     <h1>HostAdmin Host Editor</h1>
 
@@ -112,6 +117,9 @@ Editor powered by <a href="http://codemirror.net/" target="_blank">CodeMirror</a
 
 <script src="glue.js"></script>
 <script src="editor.js"></script>
+<!--
 <a href="https://github.com/tg123/chrome-hostadmin" target="_blank"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+-->
 </body>
+
 </html>

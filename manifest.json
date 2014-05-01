@@ -6,19 +6,15 @@
 			"32" : "icons/icon32.png",
 			"128": "icons/icon128.png"
 		},
-		"version": "1.4.8",
+		"version": "1.5.0",
 		"manifest_version": 2,
-		"permissions": ["tabs", "browsingData"],
+        "minimum_chrome_version": "31",
+		"permissions": [{"fileSystem": ["write", "retainEntries"]}, "storage"],
 		"description": "Saving your time when you switch domain-ip mapping (Hosts file) between different environment. Awesome host file editor !",
-		"background": {
-			"persistent": true, 
-			"page": "container/chrome/background.html"
-		},
-		
-		"plugins": [{"path": "npapi/hostadmin.x86.so"}, {"path": "npapi/hostadmin.amd64.so"}, {"path": "npapi/hostadmin.dll"},{"path": "npapi/hostadmin.plugin"}],
-		"browser_action": {
-			"default_icon": "icons/icon128.png",	
-			"default_popup": "core/popup.html"
+		"app" : { 
+            "background": {
+                "persistent": true, 
+                "page": "container/chrome/background.html"
+            }
 		}
-
 }

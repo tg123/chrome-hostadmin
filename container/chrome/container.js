@@ -1,4 +1,8 @@
 ;(function(HostAdmin){	
+    chrome.app.runtime.onLaunched.addListener(function(launchData) {
+      chrome.app.window.create('core/editor.html', {id:"hostadmin", bounds: {width: 850, height: 600}}, function(win) {
+    });
+    });
 
 	var host_admin = HostAdmin.core;
 	var event_host = HostAdmin.event_host;
@@ -54,25 +58,15 @@
 			}
 		}		
 
-		chrome.browserAction.setBadgeBackgroundColor({color:'#0A0'});
-		chrome.browserAction.setBadgeText({text:str});
+		//chrome.browserAction.setBadgeBackgroundColor({color:'#0A0'});
+		//chrome.browserAction.setBadgeText({text:str});
 
 		if(str == '*') { str = 'In Hosts';}
 		else if( str === "" ) { str = 'Not In Hosts';}
 
-		chrome.browserAction.setTitle({title: str});
+		//chrome.browserAction.setTitle({title: str});
 		
 	};
-
-	chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
-		extracthost(changeInfo.url);
-	});
-	chrome.tabs.onActivated.addListener(function(activeInfo){
-		chrome.tabs.query({ active: true , windowType: "normal", windowId: chrome.windows.WINDOW_ID_CURRENT }, function(t){
-			if (t.length > 0){
-				extracthost(t[0].url); }
-		});
-	});
 
 	HostAdmin.container = {
 		opentab : opentab,
@@ -81,6 +75,6 @@
 
 	event_host.addEventListener('HostAdminRefresh', function(e) {
 		updatelb();
-		chrome.browsingData.removeCache({});
+		//chrome.browsingData.removeCache({});
 	}, false);
 })(window.HostAdmin);

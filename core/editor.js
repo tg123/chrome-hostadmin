@@ -49,6 +49,12 @@ run_from_glue(function(HostAdmin){
 		reload();
 	});
 
+    $("#btnChoose").click(function(){
+                chrome.fileSystem.chooseEntry({type: 'openWritableFile'}, function(theEntry){
+                    chrome.storage.local.set({'hostentry': chrome.fileSystem.retainEntry(theEntry)});
+                })
+    });
+
 	event_host.addEventListener('HostAdminRefresh', function(e) {
 		if(!changed){
 			reload();

@@ -3,16 +3,15 @@
 //
 window.run_from_glue = (function(){
 
-	var HostAdmin = null;
-
-	if(typeof(chrome) == 'object'){
-		HostAdmin = chrome.extension.getBackgroundPage().HostAdmin;
-	}else if(typeof(firefox) == 'object'){
-		HostAdmin = firefox.HostAdmin;
-	}
-
 	var _inner = function(callback){
-		callback(HostAdmin);
+
+        if(typeof(chrome) == 'object'){
+            chrome.runtime.getBackgroundPage(function(background){
+                callback(background.HostAdmin);
+            });
+        }else if(typeof(firefox) == 'object'){
+            callback(firefox.HostAdmin);
+        }
 	};
 
 	return function(_callback){
