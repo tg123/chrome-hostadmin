@@ -1,7 +1,20 @@
 ;(function (HostAdmin) {
+    function createWindow(url, wid, width, height, cb)  {
+        chrome.app.window.create(url,
+            {id: wid, bounds: {width: width, height: height}, resizable: false}, function (win) {
+                var b = win.getBounds()
+                if (b.width != width || b.height != height) {
+                    win.resizeTo(width, height);
+                }
+
+                if(cb){
+                    cb(win);
+                }
+            });
+    }
+
     chrome.app.runtime.onLaunched.addListener(function (launchData) {
-        chrome.app.window.create('core/editor.html',
-            {id: "hostadmin", bounds: {width: 850, height: 600} , resizable : false}, function (win) {});
+        createWindow("core/popup.html", "hostadmin_popup", 300, 600);
     });
 
     var host_admin = HostAdmin.core;
@@ -11,7 +24,11 @@
     var opentab = function (t, line) {
         var url = null;
         if (t == 'EDITOR') {
-            url = chrome.runtime.getURL('core/editor.html');
+            HostAdmin.cursorline = line;
+            createWindow("core/editor.html", "hostadmin_editor", 850, 600, function(win){
+                HostAdmin.requestCursorLine(line);
+            });
+            return;
         } else if (t == 'PERMHELP') {
             url = HostAdmin.PERM_HELP_URL;
         } else {
@@ -19,17 +36,18 @@
         }
 
         if (url) {
-            chrome.tabs.query({ url: url, windowId: chrome.windows.WINDOW_ID_CURRENT }, function (t) {
-                HostAdmin.cursorline = line;
-
-                if (t.length > 0) {
-                    chrome.tabs.update(t[0].id, {active: true});
-                    HostAdmin.requestCursorLine(line);
-                } else {
-                    chrome.tabs.create({url: url});
-                }
-
-            });
+            window.open(url);
+//            chrome.tabs.query({ url: url, windowId: chrome.windows.WINDOW_ID_CURRENT }, function (t) {
+//                HostAdmin.cursorline = line;
+//
+//                if (t.length > 0) {
+//                    chrome.tabs.update(t[0].id, {active: true});
+//                    HostAdmin.requestCursorLine(line);
+//                } else {
+//                    chrome.tabs.create({url: url});
+//                }
+//
+//            });
         }
     };
 

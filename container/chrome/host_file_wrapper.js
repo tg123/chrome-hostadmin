@@ -75,12 +75,12 @@
     }
 
     var refresh = function(cb){
-//        refresh_file(function(){
+        refresh_file(function(){
             refresh_write(function(){
                 refresh_read();
                 cb();
             });
-//        })
+        })
     };
 
     HostAdmin.host_file_wrapper = {
@@ -95,7 +95,7 @@
             pending_write = new Blob([data], {type: 'text/plain;charset=UTF-8'});;
             refresh(function(){});
 
-            return write_able;
+            return write_able && pending_write == null;
         },
         time: function () {
             return modified_time;
