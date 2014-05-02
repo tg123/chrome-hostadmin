@@ -1,6 +1,6 @@
 <!doctype html>
 <html>
-  <head>
+<head>
     <title>HostAdmin Host Editor</title>
     <meta charset="utf-8">
 
@@ -14,41 +14,46 @@
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
 
     <style type="text/css">
-      html { overflow : auto !important;}
+        html {
+            overflow: auto !important;
+        }
 
-      .CodeMirror {
-      border: 1px solid #CCC;
-      border-radius:4px;
-      -webkit-border-radius: 4px;
-      -moz-border-radius: 4px;
-      }
-      .container-narrow {
-        margin: 0 auto;
-        max-width: 940px;
-        padding: 20px;
-      }
+        .CodeMirror {
+            border: 1px solid #CCC;
+            border-radius: 4px;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+        }
 
-      .CodeMirror-activeline-background {background: #e8f2ff !important;}
+        .container-narrow {
+            margin: 0 auto;
+            max-width: 75%;
+            padding: 20px;
+        }
+
+        .CodeMirror-activeline-background {
+            background: #e8f2ff !important;
+        }
 
     </style>
-  </head>
-  <body>
-   <div class="container-narrow">
+</head>
+<body>
+<div class="container-narrow">
 
-    <button id="btnChoose" class="btn btn-large btn-primary pull-right">Choose Hosts</button>
+
     <button id="btnSave" class="btn btn-large btn-primary pull-right">Save</button>
     <h1>HostAdmin Host Editor</h1>
 
-<div class="alert hide" id="savefailed">
-Write hosts file failed check permissions, <a href="#">Learn more</a>
-</div>
-	<hr />
+    <div class="alert hide" id="savefailed">
+        Write hosts file failed check permissions, <a href="#">Learn more</a>
+    </div>
+    <hr/>
     <textarea id="code" name="code"></textarea>
 
-<hr />
+    <hr/>
 
 
-<div id="syntaxhelp" style="height: 200px;overflow: auto;">
+    <div id="syntaxhelp" style="height: 200px;overflow: auto;">
 
 <pre id="syntax-common">
 <span class="label label-success">Common Hosts File Syntax</span>
@@ -90,36 +95,50 @@ Setting 'hide' as comment could prevent this line from managing by HostAdmin
 
 ....
 </pre>
-</div>
+    </div>
 
-<hr />
-<div id="footer" class="row" style="text-align:center">
-<p>
-Editor powered by <a href="http://codemirror.net/" target="_blank">CodeMirror</a> | 
-<a href="http://code.google.com/p/fire-hostadmin/issues" target="_blank">Feedback</a>
+    <hr/>
+    <div id="footer" class="row" style="text-align:center">
+        <p>
+            Editor powered by <a href="http://codemirror.net/" target="_blank">CodeMirror</a> |
+            <a href="http://code.google.com/p/fire-hostadmin/issues" target="_blank">Feedback</a>
 
-</p>
-</div>
+        </p>
+    </div>
 
 </div>
 
 
 <div id="contentchanged" class="modal hide fade">
-<div class="modal-body">
-<p>Host file has changed outside! Reload ?  </p>
-</div>
-<div class="modal-footer">
-<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Don't Reload</a>
-<a id="mreload" href="#" class="btn btn-warning">Reload, Changes will lose</a>
-</div>
+    <div class="modal-body">
+        <p>Host file has changed outside! Reload ? </p>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Don't Reload</a>
+        <a id="mreload" href="#" class="btn btn-warning">Reload, Changes will lose</a>
+    </div>
 </div>
 
+<div id="choosehost" class="modal hide fade">
+    <div class="modal-header">
+        <h3>Where is your host file</h3>
+    </div>
+    <div class="modal-body">
+        <p>Click Select Hosts File to enable HostAdmin manage your hosts</p>
+        <p>Windows : please select %WINDIR%\system32\drivers\etc\hosts </p>
+        <p>Mac/Linux : please select /etc/hosts </p>
+    </div>
+    <div class="modal-footer">
+        <button id="btnChoose" class="btn btn-large btn-primary pull-right">Select Hosts File</button>
+    </div>
+</div>
 
 <script src="glue.js"></script>
 <script src="editor.js"></script>
-<!--
-<a href="https://github.com/tg123/chrome-hostadmin" target="_blank"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
--->
+<a href="https://github.com/tg123/chrome-hostadmin" target="_blank"><img
+        style="position: absolute; top: 0; left: 0; border: 0;"
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJUAAACVCAYAAABRorhPAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAGidJREFUeNrsnQlwFFXXhq8xgPuOsomQREDAiLhruUtZRkAWFTcE96W0XMt9KXdRv88PPn8USQISZLPKcrdcUcEdF1BQRECUBBTcdwXy93P/OfkvbXfPZHqS9CTnVHX1JBmGDPPynve+59xzN6itrTUa9YsNvJCHqasgdW3oXYW+qxVXcXHxtoMHD57cuXPnksLCQrN69WqzatWqRLyfzTbbzHi/n2ndurWpqakxS5cuvXvcuHE3ez9a613rUvfa1GOTevx/DwLwU6gQaRBAtXKvrl27tu3Xr98E717CB/jhhx+aNWvWJOY99ejRw2yxxRZm9uzZ5scff/x3eXn5Hc77q3coqBoGUK3l3qVLl7aDBg2a0L59++KNNtrIfPnll4kB1Kabbmo6dOhgNtlkE/PZZ5+Z77//fnRlZeWouK+roMotoFo7oGq90047bX/UUUeV77LLLsXr1q2zH9zvv/+eiPdTUFBgdtttN8Pv9cEHH5hvvvnmfzxA3eM8pda51kt5aV9b4dIggGoDoMrKyspJeTDC8uXLzW+//WaSoGEBFBpqyy23NIsWLTLV1dVjvZR3T0ozpQNS2jewgQr1nAKqjTDUkCFDKkpKSor4gx4LmO+++y4R74dU17NnTwtugL5w4cJxVVVV//J+9Kd3/eVdf6euNY5QXxfAXKFCXZmqAQDlpbzx3r0IJli8eHFiAEV4QDfbbrut+eijj8ynn3463gPUaB94wkCUMfuopsoxoI499tgKT5QXwQje0tz8/fffibENOnXqZMX5ggULzMqVK8sffvjhMSlGWuMw01ofoGrrAygFVQMwVLdu3Yo23HBDWMD89ddfiXlPu+66q+H3eu+998yKFSsqPUD9NyDVrQ1gK1NfttL0lyNADRw4sLxLly4lG2+8sdUqf/75ZyJEOYYmohym+vzzzxHlFV7KG5PST385oAoCVr1ZSoV6jgA1aNAgaxusXbsWFjA//fRTIgDVpk0b06dPH8PvRSr29F1lClB/hgjzNWZ9Bz2tplKh3kApr3PnzsU40suWLcORNkn5j1pUVGS22WYb88knn2AdVOQaUMpUDQCo4447rsITv0UwArU8rIMkxOabb268VGxIxdTy5s2bV5HSUDkHlNb+csxQnlYpovTC8jwpqzzCS8V2lff666+zymswQOnqL4eAGjx4sLUNANRXX321HqDqw/z//9fnJmAmbAOp5TUFoFp0+ssWUAMGDCgvLS21ohwNJaUX+Xf036PA5IIqLsCwC/bee28ryrEzPLBXTpo0qcE1lAr1HIlylucw1K+//voPQLkXxVouPmgu+ZpLfp4JCDMJbIOtttrK1vK++OKLimwBVZsDlmlxTJUtoIYOHVrRtWvXIoqxNNd9++236/1vdcElYHG/5zJS2JUNY6GdunXrZpmqurrazJ8/P+uUJ4Cqz+/Q4pkqDkMBKJgAA9EFlD8EUDvuuGMdQ9E/xSVfu8wVBr5MA0Btt912Zu7cuTkBVC6iUAGVvpbXrl07K8q9tPKPBjt/yuM64IADzPDhw81DDz1kZs6cab9HZ4AHTMsCr732mtVidf+zCwrqWIrnZsIUMJTU8tBQX3/9dSIA1WJAFYehunfvbttXWE1RekmXCmAfwIfeGjFihGUk7wM3V155Zd3zDj74YDN27Firy9yUmCmgCBrsiPfff9+t5TU5oFqEpoqzyvOYoBg2SLXaRgJJ7pLaSH9XXHGFZZIlS5aYHXbYwYwfP9663AMHDrSgu+qqq8wff/xh9RBsxeXqq0AWKCw03u9nhTm97h5L5ZyhVFM1kA/lpatinOkgQPnTnR9cXADp9ttvt+ABSPPmzTNvvPGGmTJlinnyySct2A466KBAOyLKh9p9993tKg9ALVy4sCJJDNXsQRXTNrANdhRhBVBB2sm1CFy24urfv78F1i233GKBtd9++5nDDz/cPufNN9+0r4nOqo9piiZDlNMPBUNNnjw5cYBqtpoqTi2vQ4cOtsEOQPg1VJgf5U99ZWVlZtiwYbbDcty4ceamm24yN9xwgznnnHOMJ/ptKiQARyYpB8b0gG7bVz7++GPbvpJEhmq2mioOQ/Xp06eE/iM+OH/pJSrV+RmLleLVV19tmeXFF180DzzwgE2BN954o017MNc777xjHn300Yw01T777GNf86233kKUNzigVFPlSEOx6wXNElTLC2Mk8aDkMau9Qw45xPzyyy/m1ltvtWx3xBFHmHPPPdeuCG+77TYLKLoZsBuwFaLEOb8PPeUAEae8MQClTJUDQNGx2bt3b1vLo2MTQKQru/D4lFNOsfcJEybU+VCs5gjAgzAHDNddd51lqZdeeslUVlbaVRvmaRBDyZ1o1aqV2XPPPS1oMVw9UFY2VulFmSq+KLerPBjq559/DiwM+1Nc9+7drdcEK8FOfPA42lgGxMUXX2x7wmGlqVOn2u8h0rnYocyGUgFTGFMBRFZ5rD4XL17cpLW8FsdUcZxytlHBFjCHf1hGUMpz74Dq9NNPt89FN6F3YCfS3dlnn22//8QTT1hwbb/99mbGjBnm1VdfrWMn7i47yYUYJ+XhR9Fg5+m7Rk95cZkqr0EVh6G8Dzt0WEaYbXDkkUdaj0k01GGHHWbOOuusuj+HfUDDXmlpqbnkkkts+iMA1LPPPlvHTGGAIvr27WtbgCnlxOmHisNQcUFV2NIARbeB1PL8wzKCUp7c0VCwEx84aY7vPf/883ZlBogIvChAxeoRUO277762zZgecVc/+cHEBQA7duxo7wsXLmwyQLVYnypbQJWVlY3v0aNHEf/mfHCI5XSAknT38ssvW+EMO/E1/hNpDkCR9riT+ggEOSs7SXfpAMXlDsuorq6uzFdA5WX6yxZQ/fv3L0eUU8ujqv/DDz/8A0x+D8rVUDAaBuQ111xj2YQiMSbmCy+8YAHWr18/a24SABDLwA+mIEDxHEQ5q8I5c+YgzJucoVqUpoozLGPnnXe2DOUOy/CzE+EylNzd/ieKuddff30dsM4///w6wACsM888074OoJo1a1YkoHDue/XqZV8XO8NLk4lIeS3GUsjlsAy/EA9LeXIfOXKk/fBhKX5O2QW7AKY677zz6kDzyiuvWN+KO4AK86HkrcBOaDQ0WFIA1WLSX5xaHrteWOXBUFxR9Tsu6nUYlvPnzzf33Xef3e4kpiZBqiPluWUXjE3A5NoF7ipPACUsgC9GawwbUGkBnjt3bqIA1eyZKg5DkfJgKAxE14cKA5Qwlcxw4mtWc7JJFHaC7Qg6GKQDAVPzjDPOiNRP7ocF68FQ2BlxNnrWJpQREs1U2QLqmGOOKe/QoUMx8yypv0lPeRSQ3K9hKx5Te2PbE047BiarO0B08803W1DRcQDbUDx+9913TVVV1XpM5ddQFKthKArNMGFSespbjFCPAyga7IKGZYR1F5Dihg4dar93zz33WBDxfVqAe/fubR3zBx980DISKzyA9fjjj1uQPfXUU9aHQquFGZsEvliuhmU0NEM1y/SXi2EZGJv+YRlBXhQ2waWXXmqb32APPnz5+ZgxYywApPSCdgJc6KiTTjrJshd1PJgwyinngp1gQPyxOMMyavNABCeOqeIOyyDF8CEHDcvw2wV8Tctv27ZtzV133WVB5U+F6CtWfQhzGKuiosKu2qjp4ZYzRCzK3JRhGYAV5swHDdWsmCoOQ3kfet2+vKjpKy5boZkAFL1OLOv9+urEE0+0zwV4wljU+tjuTi0vClASDL6XfXnNUZQHRUG+Awpj08NTidTywqavBH0maCMCJoGRXEDRYz5gwABz7bXXWpAIsKj1IdBdQR4EKFKkt/rMybCM2jwrexTkM6AovXgiu0h2vZCOMqVqeUzKIwCRG3QjvP3221YLkf4ADSny7rvvtunVX9NzAUXbCrW8rbfe2tbyFixYUNlSAJUIUMUpDnv3Yhl8L8MygoAUNERDHj/zzDN1oKJYLD/j15o2bZp9jCAnFVKAppkvClB8LQ12qY7NvGqwy3tQxUl5vXr1KpHebWyDdPrJXyh2mQo3nKDp7oQTTrCNcvxqsuuFsgu1PLcfKmiFx59jXx6rT4xND1QVLYmhmnz1F0eU9+zZswRHGqEcdnhQFKCCxvnQGiydnLAe+gmPisfU+tLZBgQ+FKwGCNmkMGXKlLwEVF6an3EH38MEdAikW+WlA5Q/FVI+IQ1yJyjtMPOABUC6FmBaagA66dFjqbwFVF6CKg5D9e3bt4Q/joHI4Puw3z1qFzFLfFZ7/AxGkRWg+w8K2wAUrAMBUVCngbwVOj75PsMyampqKidPnpzXGiqvQBVnG1XHjh2LabdF/Ead9RIGKAxPAMXQDNdSGDVqVB143Eu6CsLAxMU2Khx5zFB8KG+Vl9cMlXegirPRk3E+AGPlypWRc8rDRiNyP/DAA61ugoVwxbkjygEWVgEpzgVPWNuvvA2MU1qIZfZnEjo2W5SjnothGbjetABnk/IwRo8//njrOdHKwoAMtk/RS84KEvbiZ/7VXZixyR3bgFoexeSkTl9ptpZCnFqex1B2Kzo9TO4mhShABW1Pp+vgjjvusKzEDhe6DQh6ybETAJa3CIjUTnKxSGBViOZiw4MnzJtFyssbS6EhhmVkwlICJhhqjz32sFvZYScEOl2dgKi8vNwKdVgJ0xORzZSXoLYVNx1QpgHoMvi+OQIqsZoq7uB7jEd0jn/ncNgb8++AYYl/+eWX123opFmPthVCNi6Q/ti0KQ55kKkpAZBYKNBkx+rTS6PNlqESqanijESklkeKyaSWF1R2ER1FOiNGjx5tt6SjgQAT3pZMuIOhqBu6aS8oqOVhbOJDwWjU8jTlhUdhUgCV2vVih2UgpklZmfzvCGsLxsDEFacoDKikl/zkk0+2OooVH9YEWi1IP7khtTzGK3qMpxqqMYV6HKecWh5tItTyMgFUUC2PuwQ1PVZ0AIlfCw0FyBDqpLl001dkKzq1PIBOLY/pKwqoRmSquIPvSXm0iYTV8vyCPKoUQzAUA6uAXS6AA22GNwXYoorCrqZgZBApj+3r1PKmTp2qgGqs1V+cYRmIcvqOaLXNtJYXtRvG/T7brC644II6sU4KZGMDLBW00dNlKEQ5IMQfo5bXkgDV5Ku/uLU8/n7xoTIxNv0T7WQrOilTVoru6wAQnHSCWQXSbRA1LINaHq+BD7V8+fK8r+XlFahyPSwjSj8FbUtnmY9tgP9EMJx14sSJduJKWHklytyEvdBhCHNWeYyVbokpr8nmU8Xxobp161Y3zqc+gAqq5wEoanm43BiTpDiA5RaGo06ukguA8hq8NtqupQKqyVZ/cVKeBwJby8OMjDqaI6wPyp3Cgm0AiCg0AwhWd9OnT7cpz18cjqrlEXQaUMuTYRkKqEYEVZxansdQtpYHoOiHyoSh3Aks/ksmALPjhaY9pgLLVBZJiZnU8uTMYfyxmpoaBVRjWgpxh2XgTHPKQaaA8jMUJZLTTjvNAoCNnUxfwXdCA4m5ydfs5RO2SlfLY4VIjRGTVG2DRrYU4sw2oMGOvXKkp6gDGKOOiuXCDmCZLwHjMSzjsssuszuGJdikMHv27PW8KH8Zpk2bNrY+CKPhXTEFWAHViKu/XAy+Zw6TO6c87BcMOuYMA5LzXqjVcQoVDEW5hR3DAIu0B2hxvgEt5ZeoAjHMhFPOa9NJ6r0G+/LGKKByA6qChgKUW8ujM9KdvhLFUi64xDZAIwEogiU/P6fjgBRI6qOdBTDRMOf6UGH/OLwGQOX5qW1UCqjG0lRxRDkdm2gomMA92jVTg5MLU/PUU0+1+oiTE1jhYUzSFsPZL1gJgEe2ortOeZAop7GOVR6/F7U8D+ya8hpTU8VhqNLSUrvR0z/4PmgScJiV4M4uJxjQimvOnbSHPqObk6IwQGFrVDrbYK+99rIpkh4qzhxWQDVi+os7LAMRTMqLGnwfVXqRC8FNdyaBbQDTwE60AZPCLrroIstMAqiwregAnFPRSaUYrgqoRmaqbAF19NFH2xZggAGLwCBBfU9BV5CucksyTAc+9NBD7eveeeedNp1eeOGFdpxPUHHYf2Ez8Dqs8lpiLa9JV39xhmV4S/MSluiIX7ZRheklAQwXvhOM5v6MnipA4wcX/hSFYboGmLzi74UKa2Ph8CAu6oJso1KGasT0FyfleQLaHh5Eg50fUP4QQGEJcH4LQJSDGIcPH243Z7ppUDwmSYUYmwj1qOl1hBxiLX1aCqhGLtPkavB9fYxNUhlahy4DgMQSHyZyQSX/awRYXtoy9957rx0dFNZoJ4F4Z4IdpRymACugGhFUcVqAvbRiW4BJSem2UfmBJacjACymALOdSp4jMznrfkmHkQRQYQwFY9KxySqPVMw2KgVUI6dP35UxQ3mppYQPNdNhGW4dzz13GHbCJnAHZVCHQ1TTa4V2ivKe/BpAetAZM7RixQp1yptCqKdAlNWwjLCUF7bbxS29ACzqdrji/FxO85TTqSQYev/cc89ZhvK3/bpvntIL+oy0R8pjWIYyVNOAqrA+gBo0aFB5jx49igEH+/JElAeZmO5j/2wDRDSnT+E1USD22MQ+F2CRvtiXR/qiSMwblPlQLjPJxevjizFjE7DCUJReFFBNm/5amczbV0rat29vnfIgHyoTluLuvZYZNmyYfQ5WgaQ+jjZjpLRMYpH5mlEuOa9PPxQAZdcLsw0UUE1vKWQ8LANRTspzARW2/04AFHQx+ZfTEwh2DcNOAAanHMcc8U49L2qUj4hy2AzbQIZlKKCSwVSbpGMoL7XYOeV0RsoqL8ohD2u2wy6gBZidvmgnqePRvkLKk93CAAWRHmQbyP8kXhfgAXQZlqGASo5Q3yIFqFYpUHG1cYdloHtIRf7jzYIOYEQvsSGBEor7Mym1SNAX9dhjj9kDhOjYxLci5bmrPf+MTXnDAJyFAiCVYRkKqGQJ9UBAybAMEeXukj+s94kPG5ecbkq+fvrpp+3PadkFUKQ8WInDgrgItqPzJuiXgqHcozmCOjb5mZxGxXOXLVtWqYBKVrigapVKeW3lNCpWYOwuCZtt4KY7AEVbL4CaOXOm1U3ymckmBF6LOVGwEl0HAAvLgC1VAISUF9ZpIEFTHjuaeR2GZUybNk0BlcAyTaEDKJzyShl8D0PRApwuSHkCKAq3iG2xDmi0g50IznrhdQEVDCVmJQASDRXWtYko79u3r7UaqOVhGyigkgsqy1IeIGCoctmXR8dmVC3PDboK6DYgEOIACUBxpgsX+/JIfdL6S5qTjQrsrgk6ScGf2zk8iH15TAFmk4ICKtmrv5KuXbvuMGTIkIfatWtXzBwmQJDJsAy/S07rL2UX9Bd/Hu8IMMFKcvCi9JoT1P8mTZr0Dy/KBRQMhSiXI9Q4xFoBlfDVX3Fx8T79+vWr8lLLznyD9hVmX2ayScG/64VrxIgRdas8ho0xyc71mGAowMYqj7Zef0+U/03tv//+9u+Boaqrq5lgp7W8pK/+ysrKqjp16rSznEsXNQXY/5e6/U4CMkQ3AbAAELU4GEbSGtoJG8Cf7lxA8ToMvieNoqEQ8RibylB5Asr777+/FrbBjAybbZAJW/lddGEsKbmgufyzDfxgkgDgAFIG3zOnXAGVP0xVQImD1Vh9ACV/sX9bucs+aCU0kwy/Z3tV0KAM/5twB99jQSig8nD1x3IfDZUtot3ZTq4TzlVVVWWLvACLdhb/jhc/oAA4q0cZfM+wDAVUHpqfUau8+tKlXxdx0dbCADF0lJRd3OeLLhM7gjYWaoPU8hRQeQqqXADKBYYr2iXnsgDwG5quFyXDMtBS+FYKqBYOqiBhJ0DLBIis8nDK6X6A0Tx9V6mAynNNletVQ7oeKNeK4C6D70mPqTnl6kMpU6Vfjrogkucg3tnkCVPRScqp6MpQCqqMwOUCyv0ep4TCUKwO0VDTp09XQCmoMjfG3M8dMS6iHHddAaWgyhpQwlTseuExopxhGQooFepZAwpLAQ1FWw0WAwPHVJQrU2WV7nhMqsPYpCYIQzEsQxlKmSprQBEy+F52DiuglKmyBhRtK4hy6XVXUa6gylo/SdCZwNBWBm4ooDT9xQIUhiYpj24DRDknKaixqUyVtX5i+gq1PNmXt3jxYrUNlKmyBxR3EeXMl1q0aBE7h9U2UKbKDlCkOjY0sKmUfXn0lCtDKahiMRRb2wHWrFmzVJQrqLIX5GJsai1Po16gigIU7cGMlWbUYmoblYpyjXChHjZvSu4Uh91a3tKlS7WWpxHOVOn0Ew129EMBLGp5DMuYMWOGMpRGMFOlAxTB4UEMvmcrOoPvFVAaoUyVDlAyLAOmkl0vCiiNUFBFCXKJ0tJSm/IQ5TU1NZUKKI3Q9JcOUNTyEOXsIGYqzPLly6nlqSjXCGaqoDP33DsOuQy+nzNnjm2wU4bSiGSqdAP2pZYnwzLUh9LIWlMhypnhiShPDRxThtLIPP0FAYsGO+Z2zp49W1d5GvVnKvdzZ1gGx9CqbaCRE6ai9ZcGO2p5iHK2UXmAGpMCkgJKI3NLQdgKUc6xs9TylixZMn7q1Kn/UYbSyIqpEOWUXug6oMFu6dKl4zyGGp0Czt++SwGlkV5TURyGoZjRuWrVqrHTp0//Twowa5xLAaWRGahgKEQ5h1ivXr36Pi/l/SsFmnUpAPnBpYDSiAYVxiai3APUmClTptztAErAs9YBlgJKIz2oOIPGS3n/njRp0ijR7D5Q+e8KKI3I2GDkyJF3TZw48Q7ney6o/ABbD1Den611V4/+x2EHdqc7yDvsZ5l8ne77GuvHI488EuvPh51MulnqLoAyDqD8AKt1nqOfmkboyaRrfaBKdymgNNJaCut8qc+EgEgBpZExqNYGsVoAmBRQGhmDKgw0tSFA09CoV/ozEayloZExqBREGg2a/jQ0YkeB/hNoKKg0kp/+tJyhoUyloaDSUFBpaCioNJIX/yvAAAP7Vt9X4IkKAAAAAElFTkSuQmCC"
+        alt="Fork me on GitHub"></a>
 </body>
 
 </html>

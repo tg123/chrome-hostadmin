@@ -101,6 +101,10 @@
             return modified_time;
         },
         splitchar: '\n',
+        choosed : function(){
+            return host_entry != null;
+        },
+        refresh_file : refresh_file,
 
         _refresh : refresh
     };

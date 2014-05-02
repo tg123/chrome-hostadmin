@@ -3,6 +3,8 @@ run_from_glue(function(HostAdmin){
 	var event_host = HostAdmin.event_host;
 
 	var container = HostAdmin.container;
+    var host_file_wrapper = HostAdmin.host_file_wrapper;
+
 	var opentab = container.opentab;
 
 	var changed = false;
@@ -49,11 +51,28 @@ run_from_glue(function(HostAdmin){
 		reload();
 	});
 
+    // chrome only button
     $("#btnChoose").click(function(){
-                chrome.fileSystem.chooseEntry({type: 'openWritableFile'}, function(theEntry){
-                    chrome.storage.local.set({'hostentry': chrome.fileSystem.retainEntry(theEntry)});
-                })
+        $("#choosehost").modal('hide')
+        chrome.fileSystem.chooseEntry({type: 'openWritableFile'}, function(host_entry){
+            if(host_entry){
+                host_entry.file(function(file){
+                    if(file.name == "hosts"){
+                        chrome.storage.local.set({'hostentry': chrome.fileSystem.retainEntry(host_entry)});
+                        host_file_wrapper.refresh_file(function(){});
+                    }else{
+                        $("#choosehost").modal('show')
+                    }
+                });
+            }else{
+                $("#choosehost").modal('show');
+            }
+        })
     });
+
+    if(host_file_wrapper.choosed && !host_file_wrapper.choosed()){
+        $("#choosehost").modal('show');
+    }
 
 	event_host.addEventListener('HostAdminRefresh', function(e) {
 		if(!changed){
