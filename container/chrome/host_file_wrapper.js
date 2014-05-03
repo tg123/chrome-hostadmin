@@ -14,6 +14,9 @@
 
     var write_able = false;
 
+    // SUCKS
+    var write_error = false;
+
     var refresh_file = function(cb){
         chrome.storage.local.get('hostentry', function (items) {
             if (items.hostentry) {
@@ -54,8 +57,12 @@
 
     var refresh_write = function(cb){
         if(host_entry && pending_write){
+            write_error = false;
             host_entry.createWriter(function(writer){
 
+                writer.onerror = function(){
+                    write_error = true;
+                }
                 writer.onwriteend = function(){
                     if(pending_write){
                         this.truncate(this.position);
@@ -64,8 +71,6 @@
                     cb();
                 };
 
-
-//                writer.seek(0);
                 writer.write(pending_write);
 
             });
@@ -95,7 +100,10 @@
             pending_write = new Blob([data], {type: 'text/plain;charset=UTF-8'});;
             refresh(function(){});
 
-            return write_able && pending_write == null;
+            return this.pending_write();
+        },
+        pending_write : function(){
+            return write_able && pending_write == null && !write_error;
         },
         time: function () {
             return modified_time;

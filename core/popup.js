@@ -11,11 +11,16 @@ run_from_glue(function (HostAdmin) {
         var searchbar = $("#search input");
 
         var save_alert = function (r) {
-            if (r) {
-                $("#savefailed").hide('slow');
-            } else {
-                $("#savefailed").show('slow');
-            }
+            //TODO THIS SUCKS
+
+            setTimeout(function(){
+                r = host_file_wrapper.pending_write();
+                if (r) {
+                    $("#savefailed").hide('slow');
+                } else {
+                    $("#savefailed").show('slow');
+                }
+            }, 1001);
         };
 
         var host_ul = $("#list");
