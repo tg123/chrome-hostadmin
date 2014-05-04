@@ -41,10 +41,10 @@
     var refresh_read = function(cb){
         if(host_entry){
             host_entry.file(function(file){
-                modified_time = file.lastModifiedDate.getTime();
                 var reader = new FileReader();
 
                 reader.onload = function (e) {
+                    modified_time = file.lastModifiedDate.getTime();
                     pending_read = e.target.result;
                 };
 
