@@ -1,117 +1,171 @@
 <!doctype html>
 <html>
-  <head>
-    <title>HostAdmin Host Editor</title>
-    <meta charset="utf-8">
-
-    <link rel="stylesheet" href="lib/CodeMirror/lib/codemirror.css">
-    <script src="lib/CodeMirror/lib/codemirror.js"></script>
-    <script src="lib/CodeMirror/mode/hostadmin/hostadmin.js"></script>
-    <script src="lib/CodeMirror/addon/selection/active-line.js"></script>
-
-    <script src="lib/jquery-1.8.3.min.js"></script>
-    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-
-    <style type="text/css">
-      .CodeMirror {
-      border: 1px solid #CCC;
-      border-radius:4px;
-      -webkit-border-radius: 4px;
-      -moz-border-radius: 4px;
-      }
-      .container-narrow {
-	margin: 0 auto;
-	max-width: 940px;
-      }
-
-      .CodeMirror-activeline-background {background: #e8f2ff !important;}
-    </style>
-  </head>
-  <body>
-   <div class="container-narrow">
-
-    <button id="btnSave" class="btn btn-large btn-primary pull-right">Save</button>
-    <h1>HostAdmin Host Editor</h1>
-
-<div class="alert hide" id="savefailed">
-Write hosts file failed check permissions, <a href="#">Learn more</a>
-</div>
-	<hr />
-    <textarea id="code" name="code"></textarea>
-
-<hr />
-
-
-<div id="syntaxhelp" style="height: 200px;overflow: auto;">
-
-<pre id="syntax-common">
-<span class="label label-success">Common Hosts File Syntax</span>
-[#] IP HOSTNAME [# COMMENT] 
-
-<span class="label label-info">Note</span>
-Setting 'hide' as comment could prevent this line from managing by HostAdmin
-</pre>
-
+	<head>
+		<title>HostAdmin Host Editor</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="lib/CodeMirror/lib/codemirror.css">
+		<script src="lib/CodeMirror/lib/codemirror.js"></script>
+		<script src="lib/CodeMirror/mode/hostadmin/hostadmin.js"></script>
+		<script src="lib/CodeMirror/addon/selection/active-line.js"></script>
+		<script src="lib/jquery-1.8.3.min.js"></script>
+		<link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<script src="lib/bootstrap/js/bootstrap.min.js"></script>
+		<style type="text/css">
+		.CodeMirror {
+		border: 1px solid #CCC;
+		border-radius:4px;
+		-webkit-border-radius: 4px;
+		-moz-border-radius: 4px;
+		height: auto !important;
+		}
+		.container-narrow {
+		font-size: 13px;
+		margin: 0 auto;
+		max-width: 940px;
+		}
+		.grps{
+			padding: 15px;
+			border-radius: 4px;
+			border: 1px dashed #ddd;
+			margin-bottom: 10px;
+		}
+		.CodeMirror-activeline-background {background: #e8f2ff !important;}
+		#guidance {
+			clear: both;
+			margin-top: 10px;
+		}
+		#guidance > .panel-body{ }
+		.collapsed.in{
+		display: none;
+		}
+		#text, [class^="icon-arrow-"], [class*="icon-arrow-"]{
+		float: left;
+		margin-right: 6px;
+		}
+		a.accordion-toggle > div.icon-arrow-up{
+		display: block;
+		}
+		a.accordion-toggle > div.icon-arrow-down{
+		display: none;
+		}
+		a.accordion-toggle.collapsed > div.icon-arrow-up{
+		display: none;
+		}
+		a.accordion-toggle.collapsed > div.icon-arrow-down{
+		display: block;
+		}
+		</style>
+	</head>
+	<body>
+		<div class="container-narrow">
+			<button id="btnSave" class="btn btn-large btn-primary pull-right">Save</button>
+			<h1>HostAdmin Host Editor</h1>
+			<div class="alert hide" id="savefailed">
+				Write hosts file failed check permissions, <a href="#">Learn more</a>
+			</div>
+			<hr />
+			<div id="syntaxhelp" style="overflow: auto;">
+				<div class="panel-group" id="accordion">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+							<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#guidance">
+							<div id="text">Syntax Rules</div>
+							<div class="icon-arrow-up"></div>
+							<div class="icon-arrow-down"></div>
+							</a>
+							</h4>
+						</div>
+						<div class="clearfix"></div>
+						<div id="guidance" class="panel-collapse collapse">
+							<div class="panel-body">
+								<div class="grps">
+<p><span class="label label-success">Common Hosts File Syntax</span></p>
 <pre id="syntax-grouping">
-<span class="label label-success">Grouping</span>
-[#] IP HOSTNAME [# COMMENT] 
+  [#] &lt;IP&gt; &lt;HOSTNAME_1&gt; [&lt;HOSTNAME_2&gt;] [# COMMENT]
+</pre>
+<p><span class="label label-warning">Note</span></p>
+<p>  Setting facultative [COMMENT] with 'hide' word prevents this line to be managed by HostAdmin and will not be displayed on quick edit tool.</p>
+
+<p><span class="label label-info">Example</span></p>
+<pre id="syntax-common">
+  127.0.0.1 localhost # hide
+</pre>
+								</div>
+								<div class="grps">
+<p><span class="label label-success">Grouping</span></p>
+<pre id="syntax-grouping">
+[#] &lt;IP_1&gt;	&lt;HOSTNAME_1&gt; [&lt;HOSTNAME_2&gt;] [# COMMENT]
+
 #==== GROUPNAME
-[...]
+  [#] &lt;IP_2&gt;	&lt;HOSTNAME_2&gt; [&lt;HOSTNAME_3&gt;] [# COMMENT]
+  [#] &lt;IP_3&gt;	&lt;HOSTNAME_4&gt; [&lt;HOSTNAME_5&gt;] [# COMMENT]
+  [...]
 #====
-
-<span class="label label-info">Example</span>
-
+</pre>
+<p><span class="label label-info">Example</span></p>
+<pre id="syntax-grouping">
 #==== Project 1
-#127.0.0.1       localhost1
-127.0.0.1       localhost2
-127.0.0.1       localhost3
+  #127.0.0.1	localhost1
+  127.0.0.1	localhost2
+  127.0.0.1	localhost3
 #====
 
 #==== Project 2
-#127.0.0.1       localhost1
-#127.0.0.1       localhost2
-#127.0.0.1       localhost3
+  #127.0.0.1	localhost1
+  #127.0.0.1	localhost2
+  #127.0.0.1	localhost3
 #====
-
 </pre>
-
+<p><span class="label label-warning">Note</span></p>
+<p>  Grouping "hosts lines" let you enable/disable all records in group just clicking group name into "quick edit tool" in the bottom. These lines will have also a tag that will display the group name of appurtenance.</p>
+								</div>
+								<div class="grps">
+<p><span class="label label-success">Bulk Hide</span></p>
 <pre>
-<span class="label label-success">Bulk Hide</span>
 #hide_all_of_below
 ....
-
 #All text here will be parsed as comment
-
 ....
 </pre>
-</div>
-
-<hr />
-<div id="footer" class="row" style="text-align:center">
-<p>
-Editor powered by <a href="http://codemirror.net/" target="_blank">CodeMirror</a> | 
-<a href="http://code.google.com/p/fire-hostadmin/issues" target="_blank">Feedback</a>
-
-</p>
-</div>
-
-</div>
-
-
-<div id="contentchanged" class="modal hide fade">
-<div class="modal-body">
-<p>Host file has changed outside! Reload ?  </p>
-</div>
-<div class="modal-footer">
-<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Don't Reload</a>
-<a id="mreload" href="#" class="btn btn-warning">Reload, Changes will lose</a>
-</div>
-</div>
-
-
-<script src="glue.js"></script>
-<script src="editor.js"></script>
-<a href="https://github.com/tg123/chrome-hostadmin" target="_blank"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
-</body>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<hr />
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+					<div id="text">Hosts file</div>&nbsp;&nbsp;
+					</h4>
+				</div>
+				<div id="" class="panel-collapse">
+					<div class="panel-body">
+						<textarea id="code" name="code"></textarea>
+					</div>
+				</div>
+			</div>
+			<hr />
+			<div id="footer" class="row" style="text-align:center">
+				<p>
+				Editor powered by <a href="http://codemirror.net/" target="_blank">CodeMirror</a> |
+				<a href="http://code.google.com/p/fire-hostadmin/issues" target="_blank">Feedback</a>
+				</p>
+			</div>
+		</div>
+		<div id="contentchanged" class="modal hide fade">
+			<div class="modal-body">
+				<p>Host file has changed outside! Reload ?  </p>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Don't Reload</a>
+				<a id="mreload" href="#" class="btn btn-warning">Reload, Changes will lose</a>
+			</div>
+		</div>
+		<script src="glue.js"></script>
+		<script src="editor.js"></script>
+		<a href="https://github.com/tg123/chrome-hostadmin" target="_blank"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+	</body>
 </html>
