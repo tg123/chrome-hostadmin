@@ -1,0 +1,201 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="OrderExceptionList.aspx.cs"
+    Inherits="admin_OrderExceptionList" %>
+
+<%@ Import Namespace="System" %>
+<%@ Import Namespace="System.Data" %>
+<%@ Import Namespace="System.Configuration" %>
+<%@ Import Namespace="System.Collections" %>
+<%@ Import Namespace="System.Web" %>
+<%@ Import Namespace="System.Web.Security" %>
+<%@ Import Namespace="System.Web.UI" %>
+<%@ Import Namespace="System.Web.UI.WebControls" %>
+<%@ Import Namespace="System.Web.UI.WebControls.WebParts" %>
+<%@ Import Namespace="System.Web.UI.HtmlControls" %>
+<% 
+    //已检查 2016-11-26
+    //异常注单
+    int page = Convert.ToInt32("0" + q("page"));
+    int pageSize = 15;
+    int countNum = 0;
+    int pageCount = 1;
+    page = page == 0 ? 1 : page;
+    //string md5EndNum = ConfigurationManager.AppSettings["MD5EndNum"];
+    string md5Fields = "convert(varchar,{0})+convert(varchar,{1})+convert(varchar,{2})+convert(varchar,{3})" + GetMD5EndNum;
+    string md5Params = "a_id";
+    StringBuilder countSql = new StringBuilder();
+    countSql.Append("select count(*) from bet where ");
+    countSql.AppendFormat("(select substring(sys.fn_sqlvarbasetostr(HashBytes('MD5', " + md5Fields + " )),3,32))", md5Params);
+    countSql.Append(" !=b_lb");
+    DataTable countTable = GetDataTable(countSql.ToString());
+    countNum = Convert.ToInt32(countTable.Rows[0][0].ToString());
+    pageCount = countNum % pageSize == 0 ? countNum / pageSize : countNum / pageSize + 1;
+    page = page > pageCount ? pageCount : page;
+    StringBuilder listSql = new StringBuilder();
+    listSql.Append(" SELECT * From ( ");
+    listSql.Append(" select *,ROW_NUMBER() OVER(ORDER BY a_name asc) As Row from bet where ");
+    listSql.AppendFormat(" (select substring(sys.fn_sqlvarbasetostr(HashBytes('MD5', " + md5Fields + " )),3,32)) ", md5Params);
+    listSql.Append(" !=b_lb ");
+    listSql.Append(" ) tab Where Row Between (" + pageSize + "*(" + (int)page + "-1)+1) and " + pageSize + "*" + (int)page + "");
+    DataTable ds = GetDataTable(listSql.ToString());
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script type="text/javascript">
+        if (top.location == self.location) top.location.href = "../"; 
+    </script>
+    <link href="css/Index.css" rel="stylesheet" type="text/css" />
+    <script src="js/Forbid.js" type="text/javascript"></script>
+</head>
+<body>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td height="30" background="images/tab_05.gif">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="12" height="30">
+                            <img src="images/tab_03.gif" width="12" height="30" />
+                        </td>
+                        <td>
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td align="left">
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                                <td width="1%">
+                                                    <div align="center">
+                                                        <img src="images/tb.gif" width="16" height="16" /></div>
+                                                </td>
+                                                <td width="49%" class="F_bold">
+                                                    &nbsp;異常注單
+                                                </td>
+                                                <td width="50%" class="F_bold f_right">
+                                                    
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td width="16">
+                            <img src="images/tab_07.gif" width="16" height="30" />
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="8" background="images/tab_12.gif">
+                            &nbsp;
+                        </td>
+                        <td align='center'>
+                            <!-- 開始  -->
+                            <table border="0" cellpadding="0" cellspacing="0" class="t_list mt3">
+                                <tr>
+                                    <td class="t_list_caption" width="40">
+                                        期號
+                                    </td>
+                                    <td class="t_list_caption" width="74">
+                                        開獎日期
+                                    </td>
+                                    <td class="t_list_caption" colspan="8" width="206">
+                                        開獎號碼
+                                    </td>
+                                    <td class="t_list_caption">
+                                        正碼生肖
+                                    </td>
+                                    <td class="t_list_caption" width="30">
+                                        生肖
+                                    </td>
+                                    <td class="t_list_caption" width="30">
+                                        單雙
+                                    </td>
+                                    <td class="t_list_caption" width="30">
+                                        大小
+                                    </td>
+                                    <td class="t_list_caption" width="30">
+                                        尾數
+                                    </td>
+                                    <td class="t_list_caption" width="30">
+                                        攤子
+                                    </td>
+                                    <td class="t_list_caption" width="30">
+                                        單雙
+                                    </td>
+                                    <td class="t_list_caption" width="35">
+                                        總和
+                                    </td>
+                                    <td class="t_list_caption" width="30">
+                                        單雙
+                                    </td>
+                                    <td class="t_list_caption" width="30">
+                                        大小
+                                    </td>
+                                </tr>
+                                <%
+         foreach (DataRow row in ds.Rows)
+         {
+                                %>
+                                <tr class="Ball_tr_H" onmouseout="this.style.backgroundColor=''" onmouseover="this.style.backgroundColor='#FFFFA2'">
+                                    <td></td>
+                                    <td></td>
+                                    <td width="27"></td>
+                                    <td width="27"></td>
+                                    <td width="27"></td>
+                                    <td width="27"></td>
+                                    <td width="27"></td>
+                                    <td width="27"></td>
+                                    <td width="10"></td>
+                                    <td width="27"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <%
+         }
+                                %>
+                            </table>
+                            <!-- 結束  -->
+                        </td>
+                        <td width="8" background="images/tab_15.gif">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td height="35" background="images/tab_19.gif">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="12" height="35">
+                            <img src="images/tab_18.gif" width="12" height="35" />
+                        </td>
+                        <td align='center'>
+                            <%  
+                                string[] FiledName = new string[] { "" };
+                                string[] FiledValue = new string[] { "" };
+                                Response.Write(PageList(pageSize, pageCount, page, FiledName, FiledValue, countNum));
+                            %>
+                        </td>
+                        <td width="16">
+                            <img src="images/tab_20.gif" width="16" height="35" />
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
