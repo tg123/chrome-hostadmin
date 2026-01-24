@@ -12,7 +12,7 @@ function dist-check(){
 
 	CHECKCONSOLE=`grep console -n $ALLJS`
 	if [ "x$CHECKCONSOLE" != "x" ];then
-		echo "Console decteted"
+		echo "Console detected"
 		echo $CHECKCONSOLE
 		exit;
 	fi
