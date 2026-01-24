@@ -1,0 +1,14 @@
+{
+  "name": "hostadmin-standalone",
+  "version": "1.5.0",
+  "description": "Standalone HostAdmin desktop app using Electron.",
+  "main": "container/electron/main.js",
+  "author": "T.G.",
+  "license": "MPL-2.0",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "40.0.0"
+  }
+}
