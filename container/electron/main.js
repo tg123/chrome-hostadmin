@@ -17,6 +17,7 @@ const createWindow = () => {
     height: 720,
     webPreferences: {
       contextIsolation: true,
+      nodeIntegration: false,
       preload: path.join(__dirname, 'preload.js')
     }
   });
@@ -43,16 +44,25 @@ app.on('window-all-closed', () => {
 const safeResult = (fn) => {
   try {
     return fn();
-  } catch (error) {
-    return { error: error.message };
+  } catch (_error) {
+    return { error: true };
   }
 };
+
+const MAX_HOSTS_SIZE = 1024 * 1024;
+const isValidHostsData = (data) => typeof data === 'string'
+  && data.indexOf('\0') === -1
+  && data.length <= MAX_HOSTS_SIZE;
 
 ipcMain.on('hostadmin-get', (event) => {
   event.returnValue = safeResult(() => fs.readFileSync(hostsPath, 'utf8'));
 });
 
 ipcMain.on('hostadmin-set', (event, data) => {
+  if (!isValidHostsData(data)) {
+    event.returnValue = { error: true };
+    return;
+  }
   event.returnValue = safeResult(() => {
     fs.writeFileSync(hostsPath, data, 'utf8');
     return true;

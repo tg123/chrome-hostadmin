@@ -164,7 +164,9 @@
 		</div>
 		<script>
 		if (window.hostadminElectron) {
-			document.write('<script src="../container/electron/bridge.js"><\\/script>');
+			var script = document.createElement('script');
+			script.src = '../container/electron/bridge.js';
+			document.head.appendChild(script);
 		}
 		</script>
 		<script src="glue.js"></script>

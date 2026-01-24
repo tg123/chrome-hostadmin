@@ -12,7 +12,7 @@
     },
     set: function(data){
       if (splitchar === '\r\n') {
-        data = data.replace(/\r?\n/g, '\r\n');
+        data = data.replace(/\r\n/g, '\n').replace(/\r/g, '\n').replace(/\n/g, '\r\n');
       }
       var result = api.set(data);
       if (result && result.error) {
