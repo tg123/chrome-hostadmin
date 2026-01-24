@@ -162,6 +162,11 @@
 				<a id="mreload" href="#" class="btn btn-warning">Reload, Changes will lose</a>
 			</div>
 		</div>
+		<script>
+		if (window.hostadminElectron) {
+			document.write('<script src="../container/electron/bridge.js"><\\/script>');
+		}
+		</script>
 		<script src="glue.js"></script>
 		<script src="editor.js"></script>
 		<a href="https://github.com/tg123/chrome-hostadmin" target="_blank"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png" alt="Fork me on GitHub"></a>

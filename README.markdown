@@ -2,6 +2,20 @@ HostAdmin
 =====================
 Saving your time when you switch domain-ip mapping between different environment
 
+Standalone Electron App (Modern)
+--------------------------------
+This repository now includes a minimal Electron wrapper so HostAdmin can run as a standalone desktop app.
+
+1. Install dependencies:
+
+        npm install
+
+2. Launch the desktop app:
+
+        npm run start
+
+Note: running Electron in containerized environments might require additional sandbox configuration (for example, setting chrome-sandbox permissions or running with `--no-sandbox`).
+
 Chrome APP Version
 ------------------
 Google banned NPAPI Please use [Chrome WebStore APP Version](https://chrome.google.com/webstore/detail/hostadmin-app/mfoaclfeiefiehgaojbmncmefhdnikeg) instead.

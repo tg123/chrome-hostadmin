@@ -8,7 +8,7 @@ function dist-clean(){
 }
 
 function dist-check(){
-	ALLJS=`find . -name '*.js'`
+	ALLJS=`find . -name '*.js' -not -path './node_modules/*'`
 
 	CHECKCONSOLE=`grep console -n $ALLJS`
 	if [ "x$CHECKCONSOLE" != "x" ];then

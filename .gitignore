@@ -18,3 +18,4 @@ xcuserdata
 *.zip
 *.crx
 *.xpi
+node_modules/
