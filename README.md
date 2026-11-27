@@ -90,7 +90,12 @@ A leading `#` disables a mapping. The comment is shown as a label in the popup. 
 
 ## DNS caching
 
-The browser may keep using connections opened under the old mapping. HostAdmin clears the HTTP cache whenever the hosts file changes. If a site still resolves to the old address, flush the socket pools at `chrome://net-internals/#sockets` (Chromium) or `about:networking#dns` (Firefox).
+Browsers notice hosts file changes for new lookups. However, they keep reusing connections that are already open (keep-alive, HTTP/2), so a site you just visited may keep using the old address for a while. HostAdmin also clears the HTTP cache whenever the hosts file changes.
+
+To switch immediately, click **Flush** in the popup:
+
+- **Chrome / Edge**: it opens `chrome://net-internals/#sockets`. Click _Flush socket pools_ there. Extensions can't do this step themselves.
+- **Firefox**: open `about:networking#dns` and click _Clear DNS Cache_.
 
 ## Development
 

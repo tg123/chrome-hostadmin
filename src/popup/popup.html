@@ -18,9 +18,17 @@
         spellcheck="false"
         aria-label="Search hosts"
       />
+      <button
+        id="flush"
+        type="button"
+        title="Close open connections so sites switch to the new mapping right away"
+      >
+        Flush
+      </button>
       <button id="open-editor" type="button" title="Open hosts file editor">Editor</button>
     </header>
     <div id="banner" class="banner" role="alert" hidden></div>
+    <p id="tip" class="tip" hidden></p>
     <main id="list" aria-live="polite"></main>
     <template id="host-template">
       <section class="host">

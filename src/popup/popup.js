@@ -170,6 +170,21 @@ document
   .getElementById('open-editor')
   .addEventListener('click', () => openEditor().then(() => window.close()));
 
+// Chrome re-reads the hosts file by itself but keeps reusing open (keep-alive,
+// HTTP/2) connections, and no extension API can close them. Opening
+// net-internals leaves the user one click away from "Flush socket pools".
+document.getElementById('flush').addEventListener('click', async () => {
+  if (location.protocol === 'moz-extension:') {
+    const tip = document.getElementById('tip');
+    tip.textContent =
+      'Firefox does not let extensions open its networking page. Open about:networking#dns and click "Clear DNS Cache".';
+    tip.hidden = false;
+    return;
+  }
+  await chrome.tabs.create({ url: 'chrome://net-internals/#sockets' });
+  window.close();
+});
+
 onStateChange((next) => {
   setState(next);
   render();

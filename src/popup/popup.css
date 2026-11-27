@@ -27,6 +27,14 @@ body {
   text-align: center;
 }
 
+.tip {
+  margin: 8px;
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  background: var(--bg-subtle);
+  color: var(--muted);
+}
+
 .host-header {
   display: flex;
   align-items: center;
