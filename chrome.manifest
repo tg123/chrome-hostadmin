@@ -1,6 +1,0 @@
-content   hostadmin-container       container/firefox/
-content   hostadmin                 core/
-content   hostadmin-icons           icons/
-
-style	chrome://global/content/customizeToolbar.xul	chrome://hostadmin-container/content/hostadmin.css
-overlay	chrome://browser/content/browser.xul	chrome://hostadmin-container/content/hostadmin.xul

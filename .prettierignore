@@ -1,0 +1,5 @@
+dist/
+node_modules/
+native-host/
+package-lock.json
+LICENSE

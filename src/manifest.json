@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "HostAdmin",
+  "description": "Switch hosts file mappings between environments in one click, with a full hosts file editor.",
+  "homepage_url": "https://github.com/tg123/chrome-hostadmin",
+  "icons": {
+    "16": "icons/icon16.png",
+    "24": "icons/icon24.png",
+    "32": "icons/icon32.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": ["browsingData", "nativeMessaging", "storage", "tabs"],
+  "action": {
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "24": "icons/icon24.png",
+      "32": "icons/icon32.png"
+    },
+    "default_popup": "popup/popup.html"
+  }
+}

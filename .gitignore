@@ -1,20 +1,11 @@
-.*
-
-npapi/src/hostadmin.vcproj.*
-npapi/src/hostadmin.ncb
-npapi/src/hostadmin.suo
-npapi/src/Release/
-npapi/src/Debug/
-
-npapi/src/*.so
-npapi/src/*.o
-
-xcuserdata
-
-.DS_Store
-*.swp
-*~.nib
+node_modules/
+dist/
+native-host/bin/
 
 *.zip
 *.crx
 *.xpi
+
+.DS_Store
+*.swp
+

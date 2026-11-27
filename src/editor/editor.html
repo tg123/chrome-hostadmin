@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="color-scheme" content="light dark" />
+    <title>HostAdmin – Hosts Editor</title>
+    <link rel="stylesheet" href="../common.css" />
+    <link rel="stylesheet" href="editor.css" />
+    <script src="editor.js" defer></script>
+  </head>
+  <body>
+    <div class="page">
+      <header class="header">
+        <div>
+          <h1>Hosts Editor</h1>
+          <p id="path" class="muted"></p>
+        </div>
+        <span id="status" class="muted" aria-live="polite"></span>
+        <button id="save" class="primary" type="button" disabled title="Save (Ctrl+S / ⌘S)">Save</button>
+      </header>
+
+      <div id="banner" class="banner" role="alert" hidden></div>
+
+      <details class="help">
+        <summary>Syntax rules</summary>
+        <div class="rules">
+          <section>
+            <h3>Mapping</h3>
+            <pre>[#]&lt;IP&gt; &lt;HOSTNAME&gt; [&lt;HOSTNAME&gt;...] [# COMMENT]</pre>
+            <p>
+              A leading <code>#</code> disables the mapping. A comment containing the word
+              <code>hide</code> keeps the line out of the popup.
+            </p>
+            <pre>127.0.0.1 localhost # hide</pre>
+          </section>
+          <section>
+            <h3>Groups</h3>
+            <pre>
+#==== Project 1
+#127.0.0.1  localhost1
+127.0.0.1   localhost2
+#====</pre>
+            <p>
+              Clicking a group in the popup enables or disables all of its mappings at once. Add
+              <code># hide</code> after the group name to hide the whole group.
+            </p>
+          </section>
+          <section>
+            <h3>Bulk hide</h3>
+            <pre>
+#hide_all_of_below
+…everything below is ignored by the popup…</pre>
+          </section>
+        </div>
+      </details>
+
+      <main id="editor"></main>
+
+      <footer class="muted">
+        Editor powered by <a href="https://codemirror.net/" target="_blank" rel="noreferrer">CodeMirror</a> ·
+        <a href="https://github.com/tg123/chrome-hostadmin" target="_blank" rel="noreferrer">GitHub</a> ·
+        <a href="https://github.com/tg123/chrome-hostadmin/issues" target="_blank" rel="noreferrer"
+          >Feedback</a
+        >
+      </footer>
+    </div>
+
+    <dialog id="changed-dialog">
+      <form method="dialog">
+        <p>The hosts file was changed by another program while you have unsaved edits.</p>
+        <div class="actions">
+          <button value="keep" type="submit">Keep my edits</button>
+          <button value="reload" type="submit" class="primary">Reload and discard edits</button>
+        </div>
+      </form>
+    </dialog>
+  </body>
+</html>
