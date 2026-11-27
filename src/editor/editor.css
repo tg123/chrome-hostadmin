@@ -1,0 +1,124 @@
+body {
+  background: var(--bg);
+}
+
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header > div {
+  flex: 1;
+  min-width: 0;
+}
+
+h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.muted {
+  color: var(--muted);
+  margin: 0;
+}
+
+#path {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+}
+
+#save {
+  padding: 6px 20px;
+}
+
+.banner {
+  margin: 12px 0 0;
+}
+
+.help {
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 12px;
+}
+
+.help summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.rules {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.rules h3 {
+  margin: 0 0 4px;
+  font-size: 13px;
+}
+
+.rules p {
+  margin: 4px 0;
+}
+
+pre,
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+}
+
+pre {
+  margin: 4px 0;
+  padding: 8px;
+  border-radius: var(--radius);
+  background: var(--bg-subtle);
+  overflow-x: auto;
+}
+
+#editor {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+#editor .cm-editor {
+  min-height: 60vh;
+  font-size: 13px;
+}
+
+#editor .cm-scroller {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+footer {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 12px;
+}
+
+dialog {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--fg);
+  max-width: 420px;
+}
+
+dialog::backdrop {
+  background: rgb(0 0 0 / 0.4);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="color-scheme" content="light dark" />
+    <title>HostAdmin</title>
+    <link rel="stylesheet" href="../common.css" />
+    <link rel="stylesheet" href="popup.css" />
+    <script src="popup.js" defer></script>
+  </head>
+  <body>
+    <header class="toolbar">
+      <input
+        id="search"
+        type="search"
+        placeholder="Search hosts, groups, comments…"
+        autocomplete="off"
+        spellcheck="false"
+        aria-label="Search hosts"
+      />
+      <button id="open-editor" type="button" title="Open hosts file editor">Editor</button>
+    </header>
+    <div id="banner" class="banner" role="alert" hidden></div>
+    <main id="list" aria-live="polite"></main>
+    <template id="host-template">
+      <section class="host">
+        <div class="host-header">
+          <h2 class="name"></h2>
+          <button type="button" class="icon open-site" aria-label="Open site">↗</button>
+        </div>
+        <ul class="entries"></ul>
+      </section>
+    </template>
+    <template id="entry-template">
+      <li class="entry">
+        <button type="button" class="toggle">
+          <span class="check" aria-hidden="true"></span>
+          <span class="addr"></span>
+          <span class="tag"></span>
+        </button>
+        <button type="button" class="icon edit-line" aria-label="Edit line">✎</button>
+      </li>
+    </template>
+  </body>
+</html>
